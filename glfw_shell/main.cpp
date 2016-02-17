@@ -65,9 +65,98 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         std::cout << "You pressed " << actionString << " on the key " << key << '\n';
         }
 }
+void p1(float x, float y,float z)
+{
+    glColor3f(1.f, 0.f, 0.f); // red
+    glVertex3f(-0.5+x, -0.5+y, -0.5+z);
+}
+void p2(float x, float y,float z)
+{
+    glColor3f(0.f, 0.f, 1.0f); // blue
+    glVertex3f(-0.5+x, 0.5+y, -0.5+z);
+}
+void p3(float x, float y,float z)
+{
+    glColor3f(0.5f, 0.5f, 0.5f); // gray
+    glVertex3f(0.5+x, 0.5+y, -0.5+z);
+}
+void p4(float x, float y,float z)
+{
+    glColor3f(1.0f, 1.0f, 0.f); // yellow
+    glVertex3f(0.5+x, -0.5+y, -0.5+z);
+}
 
+void p5(float x, float y,float z)
+{
+    glColor3f(1.f, 0.4666666667f, 0.f); // orange
+    glVertex3f(-0.5+x, -0.5+y, 0.5+z);
+}
+void p6(float x, float y,float z)
+{
+    glColor3f(1.f, 0.f, 0.6352941176f); // pink
+    glVertex3f(-0.5+x, 0.5+y, 0.5+z);
+}
+void p7(float x, float y,float z)
+{
+    glColor3f(1.f, 0.8f, 0.6f); // tan-ish
+    glVertex3f(0.5+x, 0.5+y, 0.5+z);
+}
+void p8(float x, float y,float z)
+{
+    glColor3f(1.0f, 1.0f, 1.0f); // white
+    glVertex3f(0.5+x, -0.5+y, 0.5+z);
+}
+void cube(float x, float y, float z){
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p5(x,y,z);
+    p8(x,y,z);
+    p7(x,y,z);
+    p6(x,y,z);
+    
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Right face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p8(x,y,z);
+    p4(x,y,z);
+    p3(x,y,z);
+    p7(x,y,z);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p5(x,y,z);
+    p6(x,y,z);
+    p2(x,y,z);
+    p1(x,y,z);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Top face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p6(x,y,z);
+    p7(x,y,z);
+    p3(x,y,z);
+    p2(x,y,z);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Bottom face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4(x,y,z);
+    p8(x,y,z);
+    p5(x,y,z);
+    p1(x,y,z);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Back face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p1(x,y,z);
+    p2(x,y,z);
+    p3(x,y,z);
+    p4(x,y,z);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+}
 int main(void)
 {
+    
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
 
@@ -94,7 +183,10 @@ int main(void)
     // key_callback is the function that GLFW should call when the user hits
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
-
+    glEnable(GL_CULL_FACE);
+    //glClearDepth(0.0f);
+    //glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -104,11 +196,11 @@ int main(void)
 
         glfwGetFramebufferSize(window, &width, &height); // Get the height and width of the window from GLFW.
         ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
-
+        
         glViewport(0, 0, width, height); // This tells OpenGL how big the window is,
                                          // and OpenGL goes off and creates a space
                                          // for drawing.
-        glClear(GL_COLOR_BUFFER_BIT); // This asks OpenGL to wipe clean the drawing space.
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This asks OpenGL to wipe clean the drawing space.
                                       // The default color is black. If you want it to be
                                       // another color, you have to call glClearColor with
                                       // the new color values before making this call.
@@ -119,7 +211,7 @@ int main(void)
         */
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        glOrtho(-ratio, ratio, -1.f, 1.f, 20.f, -20.f);
         glMatrixMode(GL_MODELVIEW);
 
         /*
@@ -129,24 +221,16 @@ int main(void)
         */
         glLoadIdentity();
         glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+        glRotatef((float) glfwGetTime() * 30.f, 0.f, 1.f, 0.f);
+        glRotatef((float) glfwGetTime() * 60.f, 1.f, 0.f, 0.f);
 
-        // THIS IS WHERE THE DRAWING HAPPENS!
-        glBegin(GL_TRIANGLES); // All OpenGL drawing begins with a glBegin.
+      
 
-            // This is the first point in the triangle. First the color is
-            // set, then the location of the point in the world is set.
-            glColor3f(1.f, 0.f, 0.f); // red
-            glVertex3f(-0.6f, -0.4f, 0.f);
+        cube(0,0,1);
+        cube(1,0,0);
 
-            // Point two. Again, color first, then location.
-            glColor3f(0.f, 1.f, 0.f); // green
-            glVertex3f(0.6f, -0.4f, 0.f);
-
-            // Point three. Color, location.
-            glColor3f(0.f, 0.f, 1.f); // blue
-            glVertex3f(0.f, 0.6f, 0.f);
-
-        glEnd(); // All OpenGL drawing ends with a glEnd.
+        
+        
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
