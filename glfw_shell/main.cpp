@@ -183,10 +183,12 @@ int main(void)
     // key_callback is the function that GLFW should call when the user hits
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
+
+    // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
-    //glClearDepth(0.0f);
-    //glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
+    glCullFace(GL_FRONT);
+
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
