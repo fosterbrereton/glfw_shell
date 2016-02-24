@@ -92,7 +92,21 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     {
         camRotateY -= 10;
     }
+    else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        camZ += 0.5;
+    }
+    else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
+    {
+        camZ -= 0.5;
+    }
+    
+    
+  
 
+    
+    
+    
     
     else
         {
@@ -105,46 +119,52 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
         std::cout << "You pressed " << actionString << " on the key " << key << '\n';
         }
+    std::cout << "Camera X = " << camX << '\n';
+    std::cout << "Camera Y = " << camY << '\n';
+    std::cout << "Camera Z = " << camZ << '\n';
+    
+    std::cout << "Camera Rotate X =" << camRotateX << '\n';
+    std::cout << "Camera Rotate Y =" << camRotateY << '\n';
 }
 void p1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.f, 0.f, 0.f); // red
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 1.0f); // blue
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // gray
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 1.0f, 0.f); // yellow
+    glColor3f(1.0f, 0.8431372549f, 0.f); // yellow
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.f, 0.4666666667f, 0.f); // orange
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.f, 0.f, 0.6352941176f); // pink
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.f, 0.8f, 0.6f); // tan-ish
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 1.0f, 1.0f); // white
+    glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
@@ -235,6 +255,97 @@ void p3_8(float x, float y,float z, float h, float w, float d)
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
+
+
+
+//Color = black
+void p4_1(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
+}
+void p4_2(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(-h/2+x, w/2+y, -d/2+z);
+}
+void p4_3(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(h/2+x, w/2+y, -d/2+z);
+}
+void p4_4(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(h/2+x, -w/2+y, -d/2+z);
+}
+
+void p4_5(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(-h/2+x, -w/2+y, d/2+z);
+}
+void p4_6(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(-h/2+x, w/2+y, d/2+z);
+}
+void p4_7(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(h/2+x, w/2+y, d/2+z);
+}
+void p4_8(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 0.0f);
+    glVertex3f(h/2+x, -w/2+y, d/2+z);
+}
+//rainbow colors
+
+
+void p5_1(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 0.f, 0.f); // red
+    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
+}
+void p5_2(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.f, 0.f, 1.0f); // blue
+    glVertex3f(-h/2+x, w/2+y, -d/2+z);
+}
+void p5_3(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(0.5f, 0.5f, 0.5f); // gray
+    glVertex3f(h/2+x, w/2+y, -d/2+z);
+}
+void p5_4(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.0f, 1.0f, 0.f); // yellow
+    glVertex3f(h/2+x, -w/2+y, -d/2+z);
+}
+
+void p5_5(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 0.4666666667f, 0.f); // orange
+    glVertex3f(-h/2+x, -w/2+y, d/2+z);
+}
+void p5_6(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 0.f, 0.6352941176f); // pink
+    glVertex3f(-h/2+x, w/2+y, d/2+z);
+}
+void p5_7(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 0.8f, 0.6f); // tan-ish
+    glVertex3f(h/2+x, w/2+y, d/2+z);
+}
+void p5_8(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.0f, 1.0f, 1.0f); // white
+    glVertex3f(h/2+x, -w/2+y, d/2+z);
+}
+
+
 void cube(float x, float y, float z, float h, float w, float d){
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
@@ -285,36 +396,36 @@ void cube(float x, float y, float z, float h, float w, float d){
 }
 void triangle(float x, float y, float z, float h, float w, float d){
     glBegin(GL_TRIANGLES);
-    p7(x,y,z,h,w,d);
-    p8(x,y,z,h,w,d);
-    p4(x,y,z,h,w,d);
+    p5_7(x,y,z,h,w,d);
+    p5_8(x,y,z,h,w,d);
+    p5_4(x,y,z,h,w,d);
     glEnd();
     
     glBegin(GL_QUADS);
-    p6(x,y,z,h,w,d);
-    p7(x,y,z,h,w,d);
-    p4(x,y,z,h,w,d);
-    p1(x,y,z,h,w,d);
+    p5_6(x,y,z,h,w,d);
+    p5_7(x,y,z,h,w,d);
+    p5_4(x,y,z,h,w,d);
+    p5_1(x,y,z,h,w,d);
     glEnd();
     
     glBegin(GL_TRIANGLES);
-    p1(x,y,z,h,w,d);
-    p5(x,y,z,h,w,d);
-    p6(x,y,z,h,w,d);
+    p5_1(x,y,z,h,w,d);
+    p5_5(x,y,z,h,w,d);
+    p5_6(x,y,z,h,w,d);
     glEnd();
     
     glBegin(GL_QUADS);
-    p1(x,y,z,h,w,d);
-    p4(x,y,z,h,w,d);
-    p8(x,y,z,h,w,d);
-    p5(x,y,z,h,w,d);
+    p5_1(x,y,z,h,w,d);
+    p5_4(x,y,z,h,w,d);
+    p5_8(x,y,z,h,w,d);
+    p5_5(x,y,z,h,w,d);
     glEnd();
     
     glBegin(GL_QUADS);
-    p6(x,y,z,h,w,d);
-    p5(x,y,z,h,w,d);
-    p8(x,y,z,h,w,d);
-    p7(x,y,z,h,w,d);
+    p5_6(x,y,z,h,w,d);
+    p5_5(x,y,z,h,w,d);
+    p5_8(x,y,z,h,w,d);
+    p5_7(x,y,z,h,w,d);
     glEnd();
     
    
@@ -418,6 +529,56 @@ void cube3(float x, float y, float z, float h, float w, float d){
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
+void cube4(float x, float y, float z, float h, float w, float d){
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_5(x,y,z,h,w,d);
+    p4_8(x,y,z,h,w,d);
+    p4_7(x,y,z,h,w,d);
+    p4_6(x,y,z,h,w,d);
+    
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Right face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_8(x,y,z,h,w,d);
+    p4_4(x,y,z,h,w,d);
+    p4_3(x,y,z,h,w,d);
+    p4_7(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_5(x,y,z,h,w,d);
+    p4_6(x,y,z,h,w,d);
+    p4_2(x,y,z,h,w,d);
+    p4_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Top face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_6(x,y,z,h,w,d);
+    p4_7(x,y,z,h,w,d);
+    p4_3(x,y,z,h,w,d);
+    p4_2(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Bottom face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_4(x,y,z,h,w,d);
+    p4_8(x,y,z,h,w,d);
+    p4_5(x,y,z,h,w,d);
+    p4_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Back face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4_1(x,y,z,h,w,d);
+    p4_2(x,y,z,h,w,d);
+    p4_3(x,y,z,h,w,d);
+    p4_4(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+}
+
+
 int main(void)
 {
     
@@ -451,7 +612,7 @@ int main(void)
     // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glCullFace(GL_FRONT);
+    glCullFace(GL_BACK);
 
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
@@ -464,7 +625,7 @@ int main(void)
         ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
         
         glViewport(0, 0, width, height); // This tells OpenGL how big the window is,
-                                         // and OpenGL goes off and creates a space
+        glClearColor(0.5294117647, 0.8078431373, 0.9803921569, 0);                              // and OpenGL goes off and creates a space
                                          // for drawing.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This asks OpenGL to wipe clean the drawing space.
                                       // The default color is black. If you want it to be
@@ -477,9 +638,10 @@ int main(void)
         */
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-ratio, ratio, -1.f, 1.f, 50.f, -50.f);
+        gluPerspective(90, ratio, 1, 1000);
+        //glOrtho(-ratio, ratio, -1.f, 1.f, 50.f, -50.f);
         glMatrixMode(GL_MODELVIEW);
-        //gluPerspective(90, ratio, -10, 10);
+       
 
         /*
             These operations tell OpenGL that we want to rotate the 3D world that
@@ -490,12 +652,12 @@ int main(void)
         //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
         //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
         //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
-        glRotatef(camRotateX, 1.f, 0.f, 0.f);
+        glRotatef(camRotateX-250, 1.f, 0.f, 0.f);
         
-        glRotatef(camRotateY, 0.f, 0.f, 1.f);
+        glRotatef(camRotateY-50, 0.f, 0.f, 1.f);
 
-        glTranslatef(camX,camY,camZ);
-
+        glTranslatef(camX+2,camY-2.5,camZ);
+        
       
 
         cube2(0,0,0,0.125,0.125,1);
@@ -505,15 +667,34 @@ int main(void)
         
         cube2(0.25,0.25,-0.5,1,1,0.5);
         
-        cube3(0.5,0.5,1.75,10,10,0.5);
+        cube3(0.5,0.5,1.75,100,100,0.5);
         
         cube2(0,0,1,0.5,0.5,1);
         cube2(0.5,0,1,0.5,0.5,1);
         cube2(0,0.5,1,0.5,0.5,1);
         cube2(0.5,0.5,1,0.5,0.5,1);
-        //triangle(1,2,1,1,1,1);
-        //triangle(0,2,1,1,1,1);
         
+        triangle(1,2,1,1,1,1);
+        triangle(0,2,1,1,1,1);
+        
+        cube4(5,1,1.49,6,50,0.000001);
+        
+        cube(5,1,1.48,0.5,50,0.000001);
+        
+        //door
+        cube4(10.49,1,1,0.2,2,4);
+        cube2(10.3,1.7,0.1,0.2,0.2,0.2);
+        //walls
+        cube2(10,-5,1,1,10,10);
+        cube2(18,-1,1,10,1,10);
+        cube2(11.5,-1,-2.5,3,1,3);
+        cube2(23,-5,1,1,10,10);
+        cube2(17,-10,1,14,1,10);
+        //floor
+        cube2(17,-5,1.49,13,9,0.000001);
+        //roof
+        cube2(17,-5,-4.25,13,9,0.5);
+
         
         
         
