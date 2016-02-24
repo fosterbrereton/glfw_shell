@@ -39,6 +39,7 @@ float camX{0};
 float camY{0};
 float camZ{0};
 
+
 float camRotateX{0};
 float camRotateY{0};
 
@@ -60,11 +61,12 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         // These are in RGB order.
         glClearColor(0.0, 0.0, 0.0, 1.0); // black
         }
-    else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_D && action == GLFW_PRESS)
     {
+        
         camX += 0.5;
     }
-    else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_A && action == GLFW_PRESS)
     {
         camX -= 0.5;
     }
@@ -74,7 +76,8 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
     else if (key == GLFW_KEY_W && action == GLFW_PRESS)
     {
-        camY -= 0.5;
+        
+            camY -= 0.5;
     }
     else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
     {
