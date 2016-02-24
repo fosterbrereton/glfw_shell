@@ -29,11 +29,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <OpenGL/glu.h>
 
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
+float camX{0};
+float camY{0};
+float camZ{0};
+
+float camRotateX{0};
+float camRotateY{0};
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -53,6 +60,40 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         // These are in RGB order.
         glClearColor(0.0, 0.0, 0.0, 1.0); // black
         }
+    else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+    {
+        camX += 0.5;
+    }
+    else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+    {
+        camX -= 0.5;
+    }
+    else if (key == GLFW_KEY_S && action == GLFW_PRESS)
+    {
+        camY += 0.5;
+    }
+    else if (key == GLFW_KEY_W && action == GLFW_PRESS)
+    {
+        camY -= 0.5;
+    }
+    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+    {
+        camRotateX += 10;
+    }
+    else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+    {
+        camRotateX -= 10;
+    }
+    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+    {
+        camRotateY += 10;
+    }
+    else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+    {
+        camRotateY -= 10;
+    }
+
+    
     else
         {
         std::string actionString;
@@ -438,6 +479,7 @@ int main(void)
         glLoadIdentity();
         glOrtho(-ratio, ratio, -1.f, 1.f, 50.f, -50.f);
         glMatrixMode(GL_MODELVIEW);
+        //gluPerspective(90, ratio, -10, 10);
 
         /*
             These operations tell OpenGL that we want to rotate the 3D world that
@@ -445,9 +487,14 @@ int main(void)
             marches on, and the * 50 determines how fast the rotation should be.
         */
         glLoadIdentity();
-        glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
-        glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
-        glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
+        //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
+        //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
+        //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
+        glRotatef(camRotateX, 1.f, 0.f, 0.f);
+        
+        glRotatef(camRotateY, 0.f, 0.f, 1.f);
+
+        glTranslatef(camX,camY,camZ);
 
       
 
