@@ -83,11 +83,8 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
     else if (key == GLFW_KEY_W && action == GLFW_PRESS)
     {
-        
-            //camY -= 0.5;
-        
-        camY -= std::sin(DegreesToRads(camRotateY));
-        camX -= std::cos(DegreesToRads(camRotateY));
+        camY += std::cos(DegreesToRads(camRotateY));
+        camX += std::sin(DegreesToRads(camRotateY));
     }
     else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
     {
