@@ -41,8 +41,8 @@ float camY{0};
 float camZ{0};
 
 
-float camRotateX{0};
-float camRotateY{0};
+float camRotateX{-260};
+float camRotateY{-50};
 
 
 float DegreesToRads(float Degrees){
@@ -71,15 +71,21 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     else if (key == GLFW_KEY_D && action == GLFW_PRESS)
     {
         
-        camX += 0.5;
+        camY += std::cos(DegreesToRads(camRotateY-90));
+        camX += std::sin(DegreesToRads(camRotateY-90));
+
     }
     else if (key == GLFW_KEY_A && action == GLFW_PRESS)
     {
-        camX -= 0.5;
+        camY += std::cos(DegreesToRads(camRotateY+90));
+        camX += std::sin(DegreesToRads(camRotateY+90));
+
     }
     else if (key == GLFW_KEY_S && action == GLFW_PRESS)
     {
-        camY += 0.5;
+        camY -= std::cos(DegreesToRads(camRotateY));
+        camX -= std::sin(DegreesToRads(camRotateY));
+
     }
     else if (key == GLFW_KEY_W && action == GLFW_PRESS)
     {
