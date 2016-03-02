@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <OpenGL/glu.h>
+#include <cmath>
 
 static void error_callback(int error, const char* description)
 {
@@ -43,6 +44,12 @@ float camZ{0};
 float camRotateX{0};
 float camRotateY{0};
 
+
+float DegreesToRads(float Degrees){
+    return Degrees/180*3.14159;
+    
+    
+}
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -77,7 +84,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     else if (key == GLFW_KEY_W && action == GLFW_PRESS)
     {
         
-            camY -= 0.5;
+            //camY -= 0.5;
+        
+        camY -= std::sin(DegreesToRads(camRotateY));
+        camX -= std::cos(DegreesToRads(camRotateY));
     }
     else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
     {
@@ -655,9 +665,9 @@ int main(void)
         //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
         //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
         //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
-        glRotatef(camRotateX-250, 1.f, 0.f, 0.f);
+        glRotatef(camRotateX, 1.f, 0.f, 0.f);
         
-        glRotatef(camRotateY-50, 0.f, 0.f, 1.f);
+        glRotatef(camRotateY, 0.f, 0.f, 1.f);
 
         glTranslatef(camX+2,camY-2.5,camZ);
         
