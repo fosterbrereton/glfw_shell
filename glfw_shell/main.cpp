@@ -41,6 +41,9 @@ float camY{0};
 float camZ{0};
 
 bool MoveForward{false};
+bool MoveBackward{false};
+bool MoveLeft{false};
+bool MoveRight{false};
 
 float camRotateX{-260};
 float camRotateY{-50};
@@ -69,28 +72,28 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         // These are in RGB order.
         glClearColor(0.0, 0.0, 0.0, 1.0); // black
         }
-    else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_D)
     {
+        MoveRight = action == GLFW_PRESS || action == GLFW_REPEAT;
         
-        camY += std::cos(DegreesToRads(camRotateY-90));
-        camX += std::sin(DegreesToRads(camRotateY-90));
 
     }
-    else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_A)
     {
-        camY += std::cos(DegreesToRads(camRotateY+90));
-        camX += std::sin(DegreesToRads(camRotateY+90));
+        MoveLeft = action == GLFW_PRESS || action == GLFW_REPEAT;
+        
 
     }
-    else if (key == GLFW_KEY_S && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_S)
     {
-        camY -= std::cos(DegreesToRads(camRotateY));
-        camX -= std::sin(DegreesToRads(camRotateY));
+        MoveBackward = action == GLFW_PRESS || action == GLFW_REPEAT;
+        
 
     }
     else if (key == GLFW_KEY_W)
     {
-        MoveForward=action == GLFW_PRESS;
+        MoveForward=action == GLFW_PRESS || action == GLFW_REPEAT;
+        
         
     }
     else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
@@ -674,10 +677,22 @@ int main(void)
         
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
         if(MoveForward){
-            camY += std::cos(DegreesToRads(camRotateY))*0.1;
-            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+            
+            camY += std::cos(DegreesToRads(camRotateY))*0.15;
+            camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
-
+        if(MoveRight){
+            camY += std::cos(DegreesToRads(camRotateY-90)*0.15);
+            camX += std::sin(DegreesToRads(camRotateY-90)*0.15);
+        }
+        if(MoveLeft){
+            camY += std::cos(DegreesToRads(camRotateY+90)*0.15);
+            camX += std::sin(DegreesToRads(camRotateY+90)*0.15);
+        }
+        if(MoveBackward){
+            camY -= std::cos(DegreesToRads(camRotateY)*0.15);
+            camX -= std::sin(DegreesToRads(camRotateY)*0.15);
+        }
         glTranslatef(camX+2,camY-2.5,camZ);
         
       
