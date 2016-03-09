@@ -44,10 +44,16 @@ bool MoveForward{false};
 bool MoveBackward{false};
 bool MoveLeft{false};
 bool MoveRight{false};
+bool MoveUp{false};
+bool Sprint{false};
+
+bool fall{false};
 
 float camRotateX{-260};
 float camRotateY{-50};
 
+float DecreaseClimbRate{0.1};
+float IncreaseFallRate{0.05};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -111,29 +117,19 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         
         
     }
-    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+
+    else if (key == GLFW_KEY_SPACE)
     {
-        camRotateX += 10;
+        
+        MoveUp=true;
+        
+        
+        
     }
-    else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_LEFT_SHIFT)
     {
-        camRotateX -= 10;
-    }
-    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-    {
-        camRotateY += 10;
-    }
-    else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-    {
-        camRotateY -= 10;
-    }
-    else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-    {
-        camZ += 0.5;
-    }
-    else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-    {
-        camZ -= 0.5;
+        Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
+        
     }
     
     
@@ -644,7 +640,7 @@ int main(void)
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, cursor_pos_callback);
-
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -694,21 +690,45 @@ int main(void)
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
         if(MoveForward){
             
+            camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+        }
+        if(MoveRight){
+            camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY-90))*0.1;
+        }
+        if(MoveLeft){
+            camY += std::cos(DegreesToRads(camRotateY+90))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
+        }
+        if(MoveBackward){
+            camY -= std::cos(DegreesToRads(camRotateY))*0.1;
+            camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+        }
+        
+        
+        if(MoveUp && fall==false){
+            camZ += DecreaseClimbRate;
+            DecreaseClimbRate-=0.0077;
+            
+        }
+        if(Sprint){
             camY += std::cos(DegreesToRads(camRotateY))*0.15;
             camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
-        if(MoveRight){
-            camY += std::cos(DegreesToRads(camRotateY-90))*0.15;
-            camX += std::sin(DegreesToRads(camRotateY-90))*0.15;
+       
+        if(camZ<=0){
+            camZ += 0.1;
+            fall=false;
+            DecreaseClimbRate=0.2;
+            IncreaseFallRate=0.05;
+            MoveUp=false;
+            
         }
-        if(MoveLeft){
-            camY += std::cos(DegreesToRads(camRotateY+90))*0.15;
-            camX += std::sin(DegreesToRads(camRotateY+90))*0.15;
-        }
-        if(MoveBackward){
-            camY -= std::cos(DegreesToRads(camRotateY))*0.15;
-            camX -= std::sin(DegreesToRads(camRotateY))*0.15;
-        }
+        
+        
+       
+        
         glTranslatef(camX+2,camY-2.5,camZ);
         
       
