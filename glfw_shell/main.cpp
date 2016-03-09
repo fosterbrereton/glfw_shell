@@ -54,13 +54,28 @@ float DegreesToRads(float Degrees){
     
     
 }
+static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    static double oldx{xpos};
+    static double oldy{ypos};
+    
+    double deltaX{xpos-oldx};
+    double deltaY{ypos-oldy};
+    
+    std::cout << deltaX << "," << deltaY << "\n";
+    camRotateY-=deltaX;
+    camRotateX+=deltaY;
+    oldx = xpos;
+    oldy = ypos;
+    
+}
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         {
         glfwSetWindowShouldClose(window, GL_TRUE);
         }
-    else if (key == GLFW_KEY_R && action == GLFW_PRESS)
+    /*else if (key == GLFW_KEY_R && action == GLFW_PRESS)
         {
         // These values are floating point from 0 to 1.
         // These are in RGB order.
@@ -71,7 +86,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         // These values are floating point from 0 to 1.
         // These are in RGB order.
         glClearColor(0.0, 0.0, 0.0, 1.0); // black
-        }
+        }*/
     else if (key == GLFW_KEY_D)
     {
         MoveRight = action == GLFW_PRESS || action == GLFW_REPEAT;
@@ -628,6 +643,7 @@ int main(void)
     // key_callback is the function that GLFW should call when the user hits
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, cursor_pos_callback);
 
     // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
@@ -682,16 +698,16 @@ int main(void)
             camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
         if(MoveRight){
-            camY += std::cos(DegreesToRads(camRotateY-90)*0.15);
-            camX += std::sin(DegreesToRads(camRotateY-90)*0.15);
+            camY += std::cos(DegreesToRads(camRotateY-90))*0.15;
+            camX += std::sin(DegreesToRads(camRotateY-90))*0.15;
         }
         if(MoveLeft){
-            camY += std::cos(DegreesToRads(camRotateY+90)*0.15);
-            camX += std::sin(DegreesToRads(camRotateY+90)*0.15);
+            camY += std::cos(DegreesToRads(camRotateY+90))*0.15;
+            camX += std::sin(DegreesToRads(camRotateY+90))*0.15;
         }
         if(MoveBackward){
-            camY -= std::cos(DegreesToRads(camRotateY)*0.15);
-            camX -= std::sin(DegreesToRads(camRotateY)*0.15);
+            camY -= std::cos(DegreesToRads(camRotateY))*0.15;
+            camX -= std::sin(DegreesToRads(camRotateY))*0.15;
         }
         glTranslatef(camX+2,camY-2.5,camZ);
         
