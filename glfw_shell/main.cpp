@@ -40,6 +40,7 @@ float camX{0};
 float camY{0};
 float camZ{0};
 
+bool MoveForward{false};
 
 float camRotateX{-260};
 float camRotateY{-50};
@@ -87,10 +88,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         camX -= std::sin(DegreesToRads(camRotateY));
 
     }
-    else if (key == GLFW_KEY_W && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_W)
     {
-        camY += std::cos(DegreesToRads(camRotateY));
-        camX += std::sin(DegreesToRads(camRotateY));
+        MoveForward=action == GLFW_PRESS;
+        
     }
     else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
     {
@@ -668,9 +669,14 @@ int main(void)
         //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
         //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
         //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
+        
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
         
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
+        if(MoveForward){
+            camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+        }
 
         glTranslatef(camX+2,camY-2.5,camZ);
         
