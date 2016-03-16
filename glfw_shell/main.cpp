@@ -60,6 +60,10 @@ float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
 GLuint gTexture{0};
+GLuint gTextureSteel{0};
+GLuint gTextureRoad{0};
+GLuint gTextureRoadY{0};
+GLuint gTextureBlank{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -171,43 +175,43 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 void p1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f); // yellow
+    //glColor3f(1.0f, 0.8431372549f, 0.f); // yellow
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 0.8431372549f, 0.f);
+    //glColor3f(1.0f, 0.8431372549f, 0.f);
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
@@ -215,86 +219,86 @@ void p8(float x, float y,float z, float h, float w, float d)
 
 void p2_1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.3f, 0.3f, 0.3f); // red
+    glColor3f(0.5f, 0.5f, 0.5f); // red
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p2_2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.3f, 0.3f, 0.3f); // blue
+    glColor3f(0.5f, 0.5f, 0.5f); // blue
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p2_3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.3f, 0.3f, 0.3f); // gray
+    glColor3f(0.5f, 0.5f, 0.5f); // gray
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p2_4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.3f, 0.3f, 0.3f); // yellow
+    glColor3f(0.5f, 0.5f, 0.5f); // yellow
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p2_5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.3f, 0.3f, 0.3f); // orange
+    glColor3f(0.5f, 0.5f, 0.5f); // orange
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p2_6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 1.0f, 1.0f); // pink
+    glColor3f(0.5f, 0.5f, 0.5f); // pink
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p2_7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 1.0f, 1.0f); // tan-ish
+    glColor3f(0.5f, 0.5f, 0.5f); // tan-ish
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p2_8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(1.0f, 1.0f, 1.0f); // white
+    glColor3f(0.5f, 0.5f, 0.5f); // white
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
 
 void p3_1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // red
+    glColor3f(1.f, 1.f, 1.f); // red
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p3_2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // blue
+    glColor3f(1.f, 1.f, 1.f); // blue
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p3_3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // gray
+    glColor3f(1.f, 1.f, 1.f); // gray
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p3_4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // yellow
+    glColor3f(1.f, 1.f, 1.f); // yellow
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p3_5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // orange
+    glColor3f(1.f, 1.f, 1.f); // orange
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p3_6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // pink
+    glColor3f(1.f, 1.f, 1.f); // pink
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p3_7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // tan-ish
+    glColor3f(1.f, 1.f, 1.f); // tan-ish
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p3_8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.4f, 0.4f, 0.0f); // white
+    glColor3f(1.f, 1.f, 1.f); // white
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
@@ -304,43 +308,43 @@ void p3_8(float x, float y,float z, float h, float w, float d)
 //Color = black
 void p4_1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p4_2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p4_3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p4_4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p4_5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p4_6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p4_7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p4_8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.f, 0.f, 0.0f);
+    //glColor3f(0.f, 0.f, 0.0f);
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 //rainbow colors
@@ -390,6 +394,7 @@ void p5_8(float x, float y,float z, float h, float w, float d)
 
 
 void cube(float x, float y, float z, float h, float w, float d){
+    glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -430,13 +435,14 @@ void cube(float x, float y, float z, float h, float w, float d){
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p1(x,y,z,h,w,d);
-    p2(x,y,z,h,w,d);
-    p3(x,y,z,h,w,d);
-    p4(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p1(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 void triangle(float x, float y, float z, float h, float w, float d){
+    
     glBegin(GL_TRIANGLES);
     p5_7(x,y,z,h,w,d);
     p5_8(x,y,z,h,w,d);
@@ -474,6 +480,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
 }
 
 void cube2(float x, float y, float z, float h, float w, float d){
+    glBindTexture(GL_TEXTURE_2D, gTextureSteel);
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -485,43 +492,44 @@ void cube2(float x, float y, float z, float h, float w, float d){
     
     // Right face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_8(x,y,z,h,w,d);
-    p2_4(x,y,z,h,w,d);
-    p2_3(x,y,z,h,w,d);
-    p2_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p2_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_7(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Left face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_5(x,y,z,h,w,d);
-    p2_6(x,y,z,h,w,d);
-    p2_2(x,y,z,h,w,d);
-    p2_1(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p2_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_6(x,y,z,h,w,d);
-    p2_7(x,y,z,h,w,d);
-    p2_3(x,y,z,h,w,d);
-    p2_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p2_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_7(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_2(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_4(x,y,z,h,w,d);
-    p2_8(x,y,z,h,w,d);
-    p2_5(x,y,z,h,w,d);
-    p2_1(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p2_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_5(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_1(x,y,z,h,w,d);
-    p2_2(x,y,z,h,w,d);
-    p2_3(x,y,z,h,w,d);
-    p2_4(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p2_1(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_2(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_4(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
 void cube3(float x, float y, float z, float h, float w, float d){
+    glBindTexture(GL_TEXTURE_2D, gTexture);
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -563,59 +571,64 @@ void cube3(float x, float y, float z, float h, float w, float d){
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_1(x,y,z,h,w,d);
-    p3_2(x,y,z,h,w,d);
-    p3_3(x,y,z,h,w,d);
-    p3_4(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p3_1(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_2(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_4(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
 void cube4(float x, float y, float z, float h, float w, float d){
+    glBindTexture(GL_TEXTURE_2D, gTextureRoad);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_5(x,y,z,h,w,d);
-    p4_8(x,y,z,h,w,d);
-    p4_7(x,y,z,h,w,d);
-    p4_6(x,y,z,h,w,d);
+    glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_6(x,y,z,h,w,d);
     
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Right face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_8(x,y,z,h,w,d);
-    p4_4(x,y,z,h,w,d);
-    p4_3(x,y,z,h,w,d);
-    p4_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 30); p4_8(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_4(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_7(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Left face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_5(x,y,z,h,w,d);
-    p4_6(x,y,z,h,w,d);
-    p4_2(x,y,z,h,w,d);
-    p4_1(x,y,z,h,w,d);
+    glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_6(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_6(x,y,z,h,w,d);
-    p4_7(x,y,z,h,w,d);
-    p4_3(x,y,z,h,w,d);
-    p4_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 30); p4_6(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_7(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_2(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_4(x,y,z,h,w,d);
-    p4_8(x,y,z,h,w,d);
-    p4_5(x,y,z,h,w,d);
-    p4_1(x,y,z,h,w,d);
+    glTexCoord2f(0, 30); p4_4(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_5(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4_1(x,y,z,h,w,d);
-    p4_2(x,y,z,h,w,d);
-    p4_3(x,y,z,h,w,d);
-    p4_4(x,y,z,h,w,d);
+    
+    glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
+    glTexCoord2f(30, 30); p4_2(x,y,z,h,w,d);
+    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p4_4(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
@@ -656,22 +669,81 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    gTexture = SOIL_load_OGL_texture("test.tga",
+    gTexture = SOIL_load_OGL_texture("grasstex.tga",
                                      SOIL_LOAD_AUTO,
                                      SOIL_CREATE_NEW_ID,
                                      SOIL_FLAG_POWER_OF_TWO |
                                      SOIL_FLAG_MIPMAPS |
                                      SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+
 
     if (gTexture == 0)
     {
-        std::cout << "error loading texture\n";
+        std::cout << "error loading texture grass\n";
     }
     else
-    {
+    {   //comment this out to go to normal colors
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, gTexture);
+        //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
     }
+    
+    
+    gTextureSteel = SOIL_load_OGL_texture("steel_floor.tga",
+                                          SOIL_LOAD_AUTO,
+                                          SOIL_CREATE_NEW_ID,
+                                          SOIL_FLAG_POWER_OF_TWO |
+                                          SOIL_FLAG_MIPMAPS |
+                                          SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureSteel == 0)
+    {
+        std::cout << "error loading texture steel\n";
+    }
+    
+    
+    gTextureRoad = SOIL_load_OGL_texture("road.tga",
+                                          SOIL_LOAD_AUTO,
+                                          SOIL_CREATE_NEW_ID,
+                                          SOIL_FLAG_POWER_OF_TWO |
+                                          SOIL_FLAG_MIPMAPS |
+                                          SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureRoad == 0)
+    {
+        std::cout << "error loading texture road\n";
+    }
+    
+    
+    gTextureRoadY = SOIL_load_OGL_texture("yellowline.tga",
+                                         SOIL_LOAD_AUTO,
+                                         SOIL_CREATE_NEW_ID,
+                                         SOIL_FLAG_POWER_OF_TWO |
+                                         SOIL_FLAG_MIPMAPS |
+                                         SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureRoadY == 0)
+    {
+        std::cout << "error loading texture yellow line\n";
+    }
+
+    
+    gTextureBlank = SOIL_load_OGL_texture("blank.tga",
+                                         SOIL_LOAD_AUTO,
+                                         SOIL_CREATE_NEW_ID,
+                                         SOIL_FLAG_POWER_OF_TWO |
+                                         SOIL_FLAG_MIPMAPS |
+                                         SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureBlank == 0)
+    {
+        std::cout << "error loading texture blank\n";
+    }
+
+    
+
+
+    
 
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
@@ -816,7 +888,7 @@ int main(void)
         
         //warehouse
         //door
-        cube4(10.49,1,1,0.2,2,4);
+        cube3(10.49,1,1,0.2,2,4);
         cube2(10.3,1.7,0.1,0.2,0.2,0.2);
         //walls
         cube2(10,-5,1,1,10,10);
