@@ -59,6 +59,8 @@ float camRotateY{-50};
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
+GLuint gTexture{0};
+
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
     
@@ -395,9 +397,8 @@ void cube(float x, float y, float z, float h, float w, float d){
     p8(x,y,z,h,w,d);
     p7(x,y,z,h,w,d);
     p6(x,y,z,h,w,d);
-    
     glEnd(); // All OpenGL drawing ends with a glEnd.
-    
+
     // Right face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
     p8(x,y,z,h,w,d);
@@ -476,11 +477,10 @@ void cube2(float x, float y, float z, float h, float w, float d){
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p2_5(x,y,z,h,w,d);
-    p2_8(x,y,z,h,w,d);
-    p2_7(x,y,z,h,w,d);
-    p2_6(x,y,z,h,w,d);
-    
+    glTexCoord2f(0, 1); p2_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p2_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p2_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p2_6(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Right face
@@ -656,10 +656,28 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    unsigned int result = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_TEXTURE_RECTANGLE);
+    gTexture = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_TEXTURE_RECTANGLE);
 
-    if (result == 0)
+    if (gTexture == 0)
+    {
         std::cout << "error loading texture\n";
+    }
+    else
+    {
+#if 0
+        glEnable( GL_TEXTURE_2D );
+        glBindTexture( GL_TEXTURE_2D, gTexture );
+#else
+    	glEnable( GL_TEXTURE_CUBE_MAP );
+		glEnable( GL_TEXTURE_GEN_S );
+		glEnable( GL_TEXTURE_GEN_T );
+		glEnable( GL_TEXTURE_GEN_R );
+		glTexGeni( GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
+		glTexGeni( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
+		glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
+		glBindTexture( GL_TEXTURE_CUBE_MAP, gTexture );
+#endif
+    }
 
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
@@ -794,10 +812,6 @@ int main(void)
         cube2(17,-5,1.49,13,9,0.000001);
         //roof
         cube2(17,-5,-4.25,13,9,0.5);
-
-        
-        
-        
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
