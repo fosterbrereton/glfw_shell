@@ -72,7 +72,7 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
     double deltaX{xpos-oldx};
     double deltaY{ypos-oldy};
     
-    std::cout << deltaX << "," << deltaY << "\n";
+    // std::cout << deltaX << "," << deltaY << "\n";
     camRotateY-=deltaX;
     camRotateX+=deltaY;
     oldx = xpos;
@@ -158,14 +158,14 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         else
             actionString = "UP";
 
-        std::cout << "You pressed " << actionString << " on the key " << key << '\n';
+        // std::cout << "You pressed " << actionString << " on the key " << key << '\n';
         }
-    std::cout << "Camera X = " << camX << '\n';
-    std::cout << "Camera Y = " << camY << '\n';
-    std::cout << "Camera Z = " << camZ << '\n';
+    // std::cout << "Camera X = " << camX << '\n';
+    // std::cout << "Camera Y = " << camY << '\n';
+    // std::cout << "Camera Z = " << camZ << '\n';
     
-    std::cout << "Camera Rotate X =" << camRotateX << '\n';
-    std::cout << "Camera Rotate Y =" << camRotateY << '\n';
+    // std::cout << "Camera Rotate X =" << camRotateX << '\n';
+    // std::cout << "Camera Rotate Y =" << camRotateY << '\n';
 }
 void p1(float x, float y,float z, float h, float w, float d)
 {
