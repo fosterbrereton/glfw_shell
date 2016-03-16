@@ -684,6 +684,7 @@ int main(void)
     }
     else
     {   //comment this out to go to normal colors
+    
         glEnable(GL_TEXTURE_2D);
         //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
     }
