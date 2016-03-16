@@ -32,6 +32,8 @@
 #include <OpenGL/glu.h>
 #include <cmath>
 
+#include "SOIL.h"
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -616,7 +618,8 @@ void cube4(float x, float y, float z, float h, float w, float d){
 
 int main(void)
 {
-    
+    unsigned int result = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO);
+
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
 
