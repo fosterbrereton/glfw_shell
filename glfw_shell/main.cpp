@@ -54,7 +54,7 @@ bool fall{false};
 bool MouseOut{false};
 
 float camRotateX{-260};
-float camRotateY{-50};
+float camRotateY{0};
 
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
@@ -753,34 +753,56 @@ int main(void)
         if(MouseOut==false){
             glfwSetCursorPosCallback(window, cursor_pos_callback);
         }
-
+       
+        
        
         
         glTranslatef(camX+2,camY-2.5,camZ);
         
       
-
+        //water well
         cube2(0,0,0,0.125,0.125,1);
         cube2(0.5,0,0,0.125,0.125,1);
         cube2(0,0.5,0,0.125,0.125,1);
         cube2(0.5,0.5,0,0.125,0.125,1);
         
         cube2(0.25,0.25,-0.5,1,1,0.5);
-        
-        cube3(0.5,0.5,1.75,100,100,0.5);
-        
+         
         cube2(0,0,1,0.5,0.5,1);
-        cube2(0.5,0,1,0.5,0.5,1);
-        cube2(0,0.5,1,0.5,0.5,1);
-        cube2(0.5,0.5,1,0.5,0.5,1);
+         cube2(0.5,0,1,0.5,0.5,1);
+         cube2(0,0.5,1,0.5,0.5,1);
+         cube2(0.5,0.5,1,0.5,0.5,1);
+        //water well
         
+        //grass
+        cube3(0.5,0.5,1.75,250,250,0.5);
+        
+        
+        //rainbow ramps
         triangle(1,2,1,1,1,1);
         triangle(0,2,1,1,1,1);
         
-        cube4(5,1,1.49,6,50,0.000001);
         
-        cube(5,1,1.48,0.5,50,0.000001);
+        //road
+        cube4(5,1,1.49,6,200,0.000001);
+        cube(5,1,1.48,0.5,200,0.000001);
+        //road
+        //road2
+        cube4(-50,1,1.49,6,200,0.000001);
+        cube(-50,1,1.48,0.5,200,0.000001);
+        //road2
+        //road3
+        cube4(-22.5,101,1.49,61,6,0.000001);
+        cube(-22.5,101,1.48,55.5,0.5,0.000001);
+        //road3
+        //road4
+        cube4(-22.5,-99,1.49,61,6,0.000001);
+        cube(-22.5,-99,1.48,55.5,0.5,0.000001);
+        //road4
+
         
+        
+        //warehouse
         //door
         cube4(10.49,1,1,0.2,2,4);
         cube2(10.3,1.7,0.1,0.2,0.2,0.2);
