@@ -656,7 +656,12 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    gTexture = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_TEXTURE_RECTANGLE);
+    gTexture = SOIL_load_OGL_texture("test.tga",
+                                     SOIL_LOAD_AUTO,
+                                     SOIL_CREATE_NEW_ID,
+                                     SOIL_FLAG_POWER_OF_TWO |
+                                     SOIL_FLAG_MIPMAPS |
+                                     SOIL_FLAG_DDS_LOAD_DIRECT);
 
     if (gTexture == 0)
     {
@@ -664,19 +669,8 @@ int main(void)
     }
     else
     {
-#if 0
-        glEnable( GL_TEXTURE_2D );
-        glBindTexture( GL_TEXTURE_2D, gTexture );
-#else
-    	glEnable( GL_TEXTURE_CUBE_MAP );
-		glEnable( GL_TEXTURE_GEN_S );
-		glEnable( GL_TEXTURE_GEN_T );
-		glEnable( GL_TEXTURE_GEN_R );
-		glTexGeni( GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
-		glTexGeni( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
-		glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
-		glBindTexture( GL_TEXTURE_CUBE_MAP, gTexture );
-#endif
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, gTexture);
     }
 
     // This is the main processing loop that draws the spinning rectangle.
