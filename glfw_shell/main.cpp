@@ -622,8 +622,6 @@ void cube4(float x, float y, float z, float h, float w, float d){
 
 int main(void)
 {
-    unsigned int result = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO);
-
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
 
@@ -650,16 +648,18 @@ int main(void)
     // key_callback is the function that GLFW should call when the user hits
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
-    
-        glfwSetCursorPosCallback(window, cursor_pos_callback);
-    
-    
+    glfwSetCursorPosCallback(window, cursor_pos_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
     // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
+
+    unsigned int result = SOIL_load_OGL_texture("test.tga", 0, 0, SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_TEXTURE_RECTANGLE);
+
+    if (result == 0)
+        std::cout << "error loading texture\n";
 
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
