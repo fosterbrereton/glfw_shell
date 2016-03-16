@@ -46,10 +46,18 @@ bool MoveForward{false};
 bool MoveBackward{false};
 bool MoveLeft{false};
 bool MoveRight{false};
+bool MoveUp{false};
+bool Sprint{false};
+
+bool fall{false};
+
+bool MouseOut{false};
 
 float camRotateX{-260};
 float camRotateY{-50};
 
+float DecreaseClimbRate{0.1};
+float IncreaseFallRate{0.05};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -89,6 +97,12 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         // These are in RGB order.
         glClearColor(0.0, 0.0, 0.0, 1.0); // black
         }*/
+    else if (key == GLFW_KEY_P && action == GLFW_PRESS)
+    {
+        MouseOut^=true;
+        
+        
+    }
     else if (key == GLFW_KEY_D)
     {
         MoveRight = action == GLFW_PRESS || action == GLFW_REPEAT;
@@ -113,29 +127,19 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         
         
     }
-    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+
+    else if (key == GLFW_KEY_SPACE)
     {
-        camRotateX += 10;
+        
+        MoveUp=true;
+        
+        
+        
     }
-    else if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+    else if (key == GLFW_KEY_LEFT_SHIFT)
     {
-        camRotateX -= 10;
-    }
-    else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-    {
-        camRotateY += 10;
-    }
-    else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-    {
-        camRotateY -= 10;
-    }
-    else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
-    {
-        camZ += 0.5;
-    }
-    else if (key == GLFW_KEY_LEFT_SHIFT && action == GLFW_PRESS)
-    {
-        camZ -= 0.5;
+        Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
+        
     }
     
     
@@ -646,8 +650,12 @@ int main(void)
     // key_callback is the function that GLFW should call when the user hits
     // a key on the keyboard. So we give that function to GLFW with this routine.
     glfwSetKeyCallback(window, key_callback);
-    glfwSetCursorPosCallback(window, cursor_pos_callback);
-
+    
+        glfwSetCursorPosCallback(window, cursor_pos_callback);
+    
+    
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    
     // Set some OpenGL world options.
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -677,7 +685,7 @@ int main(void)
         */
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(90, ratio, 1, 1000);
+        gluPerspective(60, ratio, 1, 1000);
         //glOrtho(-ratio, ratio, -1.f, 1.f, 50.f, -50.f);
         glMatrixMode(GL_MODELVIEW);
        
@@ -697,21 +705,57 @@ int main(void)
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
         if(MoveForward){
             
+            camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+        }
+        if(MoveRight){
+            camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY-90))*0.1;
+        }
+        if(MoveLeft){
+            camY += std::cos(DegreesToRads(camRotateY+90))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
+        }
+        if(MoveBackward){
+            camY -= std::cos(DegreesToRads(camRotateY))*0.1;
+            camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+        }
+        
+        
+        if(MoveUp && fall==false){
+            camZ += DecreaseClimbRate;
+            DecreaseClimbRate-=0.0077;
+            
+        }
+        if(Sprint){
             camY += std::cos(DegreesToRads(camRotateY))*0.15;
             camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
-        if(MoveRight){
-            camY += std::cos(DegreesToRads(camRotateY-90))*0.15;
-            camX += std::sin(DegreesToRads(camRotateY-90))*0.15;
+       
+        if(camZ<=0){
+            camZ += 0.1;
+            fall=false;
+            DecreaseClimbRate=0.2;
+            MoveUp=false;
+            
         }
-        if(MoveLeft){
-            camY += std::cos(DegreesToRads(camRotateY+90))*0.15;
-            camX += std::sin(DegreesToRads(camRotateY+90))*0.15;
+        if(MouseOut==true){
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
-        if(MoveBackward){
-            camY -= std::cos(DegreesToRads(camRotateY))*0.15;
-            camX -= std::sin(DegreesToRads(camRotateY))*0.15;
+        if(MouseOut==false){
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            
         }
+        if(MouseOut==true){
+        glfwSetCursorPosCallback(window, 0);
+        
+        }
+        if(MouseOut==false){
+            glfwSetCursorPosCallback(window, cursor_pos_callback);
+        }
+
+       
+        
         glTranslatef(camX+2,camY-2.5,camZ);
         
       
