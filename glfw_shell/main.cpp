@@ -64,6 +64,8 @@ GLuint gTextureSteel{0};
 GLuint gTextureRoad{0};
 GLuint gTextureRoadY{0};
 GLuint gTextureBlank{0};
+GLuint gTextureBall{0};
+GLuint gTextureWhite{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -392,6 +394,47 @@ void p5_8(float x, float y,float z, float h, float w, float d)
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
+void p6_1(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // red
+    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
+}
+void p6_2(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // blue
+    glVertex3f(-h/2+x, w/2+y, -d/2+z);
+}
+void p6_3(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // gray
+    glVertex3f(h/2+x, w/2+y, -d/2+z);
+}
+void p6_4(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // yellow
+    glVertex3f(h/2+x, -w/2+y, -d/2+z);
+}
+
+void p6_5(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // orange
+    glVertex3f(-h/2+x, -w/2+y, d/2+z);
+}
+void p6_6(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // pink
+    glVertex3f(-h/2+x, w/2+y, d/2+z);
+}
+void p6_7(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // tan-ish
+    glVertex3f(h/2+x, w/2+y, d/2+z);
+}
+void p6_8(float x, float y,float z, float h, float w, float d)
+{
+    glColor3f(1.f, 1.f, 1.f); // white
+    glVertex3f(h/2+x, -w/2+y, d/2+z);
+}
 
 void cube(float x, float y, float z, float h, float w, float d){
     glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
@@ -632,7 +675,73 @@ void cube4(float x, float y, float z, float h, float w, float d){
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
+void cube5(float x, float y, float z, float h, float w, float d){
+    glBindTexture(GL_TEXTURE_2D, gTextureSteel);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p6_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_6(x,y,z,h,w,d);
+    
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Right face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p6_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_7(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p6_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Top face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p6_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_7(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_2(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Bottom face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p6_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_5(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Back face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    
+    glTexCoord2f(0, 1); p6_1(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p6_2(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p6_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p6_4(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+}
 
+void sphere(float x,float y,float z,float size){
+    //glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    //glLoadIdentity();
+    glTranslatef(-x, -y, -z);
+    
+    GLUquadricObj*quad=gluNewQuadric();
+    gluQuadricTexture( quad, GL_TRUE);
+    gluSphere(quad, size, 15, 15);
+    gluDeleteQuadric(quad);
+    glPopMatrix();
+
+}
 int main(void)
 {
     // In JavaScript, this would be "var window;"
@@ -715,6 +824,19 @@ int main(void)
         std::cout << "error loading texture road\n";
     }
     
+    gTextureBall = SOIL_load_OGL_texture("../../textures/soccerball.tga",
+                                         SOIL_LOAD_AUTO,
+                                         SOIL_CREATE_NEW_ID,
+                                         SOIL_FLAG_POWER_OF_TWO |
+                                         SOIL_FLAG_MIPMAPS |
+                                         SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureBall == 0)
+    {
+        std::cout << "error loading texture road\n";
+    }
+
+    
     
     gTextureRoadY = SOIL_load_OGL_texture("../../textures/yellowline.tga",
                                          SOIL_LOAD_AUTO,
@@ -729,26 +851,31 @@ int main(void)
     }
 
     
-    gTextureBlank = SOIL_load_OGL_texture("../../textures/blank.tga",
+    gTextureWhite = SOIL_load_OGL_texture("../../textures/white.tga",
                                          SOIL_LOAD_AUTO,
                                          SOIL_CREATE_NEW_ID,
                                          SOIL_FLAG_POWER_OF_TWO |
                                          SOIL_FLAG_MIPMAPS |
                                          SOIL_FLAG_DDS_LOAD_DIRECT);
     
-    if (gTextureBlank == 0)
+    if (gTextureWhite == 0)
     {
-        std::cout << "error loading texture blank\n";
+        std::cout << "error loading texture white\n";
     }
+    
 
     
 
 
     
-
+    float carSpeed1=0;
+    float carSpeed2=0;
+    
+    
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
+    
         // These are variable spaces.
         float ratio; // this is a floating point number
         int width, height; // these variables store the dimensions of the window
@@ -901,6 +1028,72 @@ int main(void)
         cube2(17,-5,1.49,13,9,0.000001);
         //roof
         cube2(17,-5,-4.25,13,9,0.5);
+        
+        //speed
+        carSpeed1=carSpeed1-0.6;
+        //car
+        
+        //bottom
+        cube5(6.5,101+carSpeed1,0.5,2.5,6,0.5);
+        //roof
+        cube5(6.5,101.5+carSpeed1,-1.6,2.5,5,0.5);
+        //side
+        cube5(5.5,101.5+carSpeed1,-0.6,0.5,5,1.65);
+        //side
+        cube5(7.5,101.5+carSpeed1,-0.6,0.5,5,1.65);
+        //back
+        cube5(6.5,104+carSpeed1,-0.6,2.5,0.3,1.65);
+        //front
+        cube5(6.5,98.7+carSpeed1,-0.25,2.5,0.6,1);
+        //front window
+        cube3(6.5,99+carSpeed1,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(7.5,103+carSpeed1,1,0.3,1,1);
+        cube3(5.5,103+carSpeed1,1,0.3,1,1);
+        cube3(7.5,99+carSpeed1,1,0.3,1,1);
+        cube3(5.5,99+carSpeed1,1,0.3,1,1);
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(-5.5,-98.4-carSpeed1,0.5,0.2);
+        sphere(-7.5, -98.4-carSpeed1,0.5,0.2);
+        
+        
+        //car2
+        carSpeed2=carSpeed2-0.4;
+        //bottom
+        cube2(3.5,-101-carSpeed2,0.5,2.5,6,0.5);
+        //roof
+        cube2(3.5,-101.5-carSpeed2,-1.6,2.5,5,0.5);
+        //side
+        cube2(2.5,-101.5-carSpeed2,-0.6,0.5,5,1.65);
+        //side
+        cube2(4.5,-101.5-carSpeed2,-0.6,0.5,5,1.65);
+        //back
+        cube2(3.5,-104-carSpeed2,-0.6,2.5,0.3,1.65);
+        //front
+        cube2(3.5,-98.7-carSpeed2,-0.25,2.5,0.6,1);
+        //front window
+        cube3(3.5,-99-carSpeed2,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(4.5,-103-carSpeed2,1,0.3,1,1);
+        cube3(2.5,-103-carSpeed2,1,0.3,1,1);
+        cube3(4.5,-99-carSpeed2,1,0.3,1,1);
+        cube3(2.5,-99-carSpeed2,1,0.3,1,1);
+
+
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(-2.5,98.4+carSpeed2,0.5,0.2);
+        sphere(-4.5, 98.4+carSpeed2,0.5,0.2);
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureBall);
+        sphere(2,2,-1.21,0.3);
+        
+        sphere(-20+carSpeed1,6,-1.2,0.3);
+        if(carSpeed1<-200){
+            carSpeed1=0;
+        }
+        if(carSpeed2<-200){
+            carSpeed2=0;
+        }
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
