@@ -669,7 +669,7 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    gTexture = SOIL_load_OGL_texture("grasstex.tga",
+    gTexture = SOIL_load_OGL_texture("../../textures/grasstex.tga",
                                      SOIL_LOAD_AUTO,
                                      SOIL_CREATE_NEW_ID,
                                      SOIL_FLAG_POWER_OF_TWO |
@@ -690,7 +690,7 @@ int main(void)
     }
     
     
-    gTextureSteel = SOIL_load_OGL_texture("steel_floor.tga",
+    gTextureSteel = SOIL_load_OGL_texture("../../textures/steel_floor.tga",
                                           SOIL_LOAD_AUTO,
                                           SOIL_CREATE_NEW_ID,
                                           SOIL_FLAG_POWER_OF_TWO |
@@ -703,7 +703,7 @@ int main(void)
     }
     
     
-    gTextureRoad = SOIL_load_OGL_texture("road.tga",
+    gTextureRoad = SOIL_load_OGL_texture("../../textures/road.tga",
                                           SOIL_LOAD_AUTO,
                                           SOIL_CREATE_NEW_ID,
                                           SOIL_FLAG_POWER_OF_TWO |
@@ -716,7 +716,7 @@ int main(void)
     }
     
     
-    gTextureRoadY = SOIL_load_OGL_texture("yellowline.tga",
+    gTextureRoadY = SOIL_load_OGL_texture("../../textures/yellowline.tga",
                                          SOIL_LOAD_AUTO,
                                          SOIL_CREATE_NEW_ID,
                                          SOIL_FLAG_POWER_OF_TWO |
@@ -729,7 +729,7 @@ int main(void)
     }
 
     
-    gTextureBlank = SOIL_load_OGL_texture("blank.tga",
+    gTextureBlank = SOIL_load_OGL_texture("../../textures/blank.tga",
                                          SOIL_LOAD_AUTO,
                                          SOIL_CREATE_NEW_ID,
                                          SOIL_FLAG_POWER_OF_TWO |
