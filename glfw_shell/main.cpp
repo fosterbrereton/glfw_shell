@@ -49,6 +49,7 @@ bool MoveRight{false};
 bool MoveUp{false};
 bool Sprint{false};
 bool AdminSprint{false};
+bool CarSprint{false};
 
 bool fall{false};
 
@@ -151,6 +152,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         
     }
     else if (key == GLFW_KEY_E)
+    {
+        CarSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
+        
+    }
+    else if (key == GLFW_KEY_Q)
     {
         AdminSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
         
@@ -874,14 +880,22 @@ int main(void)
 
 
     
-    float carSpeed1=100;
-    float carSpeed2=100;
-    float carSpeed3=100;
-    float carSpeed4=100;
+    float carSpeed1{100};
+    float carSpeed2{100};
+    float carSpeed3{100};
+    float carSpeed4{100};
     
-    float carSpeed6=-100;
+    float carSpeed6{-100};
     
+    float carStop{1};
+    float carStop2{1.12};
+    float carStop3{0.6};
     
+    float car4x{0};
+    float car6x{0};
+    float car1x{0};
+    
+   
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -953,9 +967,13 @@ int main(void)
             camY += std::cos(DegreesToRads(camRotateY))*0.15;
             camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
-        if(AdminSprint){
+        if(CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*1;
             camX += std::sin(DegreesToRads(camRotateY))*1;
+        }
+        if(AdminSprint){
+            camY += std::cos(DegreesToRads(camRotateY))*2.5;
+            camX += std::sin(DegreesToRads(camRotateY))*2.5;
         }
        
         if(camZ<=0){
@@ -1070,7 +1088,8 @@ int main(void)
         cube2(17,-5,-4.25,13,9,0.5);
         
         //speed
-        carSpeed1=carSpeed1-0.6;
+        carSpeed1=carSpeed1-carStop3;
+        car1x=carSpeed1-10-9.46452+115.0336345;
         //car
         
         //bottom
@@ -1096,6 +1115,23 @@ int main(void)
         sphere(-5.5,-98.4-carSpeed1,0.5,0.2);
         sphere(-7.5, -98.4-carSpeed1,0.5,0.2);
         
+        
+        
+        
+        if(car1x>-camY && car1x-10<-camY && camX<-6 && camX>-10){
+            
+            std::cout << "WORKED = " << car1x << '\n';
+            
+            carStop3=0;
+            
+            
+            
+            
+            
+        }
+        else{carStop3=0.6;}
+        std::cout << "carY = " << car1x << '\n';
+        std::cout << "camY = " << camY << '\n';
         
         //car2
         carSpeed2=carSpeed2-0.45;
@@ -1123,6 +1159,36 @@ int main(void)
         glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
         sphere(-2.5,98.4+carSpeed2,0.5,0.2);
         sphere(-4.5, 98.4+carSpeed2,0.5,0.2);
+        
+        //stillCar1
+        
+        float stillcarX{-85};
+        float stillcarY{-10};
+        //bottom
+        cube4(3.5-stillcarY,-101-stillcarX,0.5,2.5,6,0.5);
+        //roof
+        cube4(3.5-stillcarY,-101.5-stillcarX,-1.6,2.5,5,0.5);
+        //side
+        cube4(2.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65);
+        //side
+        cube4(4.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65);
+        //back
+        cube4(3.5-stillcarY,-104-stillcarX,-0.6,2.5,0.3,1.65);
+        //front
+        cube4(3.5-stillcarY,-98.7-stillcarX,-0.25,2.5,0.6,1);
+        //front window
+        cube3(3.5-stillcarY,-99-stillcarX,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(4.5-stillcarY,-103-stillcarX,1,0.3,1,1);
+        cube3(2.5-stillcarY,-103-stillcarX,1,0.3,1,1);
+        cube3(4.5-stillcarY,-99-stillcarX,1,0.3,1,1);
+        cube3(2.5-stillcarY,-99-stillcarX,1,0.3,1,1);
+        
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(-2.5+stillcarY,98.4+stillcarX,0.5,0.2);
+        sphere(-4.5+stillcarY, 98.4+stillcarX,0.5,0.2);
+        
         
         
         //car3
@@ -1152,7 +1218,7 @@ int main(void)
         
         //car4
         //car 4-5 speed
-        carSpeed4=carSpeed4-1;
+        carSpeed4=carSpeed4-carStop;
         //bottom
         cube4(-51.5,-51-carSpeed4,0.5,2.5,6,0.5);
         //roof
@@ -1199,15 +1265,24 @@ int main(void)
         cube3(-52.5,-53-32-carSpeed4,1,0.3,1,1);
         cube3(-50.5,-49-32-carSpeed4,1,0.3,1,1);
         cube3(-52.5,-49-32-carSpeed4,1,0.3,1,1);
+        car4x=carSpeed4-71.76328;
         
         
         glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
-        sphere(52.5,48.4+32+carSpeed4,0.5,0.2);
-        sphere(50.5, 48.4+32+carSpeed4,0.5,0.2);
-
-        
-        
-        /*//car6
+        sphere(52.5,car4x=48.4+32+carSpeed4,0.5,0.2);
+        sphere(50.5, car4x=48.4+32+carSpeed4,0.5,0.2);
+        if(car4x>camY && car4x-40<camY && camX<51.5 && camX>48.5){
+            
+            //std::cout << "WORKED = " << car4x << '\n';
+            
+                carStop=0;
+            
+           
+            
+            
+        }
+        else{carStop=1;}
+                /*//car6
         carSpeed6=carSpeed6-1.12;
         //bottom
         cube4(-51.5,-51-88-carSpeed6,0.5,2.5,6,0.5);
@@ -1235,7 +1310,7 @@ int main(void)
         sphere(50.5, 48.4+88+carSpeed6,0.5,0.2);*/
         
         //car6
-        carSpeed6=carSpeed6-1.12;
+        carSpeed6=carSpeed6-carStop2;
         //bottom
         cube4(-48.5,51-88+carSpeed6,0.5,2.5,6,0.5);
         //roof
@@ -1256,10 +1331,28 @@ int main(void)
         cube3(-47.5,49-88+carSpeed6,1,0.3,1,1);
         cube3(-49.5,49-88+carSpeed6,1,0.3,1,1);
         
-        
+        car6x=carSpeed6-10-9.46452;
         glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
         sphere(49.5,-48.4+88-carSpeed6,0.5,0.2);
         sphere(47.5, -48.4+88-carSpeed6,0.5,0.2);
+        
+        
+        if(car6x>-camY && car6x-35<-camY && camX<48.5 && camX>43.5){
+            
+            std::cout << "WORKED = " << car6x << '\n';
+            
+            carStop2=0;
+            
+            
+            
+            
+            
+        }
+        else{carStop2=1.12;}
+        
+        //std::cout << "carY = " << car6x << '\n';
+        //std::cout << "camY = " << camY << '\n';
+
 
 
 
