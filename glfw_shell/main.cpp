@@ -48,6 +48,7 @@ bool MoveLeft{false};
 bool MoveRight{false};
 bool MoveUp{false};
 bool Sprint{false};
+bool AdminSprint{false};
 
 bool fall{false};
 
@@ -149,6 +150,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
         
     }
+    else if (key == GLFW_KEY_E)
+    {
+        AdminSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
+        
+    }
     
     
   
@@ -168,9 +174,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
         // std::cout << "You pressed " << actionString << " on the key " << key << '\n';
         }
-    // std::cout << "Camera X = " << camX << '\n';
-    // std::cout << "Camera Y = " << camY << '\n';
-    // std::cout << "Camera Z = " << camZ << '\n';
+    std::cout << "Camera X = " << camX << '\n';
+    std::cout << "Camera Y = " << camY << '\n';
+    std::cout << "Camera Z = " << camZ << '\n';
     
     // std::cout << "Camera Rotate X =" << camRotateX << '\n';
     // std::cout << "Camera Rotate Y =" << camRotateY << '\n';
@@ -868,8 +874,12 @@ int main(void)
 
 
     
-    float carSpeed1=0;
-    float carSpeed2=0;
+    float carSpeed1=100;
+    float carSpeed2=100;
+    float carSpeed3=100;
+    float carSpeed4=100;
+    
+    float carSpeed6=-100;
     
     
     // This is the main processing loop that draws the spinning rectangle.
@@ -943,6 +953,10 @@ int main(void)
             camY += std::cos(DegreesToRads(camRotateY))*0.15;
             camX += std::sin(DegreesToRads(camRotateY))*0.15;
         }
+        if(AdminSprint){
+            camY += std::cos(DegreesToRads(camRotateY))*1;
+            camX += std::sin(DegreesToRads(camRotateY))*1;
+        }
        
         if(camZ<=0){
             camZ += 0.1;
@@ -987,7 +1001,7 @@ int main(void)
         //water well
         
         //grass
-        cube3(0.5,0.5,1.75,250,250,0.5);
+        cube3(0.5,0.5,1.75,450,450,0.5);
         
         
         //rainbow ramps
@@ -996,24 +1010,50 @@ int main(void)
         
         
         //road
-        cube4(5,1,1.49,6,200,0.000001);
-        cube(5,1,1.48,0.5,200,0.000001);
+        cube4(5,1,1.49,6,450,0.000001);
+        cube(5,1,1.48,0.5,450,0.000001);
         //road
         //road2
-        cube4(-50,1,1.49,6,200,0.000001);
-        cube(-50,1,1.48,0.5,200,0.000001);
+        cube4(-50,1,1.49,6,450,0.000001);
+        cube(-50,1,1.48,0.5,450,0.000001);
         //road2
         //road3
-        cube4(-22.5,101,1.49,61,6,0.000001);
-        cube(-22.5,101,1.48,55.5,0.5,0.000001);
+        cube4(0.5,101,1.49,450,6,0.000001);
+        cube(0.5,101,1.48,450,0.5,0.000001);
         //road3
         //road4
-        cube4(-22.5,-99,1.49,61,6,0.000001);
-        cube(-22.5,-99,1.48,55.5,0.5,0.000001);
+        cube4(0.5,-99,1.49,450,6,0.000001);
+        cube(0.5,-99,1.48,450,0.5,0.000001);
         //road4
+        //road5
+        cube4(0.5,51,1.49,450,6,0.000001);
+        cube(0.5,51,1.48,450,0.5,0.000001);
+        //road5
+        //road6
+        cube4(0.5,-49,1.49,450,6,0.000001);
+        cube(0.5,-49,1.48,450,0.5,0.000001);
+        //road6
+        //road7
+        cube4(0.5,222,1.49,450,6,0.000001);
+        cube(0.5,222,1.48,450,0.5,0.000001);
+        //road7
+        //road8
+        cube4(0.5,-222,1.49,450,6,0.000001);
+        cube(0.5,-222,1.48,450,0.5,0.000001);
+        //road8
+        //road9
+        cube4(222,0.5,1.49,6,450,0.000001);
+        cube(222,0.5,1.48,0.5,450,0.000001);
+        //road9
+        //road10
+        cube4(-222,0.5,1.49,6,450,0.000001);
+        cube(-222,0.5,1.48,0.5,450,0.000001);
+        //road10
+
+
 
         
-        
+     
         //warehouse
         //door
         cube3(10.49,1,1,0.2,2,4);
@@ -1058,7 +1098,7 @@ int main(void)
         
         
         //car2
-        carSpeed2=carSpeed2-0.4;
+        carSpeed2=carSpeed2-0.45;
         //bottom
         cube2(3.5,-101-carSpeed2,0.5,2.5,6,0.5);
         //roof
@@ -1084,16 +1124,181 @@ int main(void)
         sphere(-2.5,98.4+carSpeed2,0.5,0.2);
         sphere(-4.5, 98.4+carSpeed2,0.5,0.2);
         
+        
+        //car3
+        carSpeed3=carSpeed3-0.4;
+        //bottom
+        cube2(3.5,-51-carSpeed3,0.5,2.5,6,0.5);
+        //roof
+        cube2(3.5,-51.5-carSpeed3,-1.6,2.5,5,0.5);
+        //side
+        cube2(2.5,-51.5-carSpeed3,-0.6,0.5,5,1.65);
+        //side
+        cube2(4.5,-51.5-carSpeed3,-0.6,0.5,5,1.65);
+        //back
+        cube2(3.5,-54-carSpeed3,-0.6,2.5,0.3,1.65);
+        //front
+        cube2(3.5,-48.7-carSpeed3,-0.25,2.5,0.6,1);
+        //front window
+        cube3(3.5,-49-carSpeed3,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(4.5,-53-carSpeed3,1,0.3,1,1);
+        cube3(2.5,-53-carSpeed3,1,0.3,1,1);
+        cube3(4.5,-49-carSpeed3,1,0.3,1,1);
+        cube3(2.5,-49-carSpeed3,1,0.3,1,1);
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(-2.5,48.4+carSpeed3,0.5,0.2);
+        sphere(-4.5, 48.4+carSpeed3,0.5,0.2);
+        
+        //car4
+        //car 4-5 speed
+        carSpeed4=carSpeed4-1;
+        //bottom
+        cube4(-51.5,-51-carSpeed4,0.5,2.5,6,0.5);
+        //roof
+        cube4(-51.5,-51.5-carSpeed4,-1.6,2.5,5,0.5);
+        //side
+        cube4(-52.5,-51.5-carSpeed4,-0.6,0.5,5,1.65);
+        //side
+        cube4(-50.5,-51.5-carSpeed4,-0.6,0.5,5,1.65);
+        //back
+        cube4(-51.5,-54-carSpeed4,-0.6,2.5,0.3,1.65);
+        //front
+        cube4(-51.5,-48.7-carSpeed4,-0.25,2.5,0.6,1);
+        //front window
+        cube3(-51.5,-49-carSpeed4,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(-50.5,-53-carSpeed4,1,0.3,1,1);
+        cube3(-52.5,-53-carSpeed4,1,0.3,1,1);
+        cube3(-50.5,-49-carSpeed4,1,0.3,1,1);
+        cube3(-52.5,-49-carSpeed4,1,0.3,1,1);
+        
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(52.5,48.4+carSpeed4,0.5,0.2);
+        sphere(50.5, 48.4+carSpeed4,0.5,0.2);
+        
+        //car5
+        
+        //bottom
+        cube4(-51.5,-51-32-carSpeed4,0.5,2.5,6,0.5);
+        //roof
+        cube4(-51.5,-51.5-32-carSpeed4,-1.6,2.5,5,0.5);
+        //side
+        cube4(-52.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65);
+        //side
+        cube4(-50.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65);
+        //back
+        cube4(-51.5,-54-32-carSpeed4,-0.6,2.5,0.3,1.65);
+        //front
+        cube4(-51.5,-48.7-32-carSpeed4,-0.25,2.5,0.6,1);
+        //front window
+        cube3(-51.5,-49-32-carSpeed4,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(-50.5,-53-32-carSpeed4,1,0.3,1,1);
+        cube3(-52.5,-53-32-carSpeed4,1,0.3,1,1);
+        cube3(-50.5,-49-32-carSpeed4,1,0.3,1,1);
+        cube3(-52.5,-49-32-carSpeed4,1,0.3,1,1);
+        
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(52.5,48.4+32+carSpeed4,0.5,0.2);
+        sphere(50.5, 48.4+32+carSpeed4,0.5,0.2);
+
+        
+        
+        /*//car6
+        carSpeed6=carSpeed6-1.12;
+        //bottom
+        cube4(-51.5,-51-88-carSpeed6,0.5,2.5,6,0.5);
+        //roof
+        cube4(-51.5,-51.5-88-carSpeed6,-1.6,2.5,5,0.5);
+        //side
+        cube4(-52.5,-51.5-88-carSpeed6,-0.6,0.5,5,1.65);
+        //side
+        cube4(-50.5,-51.5-88-carSpeed6,-0.6,0.5,5,1.65);
+        //back
+        cube4(-51.5,-54-88-carSpeed6,-0.6,2.5,0.3,1.65);
+        //front
+        cube4(-51.5,-48.7-88-carSpeed6,-0.25,2.5,0.6,1);
+        //front window
+        cube3(-51.5,-49-88-carSpeed6,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(-50.5,-53-88-carSpeed6,1,0.3,1,1);
+        cube3(-52.5,-53-88-carSpeed6,1,0.3,1,1);
+        cube3(-50.5,-49-88-carSpeed6,1,0.3,1,1);
+        cube3(-52.5,-49-88-carSpeed6,1,0.3,1,1);
+        
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(52.5,48.4+88+carSpeed6,0.5,0.2);
+        sphere(50.5, 48.4+88+carSpeed6,0.5,0.2);*/
+        
+        //car6
+        carSpeed6=carSpeed6-1.12;
+        //bottom
+        cube4(-48.5,51-88+carSpeed6,0.5,2.5,6,0.5);
+        //roof
+        cube4(-48.5,51.5-88+carSpeed6,-1.6,2.5,5,0.5);
+        //side
+        cube4(-49.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65);
+        //side
+        cube4(-47.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65);
+        //back
+        cube4(-48.5,54-88+carSpeed6,-0.6,2.5,0.3,1.65);
+        //front
+        cube4(-48.5,48.7-88+carSpeed6,-0.25,2.5,0.6,1);
+        //front window
+        cube3(-48.5,49-88+carSpeed6,-1.25,2.5,0.05,1);
+        //wheels
+        cube3(-47.5,53-88+carSpeed6,1,0.3,1,1);
+        cube3(-49.5,53-88+carSpeed6,1,0.3,1,1);
+        cube3(-47.5,49-88+carSpeed6,1,0.3,1,1);
+        cube3(-49.5,49-88+carSpeed6,1,0.3,1,1);
+        
+        
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(49.5,-48.4+88-carSpeed6,0.5,0.2);
+        sphere(47.5, -48.4+88-carSpeed6,0.5,0.2);
+
+
+
+
+        
         glBindTexture(GL_TEXTURE_2D, gTextureBall);
         sphere(2,2,-1.21,0.3);
         
-        sphere(-20+carSpeed1,6,-1.2,0.3);
-        if(carSpeed1<-200){
-            carSpeed1=0;
+        sphere(-20,6,-1.2,0.3);
+        if(carSpeed1<-350){
+            carSpeed1=100;
         }
-        if(carSpeed2<-200){
-            carSpeed2=0;
+        if(carSpeed2<-330){
+            carSpeed2=100;
         }
+        if(carSpeed3<-280){
+            carSpeed3=100;
+        }
+        if(carSpeed4<-330){
+            carSpeed4=100;
+        }
+        if(carSpeed6<-150){
+            carSpeed6=300;
+        }
+        if(camY>228){
+            camY=-218;
+        }
+        if(camY<-228){
+            camY=218;
+        }
+        
+        if(camX>228){
+            camX=-218;
+        }
+        if(camX<-228){
+            camX=218;
+        }
+        
+
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
