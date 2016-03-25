@@ -68,6 +68,7 @@ GLuint gTextureRoadY{0};
 GLuint gTextureBlank{0};
 GLuint gTextureBall{0};
 GLuint gTextureWhite{0};
+GLuint gTextureWood{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -754,6 +755,19 @@ void sphere(float x,float y,float z,float size){
     glPopMatrix();
 
 }
+void clyinder(float x,float y,float z,float size, float base, float top, float height){
+    //glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    //glLoadIdentity();
+    glTranslatef(-x, -y, -z);
+    
+    GLUquadricObj*quad=gluNewQuadric();
+    gluQuadricTexture( quad, GL_TRUE);
+    gluCylinder(quad, base, top , height , 15, 15);
+    gluDeleteQuadric(quad);
+    glPopMatrix();
+    
+}
 int main(void)
 {
     // In JavaScript, this would be "var window;"
@@ -871,6 +885,18 @@ int main(void)
                                          SOIL_FLAG_DDS_LOAD_DIRECT);
     
     if (gTextureWhite == 0)
+    {
+        std::cout << "error loading texture white\n";
+    }
+    
+    gTextureWood = SOIL_load_OGL_texture("../../textures/wood.png",
+                                          SOIL_LOAD_AUTO,
+                                          SOIL_CREATE_NEW_ID,
+                                          SOIL_FLAG_POWER_OF_TWO |
+                                          SOIL_FLAG_MIPMAPS |
+                                          SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureWood == 0)
     {
         std::cout << "error loading texture white\n";
     }
@@ -1360,6 +1386,14 @@ int main(void)
         
         glBindTexture(GL_TEXTURE_2D, gTextureBall);
         sphere(2,2,-1.21,0.3);
+        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        sphere(-400,-400,800,50);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBindTexture(GL_TEXTURE_2D, gTextureWood);
+        clyinder(10,10,5,5, 0.8, 0.8, 20);
+        
+
         
         sphere(-20,6,-1.2,0.3);
         if(carSpeed1<-350){
