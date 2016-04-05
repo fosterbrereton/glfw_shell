@@ -69,6 +69,8 @@ GLuint gTextureBlank{0};
 GLuint gTextureBall{0};
 GLuint gTextureWhite{0};
 GLuint gTextureWood{0};
+GLuint gTextureLeaves{0};
+GLuint gtex3{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -181,9 +183,9 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
         // std::cout << "You pressed " << actionString << " on the key " << key << '\n';
         }
-    std::cout << "Camera X = " << camX << '\n';
-    std::cout << "Camera Y = " << camY << '\n';
-    std::cout << "Camera Z = " << camZ << '\n';
+    //std::cout << "Camera X = " << camX << '\n';
+    //std::cout << "Camera Y = " << camY << '\n';
+    //std::cout << "Camera Z = " << camZ << '\n';
     
     // std::cout << "Camera Rotate X =" << camRotateX << '\n';
     // std::cout << "Camera Rotate Y =" << camRotateY << '\n';
@@ -585,11 +587,12 @@ void cube2(float x, float y, float z, float h, float w, float d){
 }
 
 void cube3(float x, float y, float z, float h, float w, float d){
+    
     glBindTexture(GL_TEXTURE_2D, gTexture);
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_5(x,y,z,h,w,d);
+     p3_5(x,y,z,h,w,d);
     p3_8(x,y,z,h,w,d);
     p3_7(x,y,z,h,w,d);
     p3_6(x,y,z,h,w,d);
@@ -598,9 +601,9 @@ void cube3(float x, float y, float z, float h, float w, float d){
     
     // Right face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_8(x,y,z,h,w,d);
-    p3_4(x,y,z,h,w,d);
-    p3_3(x,y,z,h,w,d);
+     p3_8(x,y,z,h,w,d);
+     p3_4(x,y,z,h,w,d);
+     p3_3(x,y,z,h,w,d);
     p3_7(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
@@ -608,21 +611,21 @@ void cube3(float x, float y, float z, float h, float w, float d){
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
     p3_5(x,y,z,h,w,d);
     p3_6(x,y,z,h,w,d);
-    p3_2(x,y,z,h,w,d);
-    p3_1(x,y,z,h,w,d);
+     p3_2(x,y,z,h,w,d);
+     p3_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
     p3_6(x,y,z,h,w,d);
-    p3_7(x,y,z,h,w,d);
-    p3_3(x,y,z,h,w,d);
-    p3_2(x,y,z,h,w,d);
+     p3_7(x,y,z,h,w,d);
+     p3_3(x,y,z,h,w,d);
+   p3_2(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_4(x,y,z,h,w,d);
-    p3_8(x,y,z,h,w,d);
-    p3_5(x,y,z,h,w,d);
+     p3_4(x,y,z,h,w,d);
+     p3_8(x,y,z,h,w,d);
+     p3_5(x,y,z,h,w,d);
     p3_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
@@ -741,6 +744,56 @@ void cube5(float x, float y, float z, float h, float w, float d){
     glTexCoord2f(0, 0); p6_4(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
+void cube6(float x, float y, float z, float h, float w, float d){
+    
+    glBindTexture(GL_TEXTURE_2D, gTextureLeaves);
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_7(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_6(x,y,z,h,w,d);
+    
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Right face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_7(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_5(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_2(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Top face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_6(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_7(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_2(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Bottom face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_4(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_8(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_5(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_1(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Back face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p3_1(x,y,z,h,w,d);
+    glTexCoord2f(1, 1); p3_2(x,y,z,h,w,d);
+    glTexCoord2f(1, 0); p3_3(x,y,z,h,w,d);
+    glTexCoord2f(0, 0); p3_4(x,y,z,h,w,d);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+}
 
 void sphere(float x,float y,float z,float size){
     //glMatrixMode(GL_MODELVIEW);
@@ -766,6 +819,16 @@ void clyinder(float x,float y,float z,float size, float base, float top, float h
     gluCylinder(quad, base, top , height , 15, 15);
     gluDeleteQuadric(quad);
     glPopMatrix();
+    
+}
+void tree(float x, float y, float z){
+    glBindTexture(GL_TEXTURE_2D, gTextureWood);
+    clyinder(-x,-y,z+5,5, 0.8, 0.8, 20);
+    cube6(x,y,z+-4,4,0.000001,4);
+    cube6(x,y,z+-4,4,4,0.000001);
+    cube6(x,y,z+-4,0.000001,4,4);
+    cube6(x,y,z+-5,4,4,0.000001);
+    cube6(x,y,z+-4,3.8,3.8,3.8);
     
 }
 int main(void)
@@ -889,7 +952,7 @@ int main(void)
         std::cout << "error loading texture white\n";
     }
     
-    gTextureWood = SOIL_load_OGL_texture("../../textures/wood.png",
+    gTextureWood = SOIL_load_OGL_texture("../../textures/wood.tga",
                                           SOIL_LOAD_AUTO,
                                           SOIL_CREATE_NEW_ID,
                                           SOIL_FLAG_POWER_OF_TWO |
@@ -898,8 +961,20 @@ int main(void)
     
     if (gTextureWood == 0)
     {
-        std::cout << "error loading texture white\n";
+        std::cout << "error loading texture wood\n";
     }
+    gTextureLeaves = SOIL_load_OGL_texture("../../textures/leaves.tga",
+                                         SOIL_LOAD_AUTO,
+                                         SOIL_CREATE_NEW_ID,
+                                         SOIL_FLAG_POWER_OF_TWO |
+                                         SOIL_FLAG_MIPMAPS |
+                                         SOIL_FLAG_DDS_LOAD_DIRECT);
+    
+    if (gTextureLeaves == 0)
+    {
+        std::cout << "error loading texture leaves\n";
+    }
+
     
 
     
@@ -1023,7 +1098,7 @@ int main(void)
         if(MouseOut==false){
             glfwSetCursorPosCallback(window, cursor_pos_callback);
         }
-       
+        
         
        
         
@@ -1146,7 +1221,7 @@ int main(void)
         
         if(car1x>-camY && car1x-10<-camY && camX<-6 && camX>-10){
             
-            std::cout << "WORKED = " << car1x << '\n';
+            //std::cout << "WORKED = " << car1x << '\n';
             
             carStop3=0;
             
@@ -1156,8 +1231,8 @@ int main(void)
             
         }
         else{carStop3=0.6;}
-        std::cout << "carY = " << car1x << '\n';
-        std::cout << "camY = " << camY << '\n';
+        //std::cout << "carY = " << car1x << '\n';
+        //std::cout << "camY = " << camY << '\n';
         
         //car2
         carSpeed2=carSpeed2-0.45;
@@ -1388,10 +1463,45 @@ int main(void)
         sphere(2,2,-1.21,0.3);
         glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
         sphere(-400,-400,800,50);
+        
+        
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glBindTexture(GL_TEXTURE_2D, gTextureWood);
-        clyinder(10,10,5,5, 0.8, 0.8, 20);
+        
+        tree(10,10,0);
+        tree(20,20,0);
+        tree(59,13,0);
+        tree(18,58,0);
+        tree(124,12,0);
+        tree(194,126,0);
+        
+        tree(-10,-10,0);
+        tree(-20,-20,0);
+        tree(-59,-13,0);
+        tree(-18,-58,0);
+        tree(-124,-12,0);
+        tree(-194,-126,0);
+        
+        tree(-10,10,0);
+        tree(-20,20,0);
+        tree(-59,13,0);
+        tree(-18,58,0);
+        tree(-124,12,0);
+        tree(-194,126,0);
+        
+        tree(10,-10,0);
+        tree(20,-20,0);
+        tree(59,-13,0);
+        tree(18,-58,0);
+        tree(124,-12,0);
+        tree(194,-126,0);
+        
+        
+        
+        
+
+        
+        
         
 
         
