@@ -60,7 +60,6 @@ float camRotateY{0};
 
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
-
 struct texture_t {
     explicit texture_t(const std::string& name) : name_m(name) {
     }
