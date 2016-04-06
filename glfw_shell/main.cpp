@@ -61,16 +61,41 @@ float camRotateY{0};
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
-GLuint gTexture{0};
-GLuint gTextureSteel{0};
-GLuint gTextureRoad{0};
-GLuint gTextureRoadY{0};
-GLuint gTextureBlank{0};
-GLuint gTextureBall{0};
-GLuint gTextureWhite{0};
-GLuint gTextureWood{0};
-GLuint gTextureLeaves{0};
-GLuint gtex3{0};
+struct texture_t {
+    explicit texture_t(const std::string& name) : name_m(name) {
+    }
+
+    void load() {
+        id_m = SOIL_load_OGL_texture(("../../textures/" + name_m + ".tga").c_str(),
+                                     SOIL_LOAD_AUTO,
+                                     SOIL_CREATE_NEW_ID,
+                                     SOIL_FLAG_POWER_OF_TWO |
+                                     SOIL_FLAG_MIPMAPS |
+                                     SOIL_FLAG_DDS_LOAD_DIRECT);
+        
+        if (id_m == 0) {
+            std::cout << "error loading texture " + name_m + "\n";
+        }
+    }
+
+    void activate() {
+        glBindTexture(GL_TEXTURE_2D, id_m);
+    }
+
+private:
+    std::string name_m;
+    GLuint      id_m{0};
+};
+
+texture_t gTextureSteel{"steel_floor"};
+GLuint    gTexture{0};
+GLuint    gTextureRoad{0};
+GLuint    gTextureRoadY{0};
+GLuint    gTextureBlank{0};
+GLuint    gTextureBall{0};
+GLuint    gTextureWhite{0};
+GLuint    gTextureWood{0};
+GLuint    gTextureLeaves{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -538,7 +563,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
 }
 
 void cube2(float x, float y, float z, float h, float w, float d){
-    glBindTexture(GL_TEXTURE_2D, gTextureSteel);
+    gTextureSteel.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -692,7 +717,7 @@ void cube4(float x, float y, float z, float h, float w, float d){
 }
 
 void cube5(float x, float y, float z, float h, float w, float d){
-    glBindTexture(GL_TEXTURE_2D, gTextureSteel);
+    gTextureSteel.activate();
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
@@ -849,6 +874,7 @@ void tree_t::draw() {
     cube6(x_m,y_m,z_m+-5,4,4,0.000001);
     cube6(x_m,y_m,z_m+-4,3.8,3.8,3.8);
 }
+
 int main(void)
 {
     std::srand(std::time(NULL));
@@ -906,20 +932,8 @@ int main(void)
         //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
     }
     
-    
-    gTextureSteel = SOIL_load_OGL_texture("../../textures/steel_floor.tga",
-                                          SOIL_LOAD_AUTO,
-                                          SOIL_CREATE_NEW_ID,
-                                          SOIL_FLAG_POWER_OF_TWO |
-                                          SOIL_FLAG_MIPMAPS |
-                                          SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureSteel == 0)
-    {
-        std::cout << "error loading texture steel\n";
-    }
-    
-    
+    gTextureSteel.load();
+
     gTextureRoad = SOIL_load_OGL_texture("../../textures/road.tga",
                                           SOIL_LOAD_AUTO,
                                           SOIL_CREATE_NEW_ID,
