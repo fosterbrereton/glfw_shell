@@ -64,9 +64,9 @@ float IncreaseFallRate{0.05};
 struct texture_t {
     explicit texture_t(const std::string& name) : name_m(name) {
     }
-
+    
     void load() {
-        id_m = SOIL_load_OGL_texture(("../../textures/" + name_m + ".tga").c_str(),
+        id_m = SOIL_load_OGL_texture(("textures/" + name_m + ".tga").c_str(),
                                      SOIL_LOAD_AUTO,
                                      SOIL_CREATE_NEW_ID,
                                      SOIL_FLAG_POWER_OF_TWO |
@@ -878,6 +878,7 @@ void tree_t::draw() {
 
 int main(void)
 {
+    chdir(getenv("HOME"));
     std::srand(std::time(NULL));
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
