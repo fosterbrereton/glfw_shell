@@ -89,14 +89,14 @@ private:
 
 texture_t gTextureSteel{"steel_floor"};
 texture_t gTexture{"grasstex"};
+texture_t gTextureRoad{"road"};
+texture_t gTextureRoadY{"yellowline"};
+texture_t gTextureBlank{"blank"};
+texture_t gTextureBall{"soccerball"};
+texture_t gTextureWhite{"white"};
+texture_t gTextureWood{"wood"};
+texture_t gTextureLeaves{"leaves"};
 
-GLuint    gTextureRoad{0};
-GLuint    gTextureRoadY{0};
-GLuint    gTextureBlank{0};
-GLuint    gTextureBall{0};
-GLuint    gTextureWhite{0};
-GLuint    gTextureWood{0};
-GLuint    gTextureLeaves{0};
 
 float DegreesToRads(float Degrees){
     return Degrees/180*3.14159;
@@ -478,7 +478,7 @@ void p6_8(float x, float y,float z, float h, float w, float d)
 }
 
 void cube(float x, float y, float z, float h, float w, float d){
-    glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+    gTextureRoadY.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -664,7 +664,7 @@ void cube3(float x, float y, float z, float h, float w, float d){
 }
 
 void cube4(float x, float y, float z, float h, float w, float d){
-    glBindTexture(GL_TEXTURE_2D, gTextureRoad);
+    gTextureRoad.activate();
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -772,7 +772,7 @@ void cube5(float x, float y, float z, float h, float w, float d){
 }
 void cube6(float x, float y, float z, float h, float w, float d){
     
-    glBindTexture(GL_TEXTURE_2D, gTextureLeaves);
+    gTextureLeaves.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -867,7 +867,7 @@ struct tree_t {
 
 // This is a member function of the class.
 void tree_t::draw() {
-    glBindTexture(GL_TEXTURE_2D, gTextureWood);
+    gTextureWood.activate();
     clyinder(-x_m,-y_m,z_m+5,5, 0.8, 0.8, 20);
     cube6(x_m,y_m,z_m+-4,4,0.000001,4);
     cube6(x_m,y_m,z_m+-4,4,4,0.000001);
@@ -921,81 +921,13 @@ int main(void)
     
     gTextureSteel.load();
     gTexture.load();
-
-    gTextureRoad = SOIL_load_OGL_texture("../../textures/road.tga",
-                                          SOIL_LOAD_AUTO,
-                                          SOIL_CREATE_NEW_ID,
-                                          SOIL_FLAG_POWER_OF_TWO |
-                                          SOIL_FLAG_MIPMAPS |
-                                          SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureRoad == 0)
-    {
-        std::cout << "error loading texture road\n";
-    }
-    
-    gTextureBall = SOIL_load_OGL_texture("../../textures/soccerball.tga",
-                                         SOIL_LOAD_AUTO,
-                                         SOIL_CREATE_NEW_ID,
-                                         SOIL_FLAG_POWER_OF_TWO |
-                                         SOIL_FLAG_MIPMAPS |
-                                         SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureBall == 0)
-    {
-        std::cout << "error loading texture road\n";
-    }
-
-    
-    
-    gTextureRoadY = SOIL_load_OGL_texture("../../textures/yellowline.tga",
-                                         SOIL_LOAD_AUTO,
-                                         SOIL_CREATE_NEW_ID,
-                                         SOIL_FLAG_POWER_OF_TWO |
-                                         SOIL_FLAG_MIPMAPS |
-                                         SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureRoadY == 0)
-    {
-        std::cout << "error loading texture yellow line\n";
-    }
-
-    
-    gTextureWhite = SOIL_load_OGL_texture("../../textures/white.tga",
-                                         SOIL_LOAD_AUTO,
-                                         SOIL_CREATE_NEW_ID,
-                                         SOIL_FLAG_POWER_OF_TWO |
-                                         SOIL_FLAG_MIPMAPS |
-                                         SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureWhite == 0)
-    {
-        std::cout << "error loading texture white\n";
-    }
-    
-    gTextureWood = SOIL_load_OGL_texture("../../textures/wood.tga",
-                                          SOIL_LOAD_AUTO,
-                                          SOIL_CREATE_NEW_ID,
-                                          SOIL_FLAG_POWER_OF_TWO |
-                                          SOIL_FLAG_MIPMAPS |
-                                          SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureWood == 0)
-    {
-        std::cout << "error loading texture wood\n";
-    }
-    gTextureLeaves = SOIL_load_OGL_texture("../../textures/leaves.tga",
-                                         SOIL_LOAD_AUTO,
-                                         SOIL_CREATE_NEW_ID,
-                                         SOIL_FLAG_POWER_OF_TWO |
-                                         SOIL_FLAG_MIPMAPS |
-                                         SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-    if (gTextureLeaves == 0)
-    {
-        std::cout << "error loading texture leaves\n";
-    }
-
+    gTextureWood.load();
+    gTextureLeaves.load();
+    gTextureRoad.load();
+    gTextureRoadY.load();
+    gTextureWhite.load();
+    gTextureBlank.load();
+    gTextureBall.load();
     
 
     
@@ -1237,7 +1169,7 @@ int main(void)
         cube3(5.5,103+carSpeed1,1,0.3,1,1);
         cube3(7.5,99+carSpeed1,1,0.3,1,1);
         cube3(5.5,99+carSpeed1,1,0.3,1,1);
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(-5.5,-98.4-carSpeed1,0.5,0.2);
         sphere(-7.5, -98.4-carSpeed1,0.5,0.2);
         
@@ -1282,7 +1214,7 @@ int main(void)
         cube3(2.5,-99-carSpeed2,1,0.3,1,1);
 
 
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(-2.5,98.4+carSpeed2,0.5,0.2);
         sphere(-4.5, 98.4+carSpeed2,0.5,0.2);
         
@@ -1311,7 +1243,7 @@ int main(void)
         cube3(2.5-stillcarY,-99-stillcarX,1,0.3,1,1);
         
         
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(-2.5+stillcarY,98.4+stillcarX,0.5,0.2);
         sphere(-4.5+stillcarY, 98.4+stillcarX,0.5,0.2);
         
@@ -1338,7 +1270,7 @@ int main(void)
         cube3(2.5,-53-carSpeed3,1,0.3,1,1);
         cube3(4.5,-49-carSpeed3,1,0.3,1,1);
         cube3(2.5,-49-carSpeed3,1,0.3,1,1);
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(-2.5,48.4+carSpeed3,0.5,0.2);
         sphere(-4.5, 48.4+carSpeed3,0.5,0.2);
         
@@ -1366,7 +1298,7 @@ int main(void)
         cube3(-52.5,-49-carSpeed4,1,0.3,1,1);
         
         
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(52.5,48.4+carSpeed4,0.5,0.2);
         sphere(50.5, 48.4+carSpeed4,0.5,0.2);
         
@@ -1394,7 +1326,7 @@ int main(void)
         car4x=carSpeed4-71.76328;
         
         
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(52.5,car4x=48.4+32+carSpeed4,0.5,0.2);
         sphere(50.5, car4x=48.4+32+carSpeed4,0.5,0.2);
         if(car4x>camY && car4x-40<camY && camX<51.5 && camX>48.5){
@@ -1458,7 +1390,7 @@ int main(void)
         cube3(-49.5,49-88+carSpeed6,1,0.3,1,1);
         
         car6x=carSpeed6-10-9.46452;
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(49.5,-48.4+88-carSpeed6,0.5,0.2);
         sphere(47.5, -48.4+88-carSpeed6,0.5,0.2);
         
@@ -1484,9 +1416,9 @@ int main(void)
 
 
         
-        glBindTexture(GL_TEXTURE_2D, gTextureBall);
+        gTextureBall.activate();
         sphere(2,2,-1.21,0.3);
-        glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+        gTextureRoadY.activate();
         sphere(-400,-400,800,50);
         
         
