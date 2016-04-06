@@ -25,7 +25,7 @@
 //! [code]
 
 #include <GLFW/glfw3.h>
-
+#include <vector>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -821,7 +821,7 @@ void clyinder(float x,float y,float z,float size, float base, float top, float h
     glPopMatrix();
     
 }
-void tree(float x, float y, float z){
+/*void tree(float x, float y, float z){
     glBindTexture(GL_TEXTURE_2D, gTextureWood);
     clyinder(-x,-y,z+5,5, 0.8, 0.8, 20);
     cube6(x,y,z+-4,4,0.000001,4);
@@ -830,9 +830,28 @@ void tree(float x, float y, float z){
     cube6(x,y,z+-5,4,4,0.000001);
     cube6(x,y,z+-4,3.8,3.8,3.8);
     
+}*/
+struct tree_t {
+    double x_m; // This is a member variable of the class.
+    double y_m; // we say "_m" to be able to see the member variables more easily.
+    double z_m;
+    
+    void draw();
+};
+
+// This is a member function of the class.
+void tree_t::draw() {
+    glBindTexture(GL_TEXTURE_2D, gTextureWood);
+    clyinder(-x_m,-y_m,z_m+5,5, 0.8, 0.8, 20);
+    cube6(x_m,y_m,z_m+-4,4,0.000001,4);
+    cube6(x_m,y_m,z_m+-4,4,4,0.000001);
+    cube6(x_m,y_m,z_m+-4,0.000001,4,4);
+    cube6(x_m,y_m,z_m+-5,4,4,0.000001);
+    cube6(x_m,y_m,z_m+-4,3.8,3.8,3.8);
 }
 int main(void)
 {
+    std::srand(std::time(NULL));
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
 
@@ -995,7 +1014,11 @@ int main(void)
     float car4x{0};
     float car6x{0};
     float car1x{0};
-    
+    std::vector<tree_t> tree_vector;
+    for (std::size_t i(0); i < 50; ++i) {
+        tree_vector.push_back({rand()%440-220.,rand()%440-220.,0});
+    }
+    //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
    
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
@@ -1440,7 +1463,7 @@ int main(void)
         
         if(car6x>-camY && car6x-35<-camY && camX<48.5 && camX>43.5){
             
-            std::cout << "WORKED = " << car6x << '\n';
+            //std::cout << "WORKED = " << car6x << '\n';
             
             carStop2=0;
             
@@ -1468,7 +1491,11 @@ int main(void)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
-        tree(10,10,0);
+        
+        for (auto& tree : tree_vector) {
+            tree.draw();
+        }
+        /*tree(10,10,0);
         tree(20,20,0);
         tree(59,13,0);
         tree(18,58,0);
@@ -1494,7 +1521,7 @@ int main(void)
         tree(59,-13,0);
         tree(18,-58,0);
         tree(124,-12,0);
-        tree(194,-126,0);
+        tree(194,-126,0);*/
         
         
         
