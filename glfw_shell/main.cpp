@@ -88,7 +88,8 @@ private:
 };
 
 texture_t gTextureSteel{"steel_floor"};
-GLuint    gTexture{0};
+texture_t gTexture{"grasstex"};
+
 GLuint    gTextureRoad{0};
 GLuint    gTextureRoadY{0};
 GLuint    gTextureBlank{0};
@@ -613,7 +614,7 @@ void cube2(float x, float y, float z, float h, float w, float d){
 
 void cube3(float x, float y, float z, float h, float w, float d){
     
-    glBindTexture(GL_TEXTURE_2D, gTexture);
+    gTexture.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -912,27 +913,14 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    gTexture = SOIL_load_OGL_texture("../../textures/grasstex.tga",
-                                     SOIL_LOAD_AUTO,
-                                     SOIL_CREATE_NEW_ID,
-                                     SOIL_FLAG_POWER_OF_TWO |
-                                     SOIL_FLAG_MIPMAPS |
-                                     SOIL_FLAG_DDS_LOAD_DIRECT);
-    
-
-
-    if (gTexture == 0)
-    {
-        std::cout << "error loading texture grass\n";
-    }
-    else
-    {   //comment this out to go to normal colors
+         //comment this out to go to normal colors
     
         glEnable(GL_TEXTURE_2D);
         //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
-    }
+    
     
     gTextureSteel.load();
+    gTexture.load();
 
     gTextureRoad = SOIL_load_OGL_texture("../../textures/road.tga",
                                           SOIL_LOAD_AUTO,
