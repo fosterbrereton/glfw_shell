@@ -846,8 +846,8 @@ void clyinder(float x,float y,float z,float size, float base, float top, float h
     glPopMatrix();
     
 }
-/*void tree(float x, float y, float z){
-    glBindTexture(GL_TEXTURE_2D, gTextureWood);
+void tree(float x, float y, float z){
+    gTextureWood.activate();
     clyinder(-x,-y,z+5,5, 0.8, 0.8, 20);
     cube6(x,y,z+-4,4,0.000001,4);
     cube6(x,y,z+-4,4,4,0.000001);
@@ -855,7 +855,7 @@ void clyinder(float x,float y,float z,float size, float base, float top, float h
     cube6(x,y,z+-5,4,4,0.000001);
     cube6(x,y,z+-4,3.8,3.8,3.8);
     
-}*/
+}
 struct tree_t {
     double x_m; // This is a member variable of the class.
     double y_m; // we say "_m" to be able to see the member variables more easily.
@@ -877,6 +877,93 @@ void tree_t::draw() {
 }
 
 
+
+
+void officePlant(float x, float y, float z){
+    cube5(x,y,1.2+z,0.5,0.5,0.5);
+    gTextureLeaves.activate();
+    cube6(x,y,1.2+z,0.3,0.3,1);
+    cube6(x,y,0.9+z,0.3,0.3,1);
+    cube6(x,y,0.6+z,0.3,0.3,1);
+    cube6(x,y,0.3+z,0.3,0.3,1);
+}
+void officeCube(float x, float y, float z){
+    //table 1
+    //legs
+    //cube3(30,-6,1,0.1,0.1,1);
+    //cube3(29,-6,1,0.1,0.1,1);
+    
+    //top
+    cube2(29.5+x,-5+y,0.5+z,1.5,3,0.1);
+    
+    //table 2
+    //legs
+    cube3(30+1.3+x,-6+1.2+y,1+z,0.1,0.1,1);
+    cube3(30+1.3+x,-5+1.2+y,1+z,0.1,0.1,1);
+    cube3(29+1+x,-6+1.2+y,1,0.1+z,0.1,1);
+    //top
+    cube2(29+1.3+x,-5.5+1.2+y,0.5+z,3,1.5,0.1);
+    
+    //table 3
+    //legs
+    cube3(30+1.3+x,-8.9+1.2+y,1+z,0.1,0.1,1);
+    cube3(30+1.3+x,-7.9+1.2+y,1+z,0.1,0.1,1);
+    cube3(29+1+x,-8+1.2+y,1,0.1+z,0.1,1);
+    //top
+    cube2(29+1.3+x,-8.4+1.2+y,0.5+z,3,1.5,0.1);
+    
+    
+    //walls
+    cube5(28.8+x,-5.8+y,0.5+z,0.1,4.5,3);
+    cube5(30.8+x,-3.5+y,0.5+z,4,0.1,3);
+    cube5(30.8+x,-8+y,0.5+z,4,0.1,3);
+    
+    //computer
+    cube3(29.1+x,-6+y,0+z,0.1,1,0.7);
+    cube2(29.5+x,-6+y,0.4+z,0.7,1,0.1);
+    
+    cube2(29.5+x,-6.8+y,0.4+z,0.3,0.2,0.1);
+    
+    //paper
+    cube5(29.5+x,-4+y,0.4+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.41+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.42+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.43+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.44+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.45+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.46+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.47+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.48+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.49+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.5+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.51+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.52+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.53+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.54+z,0.7,1,0.00001);
+    cube5(29.5+x,-4+y,0.55+z,0.7,1,0.00001);
+    
+    officePlant(32.5+x,-7.5+y,0+z);
+}
+
+void officeFloor(float x, float y, float z){
+    officeCube(-68.3+x,-3.5+y,0+z);
+    officeCube(-68.3+x,1+y,0);
+    officeCube(-68.3+x,5.5+y,0+z);
+    officeCube(-68.3+x,10+y,0+z);
+    officeCube(-68.3+x,14.5+y,0+z);
+    
+    officeCube(-68.3+7+x,-3.5+y,0+z);
+    officeCube(-68.3+7+x,1+y,0+z);
+    officeCube(-68.3+7+x,5.5+y,0+z);
+    officeCube(-68.3+7+x,10+y,0+z);
+    
+    
+    officeCube(-68.3+14+x,-3.5+y,0+z);
+    officeCube(-68.3+14+x,1+y,0+z);
+    officeCube(-68.3+14+x,5.5+y,0+z);
+    officeCube(-68.3+14+x,10+y,0+z);
+}
+
 void officeB(float x,float y,float z){
     //office building
     //walls
@@ -886,6 +973,7 @@ void officeB(float x,float y,float z){
     cube5(-32+x,-7+y,0+z,25,1,70);
     //roof
     cube5(-32.5+x,-19.5+y,-30+z,25,25,1);
+    cube5(-32.5+x,-19.5+y,-5+z,25,25,1);
     //floor
     cube5(-32.5+x,-19.5+y,1.9+z,25,25,1);
     
@@ -895,6 +983,35 @@ void officeB(float x,float y,float z){
     
     cube3(-20.53+x,-10+y,1+z,0.2,2,4);
     cube2(-20.99+x,-10.7+y,0.1+z,0.2,0.2,0.2);
+    
+    
+    
+    tree(-10.8+x-5,12.8+y-20,0+z);
+    tree(-10.8+x-5,-12.8+y-20,0+z);
+    
+    
+    cube6(-10+x-5,0+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,2+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-2+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,4+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-4+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,6+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-6+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,8+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-8+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-10+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,-12+y-20,1+z,0.5,2,1);
+    cube6(-10+x-5,12+y-20,1+z,0.5,2,1);
+    
+    cube6(-10.8+x-5,-12.8+y-20,1+z,2,0.5,1);
+    cube6(-12.8+x-5,-12.8+y-20,1+z,2,0.5,1);
+    cube6(-14.8+x-5,-12.8+y-20,1+z,2,0.5,1);
+    
+    cube6(-10.8+x-5,12.8+y-20,1+z,2,0.5,1);
+    cube6(-12.8+x-5,12.8+y-20,1+z,2,0.5,1);
+    cube6(-14.8+x-5,12.8+y-20,1+z,2,0.5,1);
+    
+    
 }
 int main(void)
 {
@@ -1042,9 +1159,9 @@ int main(void)
             DecreaseClimbRate-=0.0077;
             
         }
-        if(Sprint){
-            camY += std::cos(DegreesToRads(camRotateY))*0.15;
-            camX += std::sin(DegreesToRads(camRotateY))*0.15;
+        if(Sprint && CarSprint){
+            camY += std::cos(DegreesToRads(camRotateY))*-0.55;
+            camX += std::sin(DegreesToRads(camRotateY))*-0.55;
         }
         if(CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*1;
@@ -1505,9 +1622,26 @@ int main(void)
         
         
         
-
         
-        sphere(-20,6,-1.2,0.3);
+        
+        officePlant(20,-6,0);
+        
+        officeFloor(0,0,0);
+        officeFloor(0,30,0);
+        officeFloor(0,-30,0);
+        officeFloor(0,-70,0);
+        
+        officeFloor(-45,0,0);
+        officeFloor(-45,30,0);
+        officeFloor(-45,-30,0);
+        officeFloor(-45,-70,0);
+        
+        
+        
+        
+        
+        
+        
         if(carSpeed1<-350){
             carSpeed1=100;
         }
