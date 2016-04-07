@@ -90,7 +90,7 @@ texture_t gTextureSteel{"steel_floor"};
 texture_t gTexture{"grasstex"};
 texture_t gTextureRoad{"road"};
 texture_t gTextureRoadY{"yellowline"};
-texture_t gTextureBlank{"blank"};
+
 texture_t gTextureBall{"soccerball"};
 texture_t gTextureWhite{"white"};
 texture_t gTextureWood{"wood"};
@@ -864,6 +864,7 @@ struct tree_t {
     void draw();
 };
 
+
 // This is a member function of the class.
 void tree_t::draw() {
     gTextureWood.activate();
@@ -875,6 +876,26 @@ void tree_t::draw() {
     cube6(x_m,y_m,z_m+-4,3.8,3.8,3.8);
 }
 
+
+void officeB(float x,float y,float z){
+    //office building
+    //walls
+    cube5(-20+x,-20+y,0+z,1,25,70);
+    cube5(-32+x,-32+y,0+z,25,1,70);
+    cube5(-45+x,-20+y,0+z,1,25,70);
+    cube5(-32+x,-7+y,0+z,25,1,70);
+    //roof
+    cube5(-32.5+x,-19.5+y,-30+z,25,25,1);
+    //floor
+    cube5(-32.5+x,-19.5+y,1.9+z,25,25,1);
+    
+    //door
+    cube3(-19.49+x,-10+y,1+z,0.2,2,4);
+    cube2(-19.3+x,-10.7+y,0.1+z,0.2,0.2,0.2);
+    
+    cube3(-20.53+x,-10+y,1+z,0.2,2,4);
+    cube2(-20.99+x,-10.7+y,0.1+z,0.2,0.2,0.2);
+}
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -926,7 +947,7 @@ int main(void)
     gTextureRoad.load();
     gTextureRoadY.load();
     gTextureWhite.load();
-    gTextureBlank.load();
+    
     gTextureBall.load();
     
 
@@ -1144,6 +1165,26 @@ int main(void)
         cube2(17,-5,1.49,13,9,0.000001);
         //roof
         cube2(17,-5,-4.25,13,9,0.5);
+        
+        
+        
+        
+        officeB(-40,-10,0);
+        officeB(-40,-50,0);
+        officeB(-40,20,0);
+        officeB(-40,50,0);
+        
+        officeB(5,-10,0);
+        officeB(5,-50,0);
+        officeB(5,20,0);
+        officeB(5,50,0);
+        
+        
+
+        
+        
+        
+        
         
         //speed
         carSpeed1=carSpeed1-carStop3;
@@ -1425,10 +1466,10 @@ int main(void)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
-        
-        for (auto& tree : tree_vector) {
+        //commented out for testing
+        /*for (auto& tree : tree_vector) {
             tree.draw();
-        }
+        }*/
         /*tree(10,10,0);
         tree(20,20,0);
         tree(59,13,0);
