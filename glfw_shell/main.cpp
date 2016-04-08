@@ -60,6 +60,7 @@ float camRotateY{0};
 time_t  timev;
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
+float startTime = glfwGetTime();
 struct texture_t {
     explicit texture_t(const std::string& name) : name_m(name) {
     }
@@ -1043,6 +1044,29 @@ void roadV(float x, float y, float z){
     cube4(5+x,1+y,1.49+z,6,450,0.000001);
     cube(5+x,1+y,1.48+z,0.5,450,0.000001);
 }
+
+
+void worldFloor(float x, float y, float z){
+    cube3(0+x,0+y,1.75+z,5,5,0.5);
+
+    cube3(5+x,0+y,1.75+z,5,5,0.5);
+    cube3(0+x,5+y,1.75+z,5,5,0.5);
+    cube3(5+x,5+y,1.75+z,5,5,0.5);
+    
+    cube3(10+x,0+y,1.75+z,5,5,0.5);
+    cube3(0+x,10+y,1.75+z,5,5,0.5);
+    cube3(10+x,10+y,1.75+z,5,5,0.5);
+    cube3(5+x,10+y,1.75+z,5,5,0.5);
+    cube3(10+x,5+y,1.75+z,5,5,0.5);
+    
+    cube3(15+x,0+y,1.75+z,5,5,0.5);
+    cube3(0+x,15+y,1.75+z,5,5,0.5);
+    cube3(15+x,15+y,1.75+z,5,5,0.5);
+    cube3(5+x,15+y,1.75+z,5,5,0.5);
+    cube3(15+x,5+y,1.75+z,5,5,0.5);
+    cube3(10+x,15+y,1.75+z,5,5,0.5);
+    cube3(15+x,10+y,1.75+z,5,5,0.5);
+}
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -1127,19 +1151,27 @@ int main(void)
     }
     //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
    
-    float sky{0.9803921569};
-    bool Day{true};
-    bool Night{false};
-    //bool stayDay{false};
+    float sky;
+   
     //float time2{0};
-    int realtime{1};
+    float realtime{1};
     int gameHours{1};
+    int gameSeconds{0};
     int hourTick{1};
-    int realtimeSave{1};
+    //int realtimeSave{0};
+    
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
+        
     {
-        /*if(Day){
+        realtime = std::sin((glfwGetTime() - startTime) / 360);
+       
+        
+        gameSeconds=glfwGetTime();
+        
+         sky = 0 * (1-realtime) + 0.9803921569 * realtime;
+        
+                /*if(Day){
             sky=sky-0.0001;
         }
         if(sky<-1){
@@ -1161,21 +1193,21 @@ int main(void)
             time2=glfwGetTime()+300;
             stayDay=true;
         }*/
-        /*
-        realtime=glfwGetTime();
-        realtime=realtime % 60+1;
-        realtimeSave=realtimeSave % 60;
+        
+        gameSeconds=gameSeconds%60;
         gameHours=gameHours%24;
         hourTick=hourTick%24;
-        if(realtime==60 && gameHours<=hourTick){
+        if(gameSeconds==0 && gameHours<hourTick){
             gameHours=gameHours+1;
             
         }
-        if(realtime==1 && hourTick<gameHours+1){
+
+        if(gameSeconds==59 && hourTick==gameHours){
             hourTick=hourTick+1;
            
             
         }
+        /*
         if(realtime>realtimeSave && Day){
             
             sky=sky-0.01633986928 //-0.0003676470589//;
@@ -1198,10 +1230,29 @@ int main(void)
         }
         */
         //std::cout << "timesave = " << time2 << '\n';
-        //std::cout << "realtime = " << realtime << '\n';
-        std::cout << "gamehours = " << gameHours << '\n';
-        //std::cout << "realtimesave = " << realtimeSave << '\n';
-         //std::cout << "sky = " << sky << '\n';
+        //std::cout << "secs = " << realtimeSave << '\n';
+        //std::cout << "gamehours = " << gameHours << '\n';
+        std::cout << "sky = " << sky << '\n';
+        
+        if(gameSeconds<10 && gameHours>12){
+            std::cout << gameHours-12 << ":0" << gameSeconds << " PM" << '\n';
+        }
+        if(gameSeconds>=10 && gameHours>12){
+            std::cout << gameHours-12 << ":" << gameSeconds << " PM" << '\n';
+        }
+        if(gameHours<12 && gameSeconds<10){
+            std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
+        }
+        if(gameHours<12 && gameSeconds>=10){
+            std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
+        }
+        if(gameHours>=24 && gameSeconds>=10){
+            std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
+        }
+        if(gameHours>=24 && gameSeconds<10){
+            std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
+        }
+        
         
         //std::cout << "gametime = " << sky << '\n';
         /*if(glfwGetTime()>time2 && stayDay){
@@ -1322,10 +1373,10 @@ int main(void)
         
         //If you would like to make a custom make change this to true v
         
-        bool customMap{false};
+        bool customMap{true};
         if(customMap){
             //change this float to change the size of your world!
-            float worldSize{450};
+            float worldSize{5};
             //put all your code in here!
             //there are several built in structures
             //1 is officeB which places an offic building
@@ -1354,7 +1405,222 @@ int main(void)
             
             
             //grass
-            cube3(0.5,0.5,1.75,worldSize,worldSize,0.5);
+            
+            if(worldSize==1){
+                cube3(0,0,1.75,5,5,0.5);
+
+                cube3(5,0,1.75,5,5,0.5);
+                cube3(0,5,1.75,5,5,0.5);
+                cube3(5,5,1.75,5,5,0.5);
+                
+                cube3(10,0,1.75,5,5,0.5);
+                cube3(0,10,1.75,5,5,0.5);
+                cube3(10,10,1.75,5,5,0.5);
+                cube3(5,10,1.75,5,5,0.5);
+                cube3(10,5,1.75,5,5,0.5);
+                
+                cube3(15,0,1.75,5,5,0.5);
+                cube3(0,15,1.75,5,5,0.5);
+                cube3(15,15,1.75,5,5,0.5);
+                cube3(5,15,1.75,5,5,0.5);
+                cube3(15,5,1.75,5,5,0.5);
+                cube3(10,15,1.75,5,5,0.5);
+                cube3(15,10,1.75,5,5,0.5);
+                
+            }
+            if(worldSize==2){
+               
+                worldFloor(0,0,0);
+                worldFloor(20,0,0);
+                worldFloor(0,20,0);
+                worldFloor(20,20,0);
+
+                
+            }
+            if(worldSize==3){
+                
+                worldFloor(0,0,0);
+                worldFloor(20,0,0);
+                worldFloor(0,20,0);
+                worldFloor(20,20,0);
+                
+                worldFloor(0,0,0);
+                worldFloor(40,0,0);
+                worldFloor(0,40,0);
+                worldFloor(40,40,0);
+                
+                
+                worldFloor(40,20,0);
+                worldFloor(20,40,0);
+            
+                
+                
+
+                
+                
+            }
+            if(worldSize==4){
+                
+                worldFloor(0-40,0-40,0);
+                worldFloor(20-40,0-40,0);
+                worldFloor(0-40,20-40,0);
+                worldFloor(20-40,20-40,0);
+                
+                worldFloor(0-40,0-40,0);
+                worldFloor(40-40,0-40,0);
+                worldFloor(0-40,40-40,0);
+                worldFloor(40-40,40-40,0);
+                
+                
+                worldFloor(40-40,20-40,0);
+                worldFloor(20-40,40-40,0);
+                
+                worldFloor(0-40,0-40,0);
+                worldFloor(20-40,0-40,0);
+                worldFloor(0-40,20-40,0);
+                worldFloor(20-40,20-40,0);
+                
+                worldFloor(0-40,0-40,0);
+                worldFloor(40-40,0-40,0);
+                worldFloor(0-40,40-40,0);
+                worldFloor(40-40,40-40,0);
+                
+                
+                worldFloor(40-40,20-40,0);
+                worldFloor(20-40,40-40,0);
+
+                
+                
+                
+                
+                
+                
+            }
+            
+            if(worldSize==5){
+                worldFloor(0-60,0-60,0);
+                worldFloor(20-60,0-60,0);
+                worldFloor(0-60,20-60,0);
+                worldFloor(20-60,20-60,0);
+                
+                worldFloor(0-60,0-60,0);
+                worldFloor(40-60,0-60,0);
+                worldFloor(0-60,40-60,0);
+                worldFloor(40-60,40-60,0);
+                
+                
+                worldFloor(40-60,20-60,0);
+                worldFloor(20-60,40-60,0);
+                
+                worldFloor(0-60,0-60,0);
+                worldFloor(20-60,0-60,0);
+                worldFloor(0-60,20-60,0);
+                worldFloor(20-60,20-60,0);
+                
+                worldFloor(0-60,0-60,0);
+                worldFloor(40-60,0-60,0);
+                worldFloor(0-60,40-60,0);
+                worldFloor(40-60,40-60,0);
+                
+                
+                worldFloor(40-60,20-60,0);
+                worldFloor(20-60,40-60,0);
+
+                
+                worldFloor(0,0,0);
+                worldFloor(20,0,0);
+                worldFloor(0,20,0);
+                worldFloor(20,20,0);
+                
+                worldFloor(0,0,0);
+                worldFloor(40,0,0);
+                worldFloor(0,40,0);
+                worldFloor(40,40,0);
+                
+                
+                worldFloor(40,20,0);
+                worldFloor(20,40,0);
+                
+                worldFloor(0,0,0);
+                worldFloor(20,0,0);
+                worldFloor(0,20,0);
+                worldFloor(20,20,0);
+                
+                worldFloor(0,0,0);
+                worldFloor(40,0,0);
+                worldFloor(0,40,0);
+                worldFloor(40,40,0);
+                
+                
+                worldFloor(40,20,0);
+                worldFloor(20,40,0);
+                
+                
+                
+                
+                worldFloor(0-60,0,0);
+                worldFloor(20-60,0,0);
+                worldFloor(0-60,20,0);
+                worldFloor(20-60,20,0);
+                
+                worldFloor(0-60,0,0);
+                worldFloor(40-60,0,0);
+                worldFloor(0-60,40,0);
+                worldFloor(40-60,40,0);
+                
+                
+                worldFloor(40-60,20,0);
+                worldFloor(20-60,40,0);
+                
+                worldFloor(0-60,0,0);
+                worldFloor(20-60,0,0);
+                worldFloor(0-60,20,0);
+                worldFloor(20-60,20,0);
+                
+                worldFloor(0-60,0,0);
+                worldFloor(40-60,0,0);
+                worldFloor(0-60,40,0);
+                worldFloor(40-60,40,0);
+                
+                
+                worldFloor(40-60,20,0);
+                worldFloor(20-60,40,0);
+                
+                worldFloor(0,0-60,0);
+                worldFloor(20,0-60,0);
+                worldFloor(0,20-60,0);
+                worldFloor(20,20-60,0);
+                
+                worldFloor(0,0-60,0);
+                worldFloor(40,0-60,0);
+                worldFloor(0,40-60,0);
+                worldFloor(40,40-60,0);
+                
+                
+                worldFloor(40,20-60,0);
+                worldFloor(20,40-60,0);
+                
+                worldFloor(0,0-60,0);
+                worldFloor(20,0-60,0);
+                worldFloor(0,20-60,0);
+                worldFloor(20,20-60,0);
+                
+                worldFloor(0,0-60,0);
+                worldFloor(40,0-60,0);
+                worldFloor(0,40-60,0);
+                worldFloor(40,40-60,0);
+                
+                
+                worldFloor(40,20-60,0);
+                worldFloor(20,40-60,0);
+
+
+                
+                
+                
+                
+                
+            }
         
         
         
