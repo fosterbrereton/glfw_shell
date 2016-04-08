@@ -1164,7 +1164,7 @@ int main(void)
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
         
     {
-        realtime = std::sin((glfwGetTime() - startTime) / 360);
+        realtime = std::sin((glfwGetTime() - startTime) / 432);
        
         
         gameSeconds=glfwGetTime();
@@ -1234,10 +1234,10 @@ int main(void)
         //std::cout << "gamehours = " << gameHours << '\n';
         std::cout << "sky = " << sky << '\n';
         
-        if(gameSeconds<10 && gameHours>12){
+        if(gameSeconds<10 && gameHours>=12){
             std::cout << gameHours-12 << ":0" << gameSeconds << " PM" << '\n';
         }
-        if(gameSeconds>=10 && gameHours>12){
+        if(gameSeconds>=10 && gameHours>=12){
             std::cout << gameHours-12 << ":" << gameSeconds << " PM" << '\n';
         }
         if(gameHours<12 && gameSeconds<10){
@@ -1246,13 +1246,15 @@ int main(void)
         if(gameHours<12 && gameSeconds>=10){
             std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
         }
-        if(gameHours>=24 && gameSeconds>=10){
+        if(gameHours>24 && gameSeconds>=10){
             std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
         }
-        if(gameHours>=24 && gameSeconds<10){
+        if(gameHours>24 && gameSeconds<10){
             std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
         }
-        
+        if(sky==0.9803921569){
+            std::cout << "SWITCHED!!!!!!!!!!!" << '\n';
+        }
         
         //std::cout << "gametime = " << sky << '\n';
         /*if(glfwGetTime()>time2 && stayDay){
