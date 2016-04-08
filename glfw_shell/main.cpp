@@ -1161,6 +1161,7 @@ int main(void)
             time2=glfwGetTime()+300;
             stayDay=true;
         }*/
+        /*
         realtime=glfwGetTime();
         realtime=realtime % 60+1;
         realtimeSave=realtimeSave % 60;
@@ -1177,7 +1178,7 @@ int main(void)
         }
         if(realtime>realtimeSave && Day){
             
-            sky=sky-0.01633986928/*-0.0003676470589*/;
+            sky=sky-0.01633986928 //-0.0003676470589//;
             realtimeSave=realtimeSave+1;
         }
         if(sky<=0.01633986928){
@@ -1192,15 +1193,15 @@ int main(void)
         }
         if(realtime>realtimeSave && Night){
             
-            sky=sky-0.01633986928/*-0.0003676470589*/;
+            sky=sky-0.01633986928//-0.0003676470589//;
             realtimeSave=realtimeSave+1;
         }
-        
+        */
         //std::cout << "timesave = " << time2 << '\n';
-        std::cout << "realtime = " << realtime << '\n';
-        //std::cout << "gamehours = " << gameHours << '\n';
-        std::cout << "realtimesave = " << realtimeSave << '\n';
-         std::cout << "sky = " << sky << '\n';
+        //std::cout << "realtime = " << realtime << '\n';
+        std::cout << "gamehours = " << gameHours << '\n';
+        //std::cout << "realtimesave = " << realtimeSave << '\n';
+         //std::cout << "sky = " << sky << '\n';
         
         //std::cout << "gametime = " << sky << '\n';
         /*if(glfwGetTime()>time2 && stayDay){
@@ -1321,7 +1322,7 @@ int main(void)
         
         //If you would like to make a custom make change this to true v
         
-        bool customMap{true};
+        bool customMap{false};
         if(customMap){
             //change this float to change the size of your world!
             float worldSize{450};
