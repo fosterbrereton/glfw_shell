@@ -1155,9 +1155,9 @@ int main(void)
    
     //float time2{0};
     float realtime{1};
-    int gameHours{1};
+    int gameHours{11};
     int gameSeconds{0};
-    int hourTick{1};
+    int hourTick{11};
     //int realtimeSave{0};
     
     // This is the main processing loop that draws the spinning rectangle.
@@ -1195,8 +1195,12 @@ int main(void)
         }*/
         
         gameSeconds=gameSeconds%60;
-        gameHours=gameHours%24;
-        hourTick=hourTick%24;
+        if(gameHours>24){
+            gameHours=1;
+        }
+        if(gameHours==1){
+            hourTick=1;
+        }
         if(gameSeconds==0 && gameHours<hourTick){
             gameHours=gameHours+1;
             
@@ -1231,7 +1235,7 @@ int main(void)
         */
         //std::cout << "timesave = " << time2 << '\n';
         //std::cout << "secs = " << realtimeSave << '\n';
-        //std::cout << "gamehours = " << gameHours << '\n';
+        std::cout << "tick = " << hourTick << '\n';
         std::cout << "sky = " << sky << '\n';
         
         if(gameSeconds<10 && gameHours>=12){
@@ -1246,10 +1250,10 @@ int main(void)
         if(gameHours<12 && gameSeconds>=10){
             std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
         }
-        if(gameHours>24 && gameSeconds>=10){
+        if(gameHours==24 && gameSeconds>=10){
             std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
         }
-        if(gameHours>24 && gameSeconds<10){
+        if(gameHours==24 && gameSeconds<10){
             std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
         }
         if(sky==0.9803921569){
