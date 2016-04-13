@@ -31,6 +31,7 @@
 #include <iostream>
 #include <OpenGL/glu.h>
 #include <cmath>
+#include <iomanip>
 
 #include "SOIL.h"
 
@@ -60,7 +61,7 @@ float camRotateY{0};
 time_t  timev;
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
-float startTime = glfwGetTime();
+
 struct texture_t {
     explicit texture_t(const std::string& name) : name_m(name) {
     }
@@ -1150,123 +1151,32 @@ int main(void)
         cubeD_vector.push_back({camX,camY,0});
     }
     //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
-   
-    float sky;
-   
-    //float time2{0};
-    float realtime{1};
-    int gameHours{11};
-    int gameSeconds{0};
-    int hourTick{11};
-    //int realtimeSave{0};
-    
+
+    static const float simulation_start_k = glfwGetTime();
+    static const float real_min_per_game_day_k = 0.5; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
+    static const float real_sec_per_game_day_k = real_min_per_game_day_k * 60;
+    static const float real_sec_per_game_hrs_k = real_sec_per_game_day_k / 24;
+    static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
+    static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
+    static const float min_per_day_k = 24 * 60;
+
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
-        
     {
-        realtime = std::sin((glfwGetTime() - startTime) / 432);
-       
-        
-        gameSeconds=glfwGetTime();
-        
-         sky = 0 * (1-realtime) + 0.9803921569 * realtime;
-        
-                /*if(Day){
-            sky=sky-0.0001;
-        }
-        if(sky<-1){
-            Day=false;
-            Night=true;
-            
-        }
-        if(Night){
-            sky=sky+0.0001;
-        }
-        
-        
-        if(sky>0.5294117648 && stayDay==false){
-            
-            Day=false;
-            Night=false;
-            sky=sky-0.0001;
-            
-            time2=glfwGetTime()+300;
-            stayDay=true;
-        }*/
-        
-        gameSeconds=gameSeconds%60;
-        if(gameHours>24){
-            gameHours=1;
-        }
-        if(gameHours==1){
-            hourTick=1;
-        }
-        if(gameSeconds==0 && gameHours<hourTick){
-            gameHours=gameHours+1;
-            
-        }
+        float elapsed_real_sec = glfwGetTime() - simulation_start_k;
+        float elapsed_game_min = game_min_per_real_sec_k * elapsed_real_sec;
+        float elapsed_game_hrs = elapsed_game_min / 60;
+        float percent_of_day = (static_cast<int>(elapsed_game_min) % static_cast<int>(min_per_day_k)) / min_per_day_k;
+        float sky_cycle = std::sin(percent_of_day * M_PI);
+        float sky = 0 * (1-sky_cycle) + 0.9803921569 * sky_cycle;
+        int game_hrs_mil = static_cast<int>(elapsed_game_hrs) % 24; // military hours
 
-        if(gameSeconds==59 && hourTick==gameHours){
-            hourTick=hourTick+1;
-           
-            
-        }
-        /*
-        if(realtime>realtimeSave && Day){
-            
-            sky=sky-0.01633986928 //-0.0003676470589//;
-            realtimeSave=realtimeSave+1;
-        }
-        if(sky<=0.01633986928){
-            Night=true;
-            Day=false;
-            
-        }
-        if(sky>=0.9803921569){
-            Night=false;
-            Day=true;
-            
-        }
-        if(realtime>realtimeSave && Night){
-            
-            sky=sky-0.01633986928//-0.0003676470589//;
-            realtimeSave=realtimeSave+1;
-        }
-        */
-        //std::cout << "timesave = " << time2 << '\n';
-        //std::cout << "secs = " << realtimeSave << '\n';
-        std::cout << "tick = " << hourTick << '\n';
-        std::cout << "sky = " << sky << '\n';
-        
-        if(gameSeconds<10 && gameHours>=12){
-            std::cout << gameHours-12 << ":0" << gameSeconds << " PM" << '\n';
-        }
-        if(gameSeconds>=10 && gameHours>=12){
-            std::cout << gameHours-12 << ":" << gameSeconds << " PM" << '\n';
-        }
-        if(gameHours<12 && gameSeconds<10){
-            std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
-        }
-        if(gameHours<12 && gameSeconds>=10){
-            std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
-        }
-        if(gameHours==24 && gameSeconds>=10){
-            std::cout << gameHours << ":" << gameSeconds << " AM" <<'\n';
-        }
-        if(gameHours==24 && gameSeconds<10){
-            std::cout << gameHours << ":0" << gameSeconds << " AM" <<'\n';
-        }
-        if(sky==0.9803921569){
-            std::cout << "SWITCHED!!!!!!!!!!!" << '\n';
-        }
-        
-        //std::cout << "gametime = " << sky << '\n';
-        /*if(glfwGetTime()>time2 && stayDay){
-            Day=true;
-            stayDay=false;
-            time2=0;
-            
-        }*/
+        std::cout.width(2);
+        std::cout.fill('0');
+        std::cout << game_hrs_mil << ":";
+        std::cout.width(2);
+        std::cout << (static_cast<int>(elapsed_game_min)%60) << '\n';
+
         // These are variable spaces.
         float ratio; // this is a floating point number
         int width, height; // these variables store the dimensions of the window
