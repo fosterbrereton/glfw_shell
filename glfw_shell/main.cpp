@@ -891,15 +891,67 @@ struct cubeD_D {
     double x_m; // This is a member variable of the class.
     double y_m; // we say "_m" to be able to see the member variables more easily.
     double z_m;
+    double h_m;
+    double w_m;
+    double d_m;
+    texture_t tex;
     
     void draw();
 };
 
 void cubeD_D::draw() {
+   
+    tex.activate();
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
     
-    cube5(x_m+10, y_m+3, z_m-1,4,4,4);
+    // Right face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    p3(x_m,y_m,z_m,h_m,w_m,d_m);
+    p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Top face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    p3(x_m,y_m,z_m,h_m,w_m,d_m);
+    p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Bottom face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    // Back face
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1); p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0); p3(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0); p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+
     
 }
+
+
 
 
 void officePlant(float x, float y, float z){
@@ -1068,6 +1120,7 @@ void worldFloor(float x, float y, float z){
     cube3(10+x,15+y,1.75+z,5,5,0.5);
     cube3(15+x,10+y,1.75+z,5,5,0.5);
 }
+
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -1147,9 +1200,7 @@ int main(void)
     }
     
     std::vector<cubeD_D> cubeD_vector;
-    for (std::size_t i(0); i < 1; ++i) {
-        cubeD_vector.push_back({camX,camY,0});
-    }
+    
     //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
 
     static const float simulation_start_k = glfwGetTime();
@@ -1159,7 +1210,8 @@ int main(void)
     static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
     static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
     static const float min_per_day_k = 24 * 60;
-
+   
+cubeD_D myCube(0,0,0,1,1,1,gTextureRoad);
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -1321,7 +1373,7 @@ int main(void)
             
             
             //grass
-            
+            myCube.draw();
             if(worldSize==1){
                 cube3(0,0,1.75,5,5,0.5);
 
