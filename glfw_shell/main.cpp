@@ -97,6 +97,7 @@ texture_t gTextureBall{"soccerball"};
 texture_t gTextureWhite{"white"};
 texture_t gTextureWood{"wood"};
 texture_t gTextureLeaves{"leaves"};
+texture_t gTextureClear{"clear"};
 
 
 float DegreesToRads(float Degrees){
@@ -894,53 +895,63 @@ struct cubeD_D {
     double h_m;
     double w_m;
     double d_m;
-    texture_t tex;
+    texture_t tex1;
+    texture_t tex2;
+    texture_t tex3;
+    texture_t tex4;
+    texture_t tex5;
+    texture_t tex6;
     
     void draw();
 };
 
 void cubeD_D::draw() {
    
-    tex.activate();
+    tex1.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    p7(x_m,y_m,z_m,h_m,w_m,d_m);
-    p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1); p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0); p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0); p6(x_m,y_m,z_m,h_m,w_m,d_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Right face
+    tex2.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    p4(x_m,y_m,z_m,h_m,w_m,d_m);
-    p3(x_m,y_m,z_m,h_m,w_m,d_m);
-    p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1);p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0);p7(x_m,y_m,z_m,h_m,w_m,d_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Left face
+    tex3.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    p6(x_m,y_m,z_m,h_m,w_m,d_m);
-    p2(x_m,y_m,z_m,h_m,w_m,d_m);
-    p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0);p1(x_m,y_m,z_m,h_m,w_m,d_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
+    tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p6(x_m,y_m,z_m,h_m,w_m,d_m);
-    p7(x_m,y_m,z_m,h_m,w_m,d_m);
-    p3(x_m,y_m,z_m,h_m,w_m,d_m);
-    p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1);p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
+    tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4(x_m,y_m,z_m,h_m,w_m,d_m);
-    p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1); p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(1, 0); p5(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 0); p1(x_m,y_m,z_m,h_m,w_m,d_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
+    tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
     glTexCoord2f(0, 1); p1(x_m,y_m,z_m,h_m,w_m,d_m);
     glTexCoord2f(1, 1); p2(x_m,y_m,z_m,h_m,w_m,d_m);
@@ -1121,6 +1132,131 @@ void worldFloor(float x, float y, float z){
     cube3(15+x,10+y,1.75+z,5,5,0.5);
 }
 
+struct FloorS {
+    double x_m;
+    double y_m;
+    double z_m;
+    
+    void draw();
+};
+void FloorS::draw(){
+worldFloor(0-60+x_m,0-60+y_m,0+z_m);
+worldFloor(20-60+x_m,0-60+y_m,0+z_m);
+worldFloor(0-60+x_m,20-60+y_m,0+z_m);
+worldFloor(20-60+x_m,20-60+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0-60+y_m,0+z_m);
+worldFloor(40-60+x_m,0-60+y_m,0+z_m);
+worldFloor(0-60+x_m,40-60+y_m,0+z_m);
+worldFloor(40-60+x_m,40-60+y_m,0+z_m);
+
+
+worldFloor(40-60+x_m,20-60+y_m,0+z_m);
+worldFloor(20-60+x_m,40-60+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0-60+y_m,0+z_m);
+worldFloor(20-60+x_m,0-60+y_m,0+z_m);
+worldFloor(0-60+x_m,20-60+y_m,0+z_m);
+worldFloor(20-60+x_m,20-60+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0-60+y_m,0+z_m);
+worldFloor(40-60+x_m,0-60+y_m,0+z_m);
+worldFloor(0-60+x_m,40-60+y_m,0+z_m);
+worldFloor(40-60+x_m,40-60+y_m,0+z_m);
+
+
+worldFloor(40-60+x_m,20-60+y_m,0+z_m);
+worldFloor(20-60+x_m,40-60+y_m,0+z_m);
+
+
+worldFloor(0+x_m,0+y_m,0+z_m);
+worldFloor(20+x_m,0+y_m,0+z_m);
+worldFloor(0+x_m,20+y_m,0+z_m);
+worldFloor(20+x_m,20+y_m,0+z_m);
+
+worldFloor(0+x_m,0+y_m,0+z_m);
+worldFloor(40+x_m,0+y_m,0+z_m);
+worldFloor(0+x_m,40+y_m,0+z_m);
+worldFloor(40+x_m,40+y_m,0+z_m);
+
+
+worldFloor(40+x_m,20+y_m,0+z_m);
+worldFloor(20+x_m,40+y_m,0+z_m);
+
+worldFloor(0+x_m,0+y_m,0+z_m);
+worldFloor(20+x_m,0+y_m,0+z_m);
+worldFloor(0+x_m,20+y_m,0+z_m);
+worldFloor(20+x_m,20+y_m,0+z_m);
+
+worldFloor(0+x_m,0+y_m,0+z_m);
+worldFloor(40+x_m,0+y_m,0+z_m);
+worldFloor(0+x_m,40+y_m,0+z_m);
+worldFloor(40+x_m,40+y_m,0+z_m);
+
+
+worldFloor(40+x_m,20+y_m,0+z_m);
+worldFloor(20+x_m,40+y_m,0+z_m);
+
+
+
+
+worldFloor(0-60+x_m,0+y_m,0+z_m);
+worldFloor(20-60+x_m,0+y_m,0+z_m);
+worldFloor(0-60+x_m,20+y_m,0+z_m);
+worldFloor(20-60+x_m,20+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0+y_m,0+z_m);
+worldFloor(40-60+x_m,0+y_m,0+z_m);
+worldFloor(0-60+x_m,40+y_m,0+z_m);
+worldFloor(40-60+x_m,40+y_m,0+z_m);
+
+
+worldFloor(40-60+x_m,20+y_m,0+z_m);
+worldFloor(20-60+x_m,40+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0+y_m,0+z_m);
+worldFloor(20-60+x_m,0+y_m,0+z_m);
+worldFloor(0-60+x_m,20+y_m,0+z_m);
+worldFloor(20-60+x_m,20+y_m,0+z_m);
+
+worldFloor(0-60+x_m,0+y_m,0+z_m);
+worldFloor(40-60+x_m,0+y_m,0+z_m);
+worldFloor(0-60+x_m,40+y_m,0+z_m);
+worldFloor(40-60+x_m,40+y_m,0+z_m);
+
+
+worldFloor(40-60+x_m,20+y_m,0+z_m);
+worldFloor(20-60+x_m,40+y_m,0+z_m);
+
+worldFloor(0+x_m,0-60+y_m,0+z_m);
+worldFloor(20+x_m,0-60+y_m,0+z_m);
+worldFloor(0+x_m,20-60+y_m,0+z_m);
+worldFloor(20+x_m,20-60+y_m,0+z_m);
+
+worldFloor(0+x_m,0-60+y_m,0+z_m);
+worldFloor(40+x_m,0-60+y_m,0+z_m);
+worldFloor(0+x_m,40-60+y_m,0+z_m);
+worldFloor(40+x_m,40-60+y_m,0+z_m);
+
+
+worldFloor(40+x_m,20-60+y_m,0+z_m);
+worldFloor(20+x_m,40-60+y_m,0+z_m);
+
+worldFloor(0+x_m,0-60+y_m,0+z_m);
+worldFloor(20+x_m,0-60+y_m,0+z_m);
+worldFloor(0+x_m,20-60+y_m,0+z_m);
+worldFloor(20+x_m,20-60+y_m,0+z_m);
+
+worldFloor(0+x_m,0-60+y_m,0+z_m);
+worldFloor(40+x_m,0-60+y_m,0+z_m);
+worldFloor(0+x_m,40-60+y_m,0+z_m);
+worldFloor(40+x_m,40-60+y_m,0+z_m);
+
+
+worldFloor(40+x_m,20-60+y_m,0+z_m);
+worldFloor(20+x_m,40-60+y_m,0+z_m);
+
+};
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -1174,8 +1310,10 @@ int main(void)
     gTextureWhite.load();
     
     gTextureBall.load();
+    gTextureClear.load();
     
-
+cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall};
+    FloorS newFloor{0,0,0};
     
 
 
@@ -1199,7 +1337,7 @@ int main(void)
         tree_vector.push_back({rand()%440-220.,rand()%440-220.,0});
     }
     
-    std::vector<cubeD_D> cubeD_vector;
+    //std::vector<cubeD_D> cubeD_vector;
     
     //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
 
@@ -1211,7 +1349,8 @@ int main(void)
     static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
     static const float min_per_day_k = 24 * 60;
    
-cubeD_D myCube(0,0,0,1,1,1,gTextureRoad);
+
+    
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -1344,7 +1483,7 @@ cubeD_D myCube(0,0,0,1,1,1,gTextureRoad);
         bool customMap{true};
         if(customMap){
             //change this float to change the size of your world!
-            float worldSize{5};
+            float worldSize{1};
             //put all your code in here!
             //there are several built in structures
             //1 is officeB which places an offic building
@@ -1374,220 +1513,9 @@ cubeD_D myCube(0,0,0,1,1,1,gTextureRoad);
             
             //grass
             myCube.draw();
+            
             if(worldSize==1){
-                cube3(0,0,1.75,5,5,0.5);
-
-                cube3(5,0,1.75,5,5,0.5);
-                cube3(0,5,1.75,5,5,0.5);
-                cube3(5,5,1.75,5,5,0.5);
-                
-                cube3(10,0,1.75,5,5,0.5);
-                cube3(0,10,1.75,5,5,0.5);
-                cube3(10,10,1.75,5,5,0.5);
-                cube3(5,10,1.75,5,5,0.5);
-                cube3(10,5,1.75,5,5,0.5);
-                
-                cube3(15,0,1.75,5,5,0.5);
-                cube3(0,15,1.75,5,5,0.5);
-                cube3(15,15,1.75,5,5,0.5);
-                cube3(5,15,1.75,5,5,0.5);
-                cube3(15,5,1.75,5,5,0.5);
-                cube3(10,15,1.75,5,5,0.5);
-                cube3(15,10,1.75,5,5,0.5);
-                
-            }
-            if(worldSize==2){
-               
-                worldFloor(0,0,0);
-                worldFloor(20,0,0);
-                worldFloor(0,20,0);
-                worldFloor(20,20,0);
-
-                
-            }
-            if(worldSize==3){
-                
-                worldFloor(0,0,0);
-                worldFloor(20,0,0);
-                worldFloor(0,20,0);
-                worldFloor(20,20,0);
-                
-                worldFloor(0,0,0);
-                worldFloor(40,0,0);
-                worldFloor(0,40,0);
-                worldFloor(40,40,0);
-                
-                
-                worldFloor(40,20,0);
-                worldFloor(20,40,0);
-            
-                
-                
-
-                
-                
-            }
-            if(worldSize==4){
-                
-                worldFloor(0-40,0-40,0);
-                worldFloor(20-40,0-40,0);
-                worldFloor(0-40,20-40,0);
-                worldFloor(20-40,20-40,0);
-                
-                worldFloor(0-40,0-40,0);
-                worldFloor(40-40,0-40,0);
-                worldFloor(0-40,40-40,0);
-                worldFloor(40-40,40-40,0);
-                
-                
-                worldFloor(40-40,20-40,0);
-                worldFloor(20-40,40-40,0);
-                
-                worldFloor(0-40,0-40,0);
-                worldFloor(20-40,0-40,0);
-                worldFloor(0-40,20-40,0);
-                worldFloor(20-40,20-40,0);
-                
-                worldFloor(0-40,0-40,0);
-                worldFloor(40-40,0-40,0);
-                worldFloor(0-40,40-40,0);
-                worldFloor(40-40,40-40,0);
-                
-                
-                worldFloor(40-40,20-40,0);
-                worldFloor(20-40,40-40,0);
-
-                
-                
-                
-                
-                
-                
-            }
-            
-            if(worldSize==5){
-                worldFloor(0-60,0-60,0);
-                worldFloor(20-60,0-60,0);
-                worldFloor(0-60,20-60,0);
-                worldFloor(20-60,20-60,0);
-                
-                worldFloor(0-60,0-60,0);
-                worldFloor(40-60,0-60,0);
-                worldFloor(0-60,40-60,0);
-                worldFloor(40-60,40-60,0);
-                
-                
-                worldFloor(40-60,20-60,0);
-                worldFloor(20-60,40-60,0);
-                
-                worldFloor(0-60,0-60,0);
-                worldFloor(20-60,0-60,0);
-                worldFloor(0-60,20-60,0);
-                worldFloor(20-60,20-60,0);
-                
-                worldFloor(0-60,0-60,0);
-                worldFloor(40-60,0-60,0);
-                worldFloor(0-60,40-60,0);
-                worldFloor(40-60,40-60,0);
-                
-                
-                worldFloor(40-60,20-60,0);
-                worldFloor(20-60,40-60,0);
-
-                
-                worldFloor(0,0,0);
-                worldFloor(20,0,0);
-                worldFloor(0,20,0);
-                worldFloor(20,20,0);
-                
-                worldFloor(0,0,0);
-                worldFloor(40,0,0);
-                worldFloor(0,40,0);
-                worldFloor(40,40,0);
-                
-                
-                worldFloor(40,20,0);
-                worldFloor(20,40,0);
-                
-                worldFloor(0,0,0);
-                worldFloor(20,0,0);
-                worldFloor(0,20,0);
-                worldFloor(20,20,0);
-                
-                worldFloor(0,0,0);
-                worldFloor(40,0,0);
-                worldFloor(0,40,0);
-                worldFloor(40,40,0);
-                
-                
-                worldFloor(40,20,0);
-                worldFloor(20,40,0);
-                
-                
-                
-                
-                worldFloor(0-60,0,0);
-                worldFloor(20-60,0,0);
-                worldFloor(0-60,20,0);
-                worldFloor(20-60,20,0);
-                
-                worldFloor(0-60,0,0);
-                worldFloor(40-60,0,0);
-                worldFloor(0-60,40,0);
-                worldFloor(40-60,40,0);
-                
-                
-                worldFloor(40-60,20,0);
-                worldFloor(20-60,40,0);
-                
-                worldFloor(0-60,0,0);
-                worldFloor(20-60,0,0);
-                worldFloor(0-60,20,0);
-                worldFloor(20-60,20,0);
-                
-                worldFloor(0-60,0,0);
-                worldFloor(40-60,0,0);
-                worldFloor(0-60,40,0);
-                worldFloor(40-60,40,0);
-                
-                
-                worldFloor(40-60,20,0);
-                worldFloor(20-60,40,0);
-                
-                worldFloor(0,0-60,0);
-                worldFloor(20,0-60,0);
-                worldFloor(0,20-60,0);
-                worldFloor(20,20-60,0);
-                
-                worldFloor(0,0-60,0);
-                worldFloor(40,0-60,0);
-                worldFloor(0,40-60,0);
-                worldFloor(40,40-60,0);
-                
-                
-                worldFloor(40,20-60,0);
-                worldFloor(20,40-60,0);
-                
-                worldFloor(0,0-60,0);
-                worldFloor(20,0-60,0);
-                worldFloor(0,20-60,0);
-                worldFloor(20,20-60,0);
-                
-                worldFloor(0,0-60,0);
-                worldFloor(40,0-60,0);
-                worldFloor(0,40-60,0);
-                worldFloor(40,40-60,0);
-                
-                
-                worldFloor(40,20-60,0);
-                worldFloor(20,40-60,0);
-
-
-                
-                
-                
-                
-                
+                newFloor.draw();
             }
         
         
