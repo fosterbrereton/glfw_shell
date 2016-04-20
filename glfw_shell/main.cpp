@@ -600,6 +600,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glEnd(); // All OpenGL drawing ends with a glEnd.
         
         // Right face
+        texRight.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
         glTexCoord2f(0, 30); p4_8(x,y,z,h,w,d);
         glTexCoord2f(30, 30); p4_4(x,y,z,h,w,d);
@@ -608,6 +609,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glEnd(); // All OpenGL drawing ends with a glEnd.
         
         // Left face
+        texLeft.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
         glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
         glTexCoord2f(30, 30); p4_6(x,y,z,h,w,d);
@@ -615,6 +617,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
         glEnd(); // All OpenGL drawing ends with a glEnd.
         // Top face
+        texTop.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
         glTexCoord2f(0, 30); p4_6(x,y,z,h,w,d);
         glTexCoord2f(30, 30); p4_7(x,y,z,h,w,d);
@@ -622,6 +625,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glTexCoord2f(0, 0); p4_2(x,y,z,h,w,d);
         glEnd(); // All OpenGL drawing ends with a glEnd.
         // Bottom face
+        texBottom.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
         glTexCoord2f(0, 30); p4_4(x,y,z,h,w,d);
         glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
@@ -629,6 +633,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
         glEnd(); // All OpenGL drawing ends with a glEnd.
         // Back face
+        texBack.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
         
         glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
