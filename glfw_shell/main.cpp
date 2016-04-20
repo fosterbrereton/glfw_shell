@@ -227,45 +227,45 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     // std::cout << "Camera Rotate X =" << camRotateX << '\n';
     // std::cout << "Camera Rotate Y =" << camRotateY << '\n';
 }
-void p1(float x, float y,float z, float h, float w, float d)
+void p1(float x, float y,float z, float h, float w, float d, float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
-void p2(float x, float y,float z, float h, float w, float d)
+void p2(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
-void p3(float x, float y,float z, float h, float w, float d)
+void p3(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
-void p4(float x, float y,float z, float h, float w, float d)
+void p4(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f); // yellow
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
-void p5(float x, float y,float z, float h, float w, float d)
+void p5(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
-void p6(float x, float y,float z, float h, float w, float d)
+void p6(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
-void p7(float x, float y,float z, float h, float w, float d)
+void p7(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
-void p8(float x, float y,float z, float h, float w, float d)
+void p8(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
-    //glColor3f(1.0f, 0.8431372549f, 0.f);
+    glColor3f(r/255,g/255,b/255);
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
@@ -273,43 +273,43 @@ void p8(float x, float y,float z, float h, float w, float d)
 
 void p2_1(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // red
+    //glColor3f(0.5f, 0.5f, 0.5f); // red
     glVertex3f(-h/2+x, -w/2+y, -d/2+z);
 }
 void p2_2(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // blue
+    //glColor3f(0.5f, 0.5f, 0.5f); // blue
     glVertex3f(-h/2+x, w/2+y, -d/2+z);
 }
 void p2_3(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // gray
+    //glColor3f(0.5f, 0.5f, 0.5f); // gray
     glVertex3f(h/2+x, w/2+y, -d/2+z);
 }
 void p2_4(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // yellow
+    //glColor3f(0.5f, 0.5f, 0.5f); // yellow
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
 
 void p2_5(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // orange
+    //glColor3f(0.5f, 0.5f, 0.5f); // orange
     glVertex3f(-h/2+x, -w/2+y, d/2+z);
 }
 void p2_6(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // pink
+    //glColor3f(0.5f, 0.5f, 0.5f); // pink
     glVertex3f(-h/2+x, w/2+y, d/2+z);
 }
 void p2_7(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // tan-ish
+    //glColor3f(0.5f, 0.5f, 0.5f); // tan-ish
     glVertex3f(h/2+x, w/2+y, d/2+z);
 }
 void p2_8(float x, float y,float z, float h, float w, float d)
 {
-    glColor3f(0.5f, 0.5f, 0.5f); // white
+    //glColor3f(0.5f, 0.5f, 0.5f); // white
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
@@ -488,54 +488,63 @@ void p6_8(float x, float y,float z, float h, float w, float d)
     glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
-void cube(float x, float y, float z, float h, float w, float d){
-    gTextureRoadY.activate();
+void cube(float x, float y, float z, float h, float w, float d, float r, float g, float b, texture_t texFront, texture_t texRight, texture_t texLeft, texture_t texTop, texture_t texBottom, texture_t texBack){
+    
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
+    texFront.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p5(x,y,z,h,w,d);
-    p8(x,y,z,h,w,d);
-    p7(x,y,z,h,w,d);
-    p6(x,y,z,h,w,d);
+    glTexCoord2f(0, 1);p5(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1);p8(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0);p7(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(0, 0);p6(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-
+    texRight.activate();
     // Right face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p8(x,y,z,h,w,d);
-    p4(x,y,z,h,w,d);
-    p3(x,y,z,h,w,d);
-    p7(x,y,z,h,w,d);
+    glTexCoord2f(0, 1);p8(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1);p4(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0);p3(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(0, 0);p7(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-    
+    texLeft.activate();
     // Left face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p5(x,y,z,h,w,d);
-    p6(x,y,z,h,w,d);
-    p2(x,y,z,h,w,d);
-    p1(x,y,z,h,w,d);
+    glTexCoord2f(0, 1);p5(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1);p6(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0);p2(x,y,z,h,w,d,r,g,b);
+   glTexCoord2f(0, 0); p1(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
+    texTop.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p6(x,y,z,h,w,d);
-    p7(x,y,z,h,w,d);
-    p3(x,y,z,h,w,d);
-    p2(x,y,z,h,w,d);
+    glTexCoord2f(0, 1);p6(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1);p7(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0);p3(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(0, 0);p2(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
+    texBottom.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p4(x,y,z,h,w,d);
-    p8(x,y,z,h,w,d);
-    p5(x,y,z,h,w,d);
-    p1(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p4(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1);p8(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0);p5(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(0, 0);p1(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
+    texBack.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p1(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4(x,y,z,h,w,d);
+    glTexCoord2f(0, 1); p1(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 1); p2(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(1, 0); p3(x,y,z,h,w,d,r,g,b);
+    glTexCoord2f(0, 0); p4(x,y,z,h,w,d,r,g,b);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
+
+void cube(float x, float y, float z, float h, float w, float d, float r, float g, float b, texture_t tex){
+    cube(x,y,z,h,w,d,r,g,b,tex,tex,tex,tex,tex,tex);
+}
+
 void triangle(float x, float y, float z, float h, float w, float d){
     
     glBegin(GL_TRIANGLES);
@@ -574,53 +583,64 @@ void triangle(float x, float y, float z, float h, float w, float d){
    
 }
 
-void cube2(float x, float y, float z, float h, float w, float d){
-    gTextureSteel.activate();
-    // THIS IS WHERE THE DRAWING HAPPENS!
-    // The front face :)
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_5(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_8(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_7(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_6(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    
-    // Right face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_8(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_4(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_7(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    
-    // Left face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_5(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_6(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_2(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_1(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Top face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_6(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_7(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_2(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Bottom face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_4(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_8(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_5(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_1(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Back face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p2_1(x,y,z,h,w,d);
-    glTexCoord2f(1, 1); p2_2(x,y,z,h,w,d);
-    glTexCoord2f(1, 0); p2_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p2_4(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
+
+    void cube2(float x, float y, float z, float h, float w, float d,texture_t texFront, texture_t texRight, texture_t texLeft, texture_t texTop, texture_t texBottom, texture_t texBack){
+        texFront.activate();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        
+        // THIS IS WHERE THE DRAWING HAPPENS!
+        // The front face :)
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_7(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_6(x,y,z,h,w,d);
+        
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+        
+        // Right face
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 30); p4_8(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_4(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_7(x,y,z,h,w,d);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+        
+        // Left face
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_6(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_2(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+        // Top face
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 30); p4_6(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_7(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_2(x,y,z,h,w,d);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+        // Bottom face
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 30); p4_4(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_5(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+        // Back face
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        
+        glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
+        glTexCoord2f(30, 30); p4_2(x,y,z,h,w,d);
+        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
+        glTexCoord2f(0, 0); p4_4(x,y,z,h,w,d);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+    }
+
+
+void cube2(float x, float y, float z, float h, float w, float d, texture_t tex){
+    cube2(x,y,z,h,w,d,tex,tex,tex,tex,tex,tex);
 }
 
 void cube3(float x, float y, float z, float h, float w, float d){
@@ -646,14 +666,14 @@ void cube3(float x, float y, float z, float h, float w, float d){
     
     // Left face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_5(x,y,z,h,w,d);
-    p3_6(x,y,z,h,w,d);
-     p3_2(x,y,z,h,w,d);
-     p3_1(x,y,z,h,w,d);
+    p4_5(x,y,z,h,w,d);
+    p4_6(x,y,z,h,w,d);
+     p4_2(x,y,z,h,w,d);
+     p4_1(x,y,z,h,w,d);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    p3_6(x,y,z,h,w,d);
+    p4_6(x,y,z,h,w,d);
      p3_7(x,y,z,h,w,d);
      p3_3(x,y,z,h,w,d);
    p3_2(x,y,z,h,w,d);
@@ -674,59 +694,7 @@ void cube3(float x, float y, float z, float h, float w, float d){
     glEnd(); // All OpenGL drawing ends with a glEnd.
 }
 
-void cube4(float x, float y, float z, float h, float w, float d){
-    gTextureRoad.activate();
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    // THIS IS WHERE THE DRAWING HAPPENS!
-    // The front face :)
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_7(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_6(x,y,z,h,w,d);
-    
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    
-    // Right face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 30); p4_8(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_4(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_7(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    
-    // Left face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_6(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_2(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Top face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 30); p4_6(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_7(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_2(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Bottom face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 30); p4_4(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_5(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Back face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    
-    glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
-    glTexCoord2f(30, 30); p4_2(x,y,z,h,w,d);
-    glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-    glTexCoord2f(0, 0); p4_4(x,y,z,h,w,d);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-}
 
 void cube5(float x, float y, float z, float h, float w, float d){
     gTextureSteel.activate();
@@ -895,6 +863,10 @@ struct cubeD_D {
     double h_m;
     double w_m;
     double d_m;
+    
+    double r_m;
+    double g_m;
+    double b_m;
     texture_t tex1;
     texture_t tex2;
     texture_t tex3;
@@ -911,52 +883,52 @@ void cubeD_D::draw() {
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0); p7(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0); p6(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1); p5(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p7(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p6(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Right face
     tex2.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1);p4(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0);p7(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p8(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p4(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p7(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Left face
     tex3.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0);p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p5(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p1(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Top face
     tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1);p7(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1);p6(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p7(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p2(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Bottom face
     tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p4(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0); p5(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0); p1(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1); p4(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p5(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p1(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     // Back face
     tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p1(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 1); p2(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(1, 0); p3(x_m,y_m,z_m,h_m,w_m,d_m);
-    glTexCoord2f(0, 0); p4(x_m,y_m,z_m,h_m,w_m,d_m);
+    glTexCoord2f(0, 1); p1(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p2(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p3(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p4(x_m,y_m,z_m,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     
@@ -980,7 +952,7 @@ void officeCube(float x, float y, float z){
     //cube3(29,-6,1,0.1,0.1,1);
     
     //top
-    cube2(29.5+x,-5+y,0.5+z,1.5,3,0.1);
+    cube(29.5+x,-5+y,0.5+z,1.5,3,0.1,255,255,255,gTextureSteel);
     
     //table 2
     //legs
@@ -988,7 +960,7 @@ void officeCube(float x, float y, float z){
     cube3(30+1.3+x,-5+1.2+y,1+z,0.1,0.1,1);
     cube3(29+1+x,-6+1.2+y,1,0.1+z,0.1,1);
     //top
-    cube2(29+1.3+x,-5.5+1.2+y,0.5+z,3,1.5,0.1);
+    cube(29+1.3+x,-5.5+1.2+y,0.5+z,3,1.5,0.1,255,255,255,gTextureSteel);
     
     //table 3
     //legs
@@ -996,7 +968,7 @@ void officeCube(float x, float y, float z){
     cube3(30+1.3+x,-7.9+1.2+y,1+z,0.1,0.1,1);
     cube3(29+1+x,-8+1.2+y,1,0.1+z,0.1,1);
     //top
-    cube2(29+1.3+x,-8.4+1.2+y,0.5+z,3,1.5,0.1);
+    cube(29+1.3+x,-8.4+1.2+y,0.5+z,3,1.5,0.1,255,255,255,gTextureSteel);
     
     
     //walls
@@ -1006,9 +978,9 @@ void officeCube(float x, float y, float z){
     
     //computer
     cube3(29.1+x,-6+y,0+z,0.1,1,0.7);
-    cube2(29.5+x,-6+y,0.4+z,0.7,1,0.1);
+    cube(29.5+x,-6+y,0.4+z,0.7,1,0.1,255,255,255,gTextureSteel);
     
-    cube2(29.5+x,-6.8+y,0.4+z,0.3,0.2,0.1);
+    cube(29.5+x,-6.8+y,0.4+z,0.3,0.2,0.1,255,255,255,gTextureSteel);
     
     //paper
     cube5(29.5+x,-4+y,0.4+z,0.7,1,0.00001);
@@ -1065,10 +1037,10 @@ void officeB(float x,float y,float z){
     
     //door
     cube3(-19.49+x,-10+y,1+z,0.2,2,4);
-    cube2(-19.3+x,-10.7+y,0.1+z,0.2,0.2,0.2);
+    cube(-19.3+x,-10.7+y,0.1+z,0.2,0.2,0.2,255,255,255,gTextureSteel);
     
     cube3(-20.53+x,-10+y,1+z,0.2,2,4);
-    cube2(-20.99+x,-10.7+y,0.1+z,0.2,0.2,0.2);
+    cube(-20.99+x,-10.7+y,0.1+z,0.2,0.2,0.2,255,255,255,gTextureSteel);
     
     
     
@@ -1101,162 +1073,18 @@ void officeB(float x,float y,float z){
 }
 
 void roadH(float x, float y, float z){
-    cube4(0.5+x,222+y,1.49+z,450,6,0.000001);
-    cube(0.5+x,222+y,1.48+z,450,0.5,0.000001);
+    cube2(0.5+x,222+y,1.49+z,450,6,0.000001,gTextureRoad);
+    cube(0.5+x,222+y,1.48+z,450,0.5,0.000001,255,255,0,gTextureRoadY);
 }
 void roadV(float x, float y, float z){
-    cube4(5+x,1+y,1.49+z,6,450,0.000001);
-    cube(5+x,1+y,1.48+z,0.5,450,0.000001);
+    cube2(5+x,1+y,1.49+z,6,450,0.000001,gTextureRoad);
+    cube(5+x,1+y,1.48+z,0.5,450,0.000001,255,255,0,gTextureRoadY);
 }
 
 
-void worldFloor(float x, float y, float z){
-    cube3(0+x,0+y,1.75+z,5,5,0.5);
-
-    cube3(5+x,0+y,1.75+z,5,5,0.5);
-    cube3(0+x,5+y,1.75+z,5,5,0.5);
-    cube3(5+x,5+y,1.75+z,5,5,0.5);
-    
-    cube3(10+x,0+y,1.75+z,5,5,0.5);
-    cube3(0+x,10+y,1.75+z,5,5,0.5);
-    cube3(10+x,10+y,1.75+z,5,5,0.5);
-    cube3(5+x,10+y,1.75+z,5,5,0.5);
-    cube3(10+x,5+y,1.75+z,5,5,0.5);
-    
-    cube3(15+x,0+y,1.75+z,5,5,0.5);
-    cube3(0+x,15+y,1.75+z,5,5,0.5);
-    cube3(15+x,15+y,1.75+z,5,5,0.5);
-    cube3(5+x,15+y,1.75+z,5,5,0.5);
-    cube3(15+x,5+y,1.75+z,5,5,0.5);
-    cube3(10+x,15+y,1.75+z,5,5,0.5);
-    cube3(15+x,10+y,1.75+z,5,5,0.5);
-}
-
-struct FloorS {
-    double x_m;
-    double y_m;
-    double z_m;
-    
-    void draw();
-};
-void FloorS::draw(){
-worldFloor(0-60+x_m,0-60+y_m,0+z_m);
-worldFloor(20-60+x_m,0-60+y_m,0+z_m);
-worldFloor(0-60+x_m,20-60+y_m,0+z_m);
-worldFloor(20-60+x_m,20-60+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0-60+y_m,0+z_m);
-worldFloor(40-60+x_m,0-60+y_m,0+z_m);
-worldFloor(0-60+x_m,40-60+y_m,0+z_m);
-worldFloor(40-60+x_m,40-60+y_m,0+z_m);
-
-
-worldFloor(40-60+x_m,20-60+y_m,0+z_m);
-worldFloor(20-60+x_m,40-60+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0-60+y_m,0+z_m);
-worldFloor(20-60+x_m,0-60+y_m,0+z_m);
-worldFloor(0-60+x_m,20-60+y_m,0+z_m);
-worldFloor(20-60+x_m,20-60+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0-60+y_m,0+z_m);
-worldFloor(40-60+x_m,0-60+y_m,0+z_m);
-worldFloor(0-60+x_m,40-60+y_m,0+z_m);
-worldFloor(40-60+x_m,40-60+y_m,0+z_m);
-
-
-worldFloor(40-60+x_m,20-60+y_m,0+z_m);
-worldFloor(20-60+x_m,40-60+y_m,0+z_m);
-
-
-worldFloor(0+x_m,0+y_m,0+z_m);
-worldFloor(20+x_m,0+y_m,0+z_m);
-worldFloor(0+x_m,20+y_m,0+z_m);
-worldFloor(20+x_m,20+y_m,0+z_m);
-
-worldFloor(0+x_m,0+y_m,0+z_m);
-worldFloor(40+x_m,0+y_m,0+z_m);
-worldFloor(0+x_m,40+y_m,0+z_m);
-worldFloor(40+x_m,40+y_m,0+z_m);
-
-
-worldFloor(40+x_m,20+y_m,0+z_m);
-worldFloor(20+x_m,40+y_m,0+z_m);
-
-worldFloor(0+x_m,0+y_m,0+z_m);
-worldFloor(20+x_m,0+y_m,0+z_m);
-worldFloor(0+x_m,20+y_m,0+z_m);
-worldFloor(20+x_m,20+y_m,0+z_m);
-
-worldFloor(0+x_m,0+y_m,0+z_m);
-worldFloor(40+x_m,0+y_m,0+z_m);
-worldFloor(0+x_m,40+y_m,0+z_m);
-worldFloor(40+x_m,40+y_m,0+z_m);
-
-
-worldFloor(40+x_m,20+y_m,0+z_m);
-worldFloor(20+x_m,40+y_m,0+z_m);
 
 
 
-
-worldFloor(0-60+x_m,0+y_m,0+z_m);
-worldFloor(20-60+x_m,0+y_m,0+z_m);
-worldFloor(0-60+x_m,20+y_m,0+z_m);
-worldFloor(20-60+x_m,20+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0+y_m,0+z_m);
-worldFloor(40-60+x_m,0+y_m,0+z_m);
-worldFloor(0-60+x_m,40+y_m,0+z_m);
-worldFloor(40-60+x_m,40+y_m,0+z_m);
-
-
-worldFloor(40-60+x_m,20+y_m,0+z_m);
-worldFloor(20-60+x_m,40+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0+y_m,0+z_m);
-worldFloor(20-60+x_m,0+y_m,0+z_m);
-worldFloor(0-60+x_m,20+y_m,0+z_m);
-worldFloor(20-60+x_m,20+y_m,0+z_m);
-
-worldFloor(0-60+x_m,0+y_m,0+z_m);
-worldFloor(40-60+x_m,0+y_m,0+z_m);
-worldFloor(0-60+x_m,40+y_m,0+z_m);
-worldFloor(40-60+x_m,40+y_m,0+z_m);
-
-
-worldFloor(40-60+x_m,20+y_m,0+z_m);
-worldFloor(20-60+x_m,40+y_m,0+z_m);
-
-worldFloor(0+x_m,0-60+y_m,0+z_m);
-worldFloor(20+x_m,0-60+y_m,0+z_m);
-worldFloor(0+x_m,20-60+y_m,0+z_m);
-worldFloor(20+x_m,20-60+y_m,0+z_m);
-
-worldFloor(0+x_m,0-60+y_m,0+z_m);
-worldFloor(40+x_m,0-60+y_m,0+z_m);
-worldFloor(0+x_m,40-60+y_m,0+z_m);
-worldFloor(40+x_m,40-60+y_m,0+z_m);
-
-
-worldFloor(40+x_m,20-60+y_m,0+z_m);
-worldFloor(20+x_m,40-60+y_m,0+z_m);
-
-worldFloor(0+x_m,0-60+y_m,0+z_m);
-worldFloor(20+x_m,0-60+y_m,0+z_m);
-worldFloor(0+x_m,20-60+y_m,0+z_m);
-worldFloor(20+x_m,20-60+y_m,0+z_m);
-
-worldFloor(0+x_m,0-60+y_m,0+z_m);
-worldFloor(40+x_m,0-60+y_m,0+z_m);
-worldFloor(0+x_m,40-60+y_m,0+z_m);
-worldFloor(40+x_m,40-60+y_m,0+z_m);
-
-
-worldFloor(40+x_m,20-60+y_m,0+z_m);
-worldFloor(20+x_m,40-60+y_m,0+z_m);
-
-};
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -1312,8 +1140,8 @@ int main(void)
     gTextureBall.load();
     gTextureClear.load();
     
-cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall};
-    FloorS newFloor{0,0,0};
+cubeD_D myCube{0,0,0,1,1,1,255,255,0,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall};
+    
     
 
 
@@ -1479,15 +1307,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 10); glVertex3f(-10, 10, 0.5);
-        glTexCoord2f(10, 10); glVertex3f(10, 10, 0.5);
-        glTexCoord2f(10, 0); glVertex3f(10, -10, 0.5);
-        glTexCoord2f(0, 0); glVertex3f(-10, -10, 0.5);
+
+        glTexCoord2f(0, 450); glVertex3f(-450, 450, 1.5);
+        glTexCoord2f(450, 450); glVertex3f(450, 450, 1.5);
+        glTexCoord2f(450, 0); glVertex3f(450, -450, 1.5);
+        glTexCoord2f(0, 0); glVertex3f(-450, -450, 1.5);
+
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
         //If you would like to make a custom make change this to true v
         
-        bool customMap{true};
+        bool customMap{false};
         if(customMap){
             //change this float to change the size of your world!
             float worldSize{1};
@@ -1522,7 +1352,7 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             myCube.draw();
             
             if(worldSize==1){
-                newFloor.draw();
+                
             }
         
         
@@ -1565,7 +1395,7 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //water well*/
             
             //grass
-            cube3(0.5,0.5,1.75,450,450,0.5);
+            //cube3(0.5,0.5,1.75,450,450,0.5);
             
             
             /*//rainbow ramps
@@ -1578,24 +1408,26 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             
             //road
             //road2
-            cube4(-50,1,1.49,6,450,0.000001);
-            cube(-50,1,1.48,0.5,450,0.000001);
+            cube2(-50,1,1.49,6,450,0.000001,gTextureRoad);
+            cube(-50,1,1.48,0.5,450,0.000001,255,255,0,gTextureRoadY);
             //road2
             //road3
-            cube4(0.5,101,1.49,450,6,0.000001);
-            cube(0.5,101,1.48,450,0.5,0.000001);
+            
+            cube2(0.5,101,1.49,450,6,0.000001,gTextureRoad);
+            cube(0.5,101,1.48,450,0.5,0.000001,255,255,0,gTextureRoadY);
             //road3
             //road4
-            cube4(0.5,-99,1.49,450,6,0.000001);
-            cube(0.5,-99,1.48,450,0.5,0.000001);
+            cube2(0.5,-99,1.49,450,6,0.000001,gTextureRoad);
+            cube(0.5,-99,1.48,450,0.5,0.000001,255,255,0,gTextureRoadY);
             //road4
             //road5
-            cube4(0.5,51,1.49,450,6,0.000001);
-            cube(0.5,51,1.48,450,0.5,0.000001);
+            
+            cube2(0.5,51,1.49,450,6,0.000001,gTextureRoad);
+            cube(0.5,51,1.48,450,0.5,0.000001,255,255,0,gTextureRoadY);
             //road5
             //road6
-            cube4(0.5,-49,1.49,450,6,0.000001);
-            cube(0.5,-49,1.48,450,0.5,0.000001);
+            cube2(0.5,-49,1.49,450,6,0.000001,gTextureRoad);
+            cube(0.5,-49,1.48,450,0.5,0.000001,255,255,0,gTextureRoadY);
             //road6
             //road7
             roadH(0,0,0);
@@ -1603,16 +1435,16 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //road8
             
             
-            cube4(0.5,-222,1.49,450,6,0.000001);
-            cube(0.5,-222,1.48,450,0.5,0.000001);
+            cube2(0.5,-222,1.49,450,6,0.000001,gTextureRoad);
+            cube(0.5,-222,1.48,450,0.5,0.000001,255,255,0,gTextureRoadY);
             //road8
             //road9
-            cube4(222,0.5,1.49,6,450,0.000001);
-            cube(222,0.5,1.48,0.5,450,0.000001);
+            cube2(222,0.5,1.49,6,450,0.000001,gTextureRoad);
+            cube(222,0.5,1.48,0.5,450,0.000001,255,255,0,gTextureRoadY);
             //road9
             //road10
-            cube4(-222,0.5,1.49,6,450,0.000001);
-            cube(-222,0.5,1.48,0.5,450,0.000001);
+            cube2(-222,0.5,1.49,6,450,0.000001,gTextureRoad);
+            cube(-222,0.5,1.48,0.5,450,0.000001,255,255,0,gTextureRoadY);
             //road10
 
 
@@ -1622,17 +1454,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //warehouse
             //door
             cube3(10.49,1,1,0.2,2,4);
-            cube2(10.3,1.7,0.1,0.2,0.2,0.2);
+            cube(10.3,1.7,0.1,0.2,0.2,0.2,255,255,255,gTextureSteel);
             //walls
-            cube2(10,-5,1,1,10,10);
-            cube2(18,-1,1,10,1,10);
-            cube2(11.5,-1,-2.5,3,1,3);
-            cube2(23,-5,1,1,10,10);
-            cube2(17,-10,1,14,1,10);
+            cube(10,-5,1,1,10,10,255,255,255,gTextureSteel);
+            cube(18,-1,1,10,1,10,255,255,255,gTextureSteel);
+            cube(11.5,-1,-2.5,3,1,3,255,255,255,gTextureSteel);
+            cube(23,-5,1,1,10,10,255,255,255,gTextureSteel);
+            cube(17,-10,1,14,1,10,255,255,255,gTextureSteel);
             //floor
-            cube2(17,-5,1.49,13,9,0.000001);
+            cube(17,-5,1.49,13,9,0.000001,255,255,255,gTextureSteel);
             //roof
-            cube2(17,-5,-4.25,13,9,0.5);
+            cube(17,-5,-4.25,13,9,0.5,255,255,255,gTextureSteel);
             
             
             
@@ -1703,17 +1535,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //car2
             carSpeed2=carSpeed2-0.45;
             //bottom
-            cube2(3.5,-101-carSpeed2,0.5,2.5,6,0.5);
+            cube(3.5,-101-carSpeed2,0.5,2.5,6,0.5,255,255,255,gTextureSteel);
             //roof
-            cube2(3.5,-101.5-carSpeed2,-1.6,2.5,5,0.5);
+            cube(3.5,-101.5-carSpeed2,-1.6,2.5,5,0.5,255,255,255,gTextureSteel);
             //side
-            cube2(2.5,-101.5-carSpeed2,-0.6,0.5,5,1.65);
+            cube(2.5,-101.5-carSpeed2,-0.6,0.5,5,1.65,255,255,255,gTextureSteel);
             //side
-            cube2(4.5,-101.5-carSpeed2,-0.6,0.5,5,1.65);
+            cube(4.5,-101.5-carSpeed2,-0.6,0.5,5,1.65,255,255,255,gTextureSteel);
             //back
-            cube2(3.5,-104-carSpeed2,-0.6,2.5,0.3,1.65);
+            cube(3.5,-104-carSpeed2,-0.6,2.5,0.3,1.65,255,255,255,gTextureSteel);
             //front
-            cube2(3.5,-98.7-carSpeed2,-0.25,2.5,0.6,1);
+            cube(3.5,-98.7-carSpeed2,-0.25,2.5,0.6,1,255,255,255,gTextureSteel);
             //front window
             cube3(3.5,-99-carSpeed2,-1.25,2.5,0.05,1);
             //wheels
@@ -1732,17 +1564,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             float stillcarX{-85};
             float stillcarY{-10};
             //bottom
-            cube4(3.5-stillcarY,-101-stillcarX,0.5,2.5,6,0.5);
+            cube2(3.5-stillcarY,-101-stillcarX,0.5,2.5,6,0.5,gTextureRoad);
             //roof
-            cube4(3.5-stillcarY,-101.5-stillcarX,-1.6,2.5,5,0.5);
+            cube2(3.5-stillcarY,-101.5-stillcarX,-1.6,2.5,5,0.5,gTextureRoad);
             //side
-            cube4(2.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65);
+            cube2(2.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65,gTextureRoad);
             //side
-            cube4(4.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65);
+            cube2(4.5-stillcarY,-101.5-stillcarX,-0.6,0.5,5,1.65,gTextureRoad);
             //back
-            cube4(3.5-stillcarY,-104-stillcarX,-0.6,2.5,0.3,1.65);
+            cube2(3.5-stillcarY,-104-stillcarX,-0.6,2.5,0.3,1.65,gTextureRoad);
             //front
-            cube4(3.5-stillcarY,-98.7-stillcarX,-0.25,2.5,0.6,1);
+            cube2(3.5-stillcarY,-98.7-stillcarX,-0.25,2.5,0.6,1,gTextureRoad);
             //front window
             cube3(3.5-stillcarY,-99-stillcarX,-1.25,2.5,0.05,1);
             //wheels
@@ -1761,17 +1593,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //car3
             carSpeed3=carSpeed3-0.4;
             //bottom
-            cube2(3.5,-51-carSpeed3,0.5,2.5,6,0.5);
+            cube(3.5,-51-carSpeed3,0.5,2.5,6,0.5,255,255,255,gTextureSteel);
             //roof
-            cube2(3.5,-51.5-carSpeed3,-1.6,2.5,5,0.5);
+            cube(3.5,-51.5-carSpeed3,-1.6,2.5,5,0.5,255,255,255,gTextureSteel);
             //side
-            cube2(2.5,-51.5-carSpeed3,-0.6,0.5,5,1.65);
+            cube(2.5,-51.5-carSpeed3,-0.6,0.5,5,1.65,255,255,255,gTextureSteel);
             //side
-            cube2(4.5,-51.5-carSpeed3,-0.6,0.5,5,1.65);
+            cube(4.5,-51.5-carSpeed3,-0.6,0.5,5,1.65,255,255,255,gTextureSteel);
             //back
-            cube2(3.5,-54-carSpeed3,-0.6,2.5,0.3,1.65);
+            cube(3.5,-54-carSpeed3,-0.6,2.5,0.3,1.65,255,255,255,gTextureSteel);
             //front
-            cube2(3.5,-48.7-carSpeed3,-0.25,2.5,0.6,1);
+            cube(3.5,-48.7-carSpeed3,-0.25,2.5,0.6,1,255,255,255,gTextureSteel);
             //front window
             cube3(3.5,-49-carSpeed3,-1.25,2.5,0.05,1);
             //wheels
@@ -1787,17 +1619,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //car 4-5 speed
             carSpeed4=carSpeed4-carStop;
             //bottom
-            cube4(-51.5,-51-carSpeed4,0.5,2.5,6,0.5);
+            cube2(-51.5,-51-carSpeed4,0.5,2.5,6,0.5,gTextureRoad);
             //roof
-            cube4(-51.5,-51.5-carSpeed4,-1.6,2.5,5,0.5);
+            cube2(-51.5,-51.5-carSpeed4,-1.6,2.5,5,0.5,gTextureRoad);
             //side
-            cube4(-52.5,-51.5-carSpeed4,-0.6,0.5,5,1.65);
+            cube2(-52.5,-51.5-carSpeed4,-0.6,0.5,5,1.65,gTextureRoad);
             //side
-            cube4(-50.5,-51.5-carSpeed4,-0.6,0.5,5,1.65);
+            cube2(-50.5,-51.5-carSpeed4,-0.6,0.5,5,1.65,gTextureRoad);
             //back
-            cube4(-51.5,-54-carSpeed4,-0.6,2.5,0.3,1.65);
+            cube2(-51.5,-54-carSpeed4,-0.6,2.5,0.3,1.65,gTextureRoad);
             //front
-            cube4(-51.5,-48.7-carSpeed4,-0.25,2.5,0.6,1);
+            cube2(-51.5,-48.7-carSpeed4,-0.25,2.5,0.6,1,gTextureRoad);
             //front window
             cube3(-51.5,-49-carSpeed4,-1.25,2.5,0.05,1);
             //wheels
@@ -1814,17 +1646,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //car5
             
             //bottom
-            cube4(-51.5,-51-32-carSpeed4,0.5,2.5,6,0.5);
+            cube2(-51.5,-51-32-carSpeed4,0.5,2.5,6,0.5,gTextureRoad);
             //roof
-            cube4(-51.5,-51.5-32-carSpeed4,-1.6,2.5,5,0.5);
+            cube2(-51.5,-51.5-32-carSpeed4,-1.6,2.5,5,0.5,gTextureRoad);
             //side
-            cube4(-52.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65);
+            cube2(-52.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65,gTextureRoad);
             //side
-            cube4(-50.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65);
+            cube2(-50.5,-51.5-32-carSpeed4,-0.6,0.5,5,1.65,gTextureRoad);
             //back
-            cube4(-51.5,-54-32-carSpeed4,-0.6,2.5,0.3,1.65);
+            cube2(-51.5,-54-32-carSpeed4,-0.6,2.5,0.3,1.65,gTextureRoad);
             //front
-            cube4(-51.5,-48.7-32-carSpeed4,-0.25,2.5,0.6,1);
+            cube2(-51.5,-48.7-32-carSpeed4,-0.25,2.5,0.6,1,gTextureRoad);
             //front window
             cube3(-51.5,-49-32-carSpeed4,-1.25,2.5,0.05,1);
             //wheels
@@ -1879,17 +1711,17 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
             //car6
             carSpeed6=carSpeed6-carStop2;
             //bottom
-            cube4(-48.5,51-88+carSpeed6,0.5,2.5,6,0.5);
+            cube2(-48.5,51-88+carSpeed6,0.5,2.5,6,0.5,gTextureRoad);
             //roof
-            cube4(-48.5,51.5-88+carSpeed6,-1.6,2.5,5,0.5);
+            cube2(-48.5,51.5-88+carSpeed6,-1.6,2.5,5,0.5,gTextureRoad);
             //side
-            cube4(-49.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65);
+            cube2(-49.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65,gTextureRoad);
             //side
-            cube4(-47.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65);
+            cube2(-47.5,51.5-88+carSpeed6,-0.6,0.5,5,1.65,gTextureRoad);
             //back
-            cube4(-48.5,54-88+carSpeed6,-0.6,2.5,0.3,1.65);
+            cube2(-48.5,54-88+carSpeed6,-0.6,2.5,0.3,1.65,gTextureRoad);
             //front
-            cube4(-48.5,48.7-88+carSpeed6,-0.25,2.5,0.6,1);
+            cube2(-48.5,48.7-88+carSpeed6,-0.25,2.5,0.6,1,gTextureRoad);
             //front window
             cube3(-48.5,49-88+carSpeed6,-1.25,2.5,0.05,1);
             //wheels
