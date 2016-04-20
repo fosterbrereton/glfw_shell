@@ -1472,16 +1472,16 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
         if(MouseOut==false){
             glfwSetCursorPosCallback(window, cursor_pos_callback);
         }
-        
-    
-    
+
         glTranslatef(camX+2,camY-2.5,camZ);
 
         gTexture.activate();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 1); glVertex3f(-10, 10, 0.5);
-        glTexCoord2f(1, 1); glVertex3f(10, 10, 0.5);
-        glTexCoord2f(1, 0); glVertex3f(10, -10, 0.5);
+        glTexCoord2f(0, 10); glVertex3f(-10, 10, 0.5);
+        glTexCoord2f(10, 10); glVertex3f(10, 10, 0.5);
+        glTexCoord2f(10, 0); glVertex3f(10, -10, 0.5);
         glTexCoord2f(0, 0); glVertex3f(-10, -10, 0.5);
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
