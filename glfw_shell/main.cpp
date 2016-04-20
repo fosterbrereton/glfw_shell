@@ -1477,7 +1477,14 @@ cubeD_D myCube{0,0,0,1,1,1,gTextureBall,gTextureBall,gTextureBall,gTextureBall,g
     
         glTranslatef(camX+2,camY-2.5,camZ);
 
-        
+        gTexture.activate();
+        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+        glTexCoord2f(0, 1); glVertex3f(-10, 10, 0.5);
+        glTexCoord2f(1, 1); glVertex3f(10, 10, 0.5);
+        glTexCoord2f(1, 0); glVertex3f(10, -10, 0.5);
+        glTexCoord2f(0, 0); glVertex3f(-10, -10, 0.5);
+        glEnd(); // All OpenGL drawing ends with a glEnd.
+
         //If you would like to make a custom make change this to true v
         
         bool customMap{true};
