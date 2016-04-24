@@ -22,7 +22,6 @@
 //    distribution.
 //
 //========================================================================
-//! [code]
 
 #include <GLFW/glfw3.h>
 #include <vector>
@@ -32,6 +31,7 @@
 #include <OpenGL/glu.h>
 #include <cmath>
 #include <iomanip>
+#include <unistd.h>
 
 #include "SOIL.h"
 
@@ -39,6 +39,7 @@ static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
+
 float camX{0};
 float camY{0};
 float camZ{0};
@@ -73,7 +74,7 @@ struct texture_t {
                                      SOIL_FLAG_POWER_OF_TWO |
                                      SOIL_FLAG_MIPMAPS |
                                      SOIL_FLAG_DDS_LOAD_DIRECT);
-        
+
         if (id_m == 0) {
             std::cout << "error loading texture " + name_m + "\n";
         }
@@ -99,12 +100,10 @@ texture_t gTextureWood{"wood"};
 texture_t gTextureLeaves{"leaves"};
 texture_t gTextureClear{"clear"};
 
-
-float DegreesToRads(float Degrees){
-    return Degrees/180*3.14159;
-    
-    
+inline float DegreesToRads(float degrees){
+    return degrees/180*3.14159;
 }
+
 static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
 {
     static double oldx{xpos};
@@ -118,114 +117,54 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
     camRotateX+=deltaY;
     oldx = xpos;
     oldy = ypos;
-    
 }
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        {
+    {
         glfwSetWindowShouldClose(window, GL_TRUE);
-        }
-    /*else if (key == GLFW_KEY_R && action == GLFW_PRESS)
-        {
-        // These values are floating point from 0 to 1.
-        // These are in RGB order.
-        glClearColor(1.0, 0.0, 0.0, 1.0); // red
-        }
-    else if (key == GLFW_KEY_K && action == GLFW_PRESS)
-        {
-        // These values are floating point from 0 to 1.
-        // These are in RGB order.
-        glClearColor(0.0, 0.0, 0.0, 1.0); // black
-        }*/
+    }
     else if (key == GLFW_KEY_P && action == GLFW_PRESS)
     {
         MouseOut^=true;
-        
-        
     }
     else if (key == GLFW_KEY_D)
     {
         MoveRight = action == GLFW_PRESS || action == GLFW_REPEAT;
-        
-
     }
     else if (key == GLFW_KEY_A)
     {
         MoveLeft = action == GLFW_PRESS || action == GLFW_REPEAT;
-        
-
     }
     else if (key == GLFW_KEY_S)
     {
         MoveBackward = action == GLFW_PRESS || action == GLFW_REPEAT;
-        
-
     }
     else if (key == GLFW_KEY_W)
     {
         MoveForward=action == GLFW_PRESS || action == GLFW_REPEAT;
-        
-        
     }
-
     else if (key == GLFW_KEY_SPACE)
     {
-        
         MoveUp=true;
-        
-        
-        
     }
-    
     else if (key == GLFW_MOUSE_BUTTON_1)
     {
-        
         placeCube=true;
-        
-        
-        
     }
     else if (key == GLFW_KEY_LEFT_SHIFT)
     {
         Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-        
     }
     else if (key == GLFW_KEY_E)
     {
         CarSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-        
     }
     else if (key == GLFW_KEY_Q)
     {
         AdminSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-        
     }
-    
-    
-  
-
-    
-    
-    
-    
-    else
-        {
-        std::string actionString;
-
-        if (action == GLFW_PRESS)
-            actionString = "DOWN";
-        else
-            actionString = "UP";
-
-        // std::cout << "You pressed " << actionString << " on the key " << key << '\n';
-        }
-    //std::cout << "Camera X = " << camX << '\n';
-    //std::cout << "Camera Y = " << camY << '\n';
-    //std::cout << "Camera Z = " << camZ << '\n';
-    
-    // std::cout << "Camera Rotate X =" << camRotateX << '\n';
-    // std::cout << "Camera Rotate Y =" << camRotateY << '\n';
 }
 void p1(float x, float y,float z, float h, float w, float d, float r, float g, float b)
 {
@@ -588,7 +527,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         texFront.activate();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        
+
         // THIS IS WHERE THE DRAWING HAPPENS!
         // The front face :)
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -596,9 +535,9 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
         glTexCoord2f(30, 0); p4_7(x,y,z,h,w,d);
         glTexCoord2f(0, 0); p4_6(x,y,z,h,w,d);
-        
+
         glEnd(); // All OpenGL drawing ends with a glEnd.
-        
+
         // Right face
         texRight.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -607,7 +546,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
         glTexCoord2f(0, 0); p4_7(x,y,z,h,w,d);
         glEnd(); // All OpenGL drawing ends with a glEnd.
-        
+
         // Left face
         texLeft.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -635,7 +574,7 @@ void triangle(float x, float y, float z, float h, float w, float d){
         // Back face
         texBack.activate();
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        
+
         glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
         glTexCoord2f(30, 30); p4_2(x,y,z,h,w,d);
         glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
@@ -676,6 +615,7 @@ void clyinder(float x,float y,float z,float size, float base, float top, float h
     
 }
 void tree(float x, float y, float z){
+    glColor3f(1, 1, 1);
     gTextureWood.activate();
     clyinder(-x,-y,z+5,5, 0.8, 0.8, 20);
     cube(x,y,z+-4,4,0.000001,4,0,128,0,gTextureLeaves);
@@ -1051,7 +991,7 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
 
         glfwGetFramebufferSize(window, &width, &height); // Get the height and width of the window from GLFW.
         ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
-        
+
         glViewport(0, 0, width, height); // This tells OpenGL how big the window is,
         glClearColor(0.5294117648+sky-0.9803921569, 0.8078431373+sky-0.9803921569, sky, 0);                              // and OpenGL goes off and creates a space
                                          // for drawing.
@@ -1064,7 +1004,7 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
             These operations tell OpenGL how to convert the 3D world we are about
             to create into a 2D image that can be displayed on the computer screen.
         */
-        
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluPerspective(60, ratio, 1, 1000);
@@ -1081,19 +1021,17 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
         //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
         //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
         //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
-        
-        glRotatef(camRotateX, 1.f, 0.f, 0.f);
-        
-        glRotatef(camRotateY, 0.f, 0.f, 1.f);
-        
-        
 
-            
-        
+        glRotatef(camRotateX, 1.f, 0.f, 0.f);
+
+        glRotatef(camRotateY, 0.f, 0.f, 1.f);
+
+    
+
         //cube5(10,10,-5,10,4,4);
         if(MoveForward){
-            
-            camY += std::cos(DegreesToRads(camRotateY))*0.1;
+    
+                camY += std::cos(DegreesToRads(camRotateY))*0.1;
             camX += std::sin(DegreesToRads(camRotateY))*0.1;
         }
         if(MoveRight){
@@ -1108,13 +1046,13 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
             camY -= std::cos(DegreesToRads(camRotateY))*0.1;
             camX -= std::sin(DegreesToRads(camRotateY))*0.1;
         }
-        
-        
+
+
         if(MoveUp && fall==false){
             camZ += DecreaseClimbRate;
             DecreaseClimbRate-=0.0077;
-            
-        }
+    
+            }
         if(Sprint && CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*-0.55;
             camX += std::sin(DegreesToRads(camRotateY))*-0.55;
@@ -1133,18 +1071,18 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
             fall=false;
             DecreaseClimbRate=0.2;
             MoveUp=false;
-            
-        }
+    
+            }
         if(MouseOut==true){
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
         if(MouseOut==false){
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            
-        }
+    
+            }
         if(MouseOut==true){
         glfwSetCursorPosCallback(window, 0);
-        
+
         }
         if(MouseOut==false){
             glfwSetCursorPosCallback(window, cursor_pos_callback);
@@ -1181,13 +1119,13 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
             //the other shapes include
             //sphere
             //cube1, cube2, cube3, cube4,vcube5,vand cube6
-            
-            //to use non-shape built in function put the name first and then x y z
+    
+                //to use non-shape built in function put the name first and then x y z
             //for example
             //        x  y  z
             //officeB(10,28,3);
-            
-            //to use the cube you have to do x y z and height, width, and depth
+    
+                //to use the cube you have to do x y z and height, width, and depth
             //for example
             //      x  y  z  h  w d
             //cube1(38,39,10,1,30,1);
@@ -1196,37 +1134,17 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
             //       x  y  z  size
             //sphere(13,34,4,  5 );
             // now go program your world!
-            
-            
-            //grass
+    
+
+                //grass
             myCube.draw();
             officeB(0,0,0);
             officeFloor(0, 0, 0);
-            
-            if(worldSize==1){
-                
-            }
+    
+                if(worldSize==1){
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+                    }
         }
-        if(customMap==false){
-            
-        }
-
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
@@ -1248,5 +1166,3 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
     // Quit the program.
     exit(EXIT_SUCCESS);
 }
-
-//! [code]
