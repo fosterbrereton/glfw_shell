@@ -64,6 +64,7 @@ float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
 struct texture_t {
+    texture_t()=default;
     explicit texture_t(const std::string& name) : name_m(name) {
     }
     
@@ -644,18 +645,21 @@ void tree_t::draw() {
     cube(x_m,y_m,z_m+-5,4,4,0.000001,0,0,0,gTextureLeaves);
     cube(x_m,y_m,z_m+-4,3.8,3.8,3.8,0,0,0,gTextureLeaves);
 }
-
+struct point {
+    double x_m{0};
+    double y_m{0};
+    double z_m{0};
+};
 struct cubeD_D {
-    double x_m; // This is a member variable of the class.
-    double y_m; // we say "_m" to be able to see the member variables more easily.
-    double z_m;
-    double h_m;
-    double w_m;
-    double d_m;
+    cubeD_D() = default;
+    point location;
+    double h_m{1};
+    double w_m{1};
+    double d_m{1};
     
-    double r_m;
-    double g_m;
-    double b_m;
+    double r_m{255};
+    double g_m{255};
+    double b_m{255};
     texture_t tex1;
     texture_t tex2;
     texture_t tex3;
@@ -664,10 +668,18 @@ struct cubeD_D {
     texture_t tex6;
     
     void draw();
+    void setTexture(texture_t);
 };
-
+void cubeD_D::setTexture(texture_t tex){
+    tex1 = tex;
+    tex2 = tex;
+    tex3 = tex;
+    tex4 = tex;
+    tex5 = tex;
+    tex6 = tex;
+}
 void cubeD_D::draw() {
-   
+    glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
@@ -929,7 +941,12 @@ int main(void)
     gTextureBall.load();
     gTextureClear.load();
     
-cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall,gTextureBall};
+cubeD_D myCube;
+myCube.setTexture(gTextureBall);
+
+cubeD_D myCube2;
+myCube2.setTexture(gTexture);
+myCube2.x_m+=1;
     
     
 
@@ -1138,6 +1155,7 @@ cubeD_D myCube{0,0,0,1,1,1,255,255,255,gTextureBall,gTextureBall,gTextureBall,gT
 
                 //grass
             myCube.draw();
+            myCube2.draw();
             officeB(0,0,0);
             officeFloor(0, 0, 0);
     
