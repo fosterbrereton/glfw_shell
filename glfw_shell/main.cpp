@@ -645,11 +645,55 @@ void tree_t::draw() {
     cube(x_m,y_m,z_m+-5,4,4,0.000001,0,0,0,gTextureLeaves);
     cube(x_m,y_m,z_m+-4,3.8,3.8,3.8,0,0,0,gTextureLeaves);
 }
+
 struct point {
-    double x_m{0};
-    double y_m{0};
-    double z_m{0};
+    explicit point(float x = 0, float y = 0, float z = 0) :
+        x_m(x),
+        y_m(y),
+        z_m(z)
+    { }
+
+    double x_m;
+    double y_m;
+    double z_m;
 };
+
+point operator+(const point& a, const point& b) {
+    point result;
+
+    result.x_m = a.x_m + b.x_m;
+    result.y_m = a.y_m + b.y_m;
+    result.z_m = a.z_m + b.z_m;
+
+    return result;
+}
+
+point& operator+=(point& a, const point& b) {
+    a.x_m += b.x_m;
+    a.y_m += b.y_m;
+    a.z_m += b.z_m;
+
+    return a;
+}
+
+point operator-(const point& a, const point& b) {
+    point result;
+
+    result.x_m = a.x_m - b.x_m;
+    result.y_m = a.y_m - b.y_m;
+    result.z_m = a.z_m - b.z_m;
+
+    return result;
+}
+
+point& operator-=(point& a, const point& b) {
+    a.x_m -= b.x_m;
+    a.y_m -= b.y_m;
+    a.z_m -= b.z_m;
+
+    return a;
+}
+
 struct cubeD_D {
     cubeD_D() = default;
     point location_m;
@@ -949,7 +993,7 @@ myCube.setTexture(gTextureBall);
 
 cubeD_D myCube2;
 myCube2.setTexture(gTexture);
-myCube2.location_m.x_m+=1;
+myCube2.location_m += point(1, 0, 0);
     
     
 
