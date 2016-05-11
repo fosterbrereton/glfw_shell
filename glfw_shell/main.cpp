@@ -260,383 +260,13 @@ void p8(float x, float y,float z, float h, float w, float d,float r, float g, fl
 
 
 
-void p2_1(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // red
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p2_2(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // blue
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p2_3(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // gray
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p2_4(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // yellow
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-
-void p2_5(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // orange
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p2_6(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // pink
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p2_7(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // tan-ish
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p2_8(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.5f, 0.5f, 0.5f); // white
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
-}
-
-
-void p3_1(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // red
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p3_2(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // blue
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p3_3(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // gray
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p3_4(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // yellow
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-
-void p3_5(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // orange
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p3_6(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // pink
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p3_7(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // tan-ish
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p3_8(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // white
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
-}
 
 
 
 
-//Color = black
-void p4_1(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p4_2(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p4_3(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p4_4(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-
-void p4_5(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p4_6(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p4_7(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p4_8(float x, float y,float z, float h, float w, float d)
-{
-    //glColor3f(0.f, 0.f, 0.0f);
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
-}
-//rainbow colors
 
 
-void p5_1(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 0.f, 0.f); // red
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p5_2(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(0.f, 0.f, 1.0f); // blue
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p5_3(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(0.5f, 0.5f, 0.5f); // gray
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p5_4(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.0f, 1.0f, 0.f); // yellow
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-
-void p5_5(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 0.4666666667f, 0.f); // orange
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p5_6(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 0.f, 0.6352941176f); // pink
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p5_7(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 0.8f, 0.6f); // tan-ish
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p5_8(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.0f, 1.0f, 1.0f); // white
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
-}
-
-void p6_1(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // red
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p6_2(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // blue
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p6_3(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // gray
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p6_4(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // yellow
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-
-void p6_5(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // orange
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p6_6(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // pink
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p6_7(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // tan-ish
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p6_8(float x, float y,float z, float h, float w, float d)
-{
-    glColor3f(1.f, 1.f, 1.f); // white
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
-}
-
-void cube(float x, float y, float z, float h, float w, float d, float r, float g, float b, texture_t texFront, texture_t texRight, texture_t texLeft, texture_t texTop, texture_t texBottom, texture_t texBack){
-    
-    // THIS IS WHERE THE DRAWING HAPPENS!
-    // The front face :)
-    texFront.activate();
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p5(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1);p8(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0);p7(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(0, 0);p6(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    texRight.activate();
-    // Right face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p8(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1);p4(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0);p3(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(0, 0);p7(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    texLeft.activate();
-    // Left face
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p5(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1);p6(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0);p2(x,y,z,h,w,d,r,g,b);
-   glTexCoord2f(0, 0); p1(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Top face
-    texTop.activate();
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p6(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1);p7(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0);p3(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(0, 0);p2(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Bottom face
-    texBottom.activate();
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p4(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1);p8(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0);p5(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(0, 0);p1(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-    // Back face
-    texBack.activate();
-    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p1(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 1); p2(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(1, 0); p3(x,y,z,h,w,d,r,g,b);
-    glTexCoord2f(0, 0); p4(x,y,z,h,w,d,r,g,b);
-    glEnd(); // All OpenGL drawing ends with a glEnd.
-}
-
-void cube(float x, float y, float z, float h, float w, float d, float r, float g, float b, texture_t tex){
-    cube(x,y,z,h,w,d,r,g,b,tex,tex,tex,tex,tex,tex);
-}
-
-void triangle(float x, float y, float z, float h, float w, float d){
-    
-    glBegin(GL_TRIANGLES);
-    p5_7(x,y,z,h,w,d);
-    p5_8(x,y,z,h,w,d);
-    p5_4(x,y,z,h,w,d);
-    glEnd();
-    
-    glBegin(GL_QUADS);
-    p5_6(x,y,z,h,w,d);
-    p5_7(x,y,z,h,w,d);
-    p5_4(x,y,z,h,w,d);
-    p5_1(x,y,z,h,w,d);
-    glEnd();
-    
-    glBegin(GL_TRIANGLES);
-    p5_1(x,y,z,h,w,d);
-    p5_5(x,y,z,h,w,d);
-    p5_6(x,y,z,h,w,d);
-    glEnd();
-    
-    glBegin(GL_QUADS);
-    p5_1(x,y,z,h,w,d);
-    p5_4(x,y,z,h,w,d);
-    p5_8(x,y,z,h,w,d);
-    p5_5(x,y,z,h,w,d);
-    glEnd();
-    
-    glBegin(GL_QUADS);
-    p5_6(x,y,z,h,w,d);
-    p5_5(x,y,z,h,w,d);
-    p5_8(x,y,z,h,w,d);
-    p5_7(x,y,z,h,w,d);
-    glEnd();
-    
-   
-}
-
-
-    void cube2(float x, float y, float z, float h, float w, float d,texture_t texFront, texture_t texRight, texture_t texLeft, texture_t texTop, texture_t texBottom, texture_t texBack){
-        texFront.activate();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-        // THIS IS WHERE THE DRAWING HAPPENS!
-        // The front face :)
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_7(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_6(x,y,z,h,w,d);
-
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-
-        // Right face
-        texRight.activate();
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 30); p4_8(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_4(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_7(x,y,z,h,w,d);
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-
-        // Left face
-        texLeft.activate();
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 30); p4_5(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_6(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_2(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-        // Top face
-        texTop.activate();
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 30); p4_6(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_7(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_2(x,y,z,h,w,d);
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-        // Bottom face
-        texBottom.activate();
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-        glTexCoord2f(0, 30); p4_4(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_8(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_5(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_1(x,y,z,h,w,d);
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-        // Back face
-        texBack.activate();
-        glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-
-        glTexCoord2f(0, 30); p4_1(x,y,z,h,w,d);
-        glTexCoord2f(30, 30); p4_2(x,y,z,h,w,d);
-        glTexCoord2f(30, 0); p4_3(x,y,z,h,w,d);
-        glTexCoord2f(0, 0); p4_4(x,y,z,h,w,d);
-        glEnd(); // All OpenGL drawing ends with a glEnd.
-    }
-
-
-void cube2(float x, float y, float z, float h, float w, float d, texture_t tex){
-    cube2(x,y,z,h,w,d,tex,tex,tex,tex,tex,tex);
-}
-
+/*
 
 void sphere(float x,float y,float z,float size){
     //glMatrixMode(GL_MODELVIEW);
@@ -693,7 +323,7 @@ void tree_t::draw() {
     cube(x_m,y_m,z_m+-4,0.000001,4,4,0,0,0,gTextureLeaves);
     cube(x_m,y_m,z_m+-5,4,4,0.000001,0,0,0,gTextureLeaves);
     cube(x_m,y_m,z_m+-4,3.8,3.8,3.8,0,0,0,gTextureLeaves);
-}
+}*/
 
 struct point {
     explicit point(float x = 0, float y = 0, float z = 0) :
@@ -834,149 +464,9 @@ void cubeD_D::draw() {
 
 
 
-void officePlant(float x, float y, float z){
-    cube(x,y,1.2+z,0.5,0.5,0.5,0,0,0,gTextureSteel);
-    
-    cube(x,y,1.2+z,0.3,0.3,1,0,0,0,gTextureLeaves);
-    cube(x,y,0.9+z,0.3,0.3,1,0,0,0,gTextureLeaves);
-    cube(x,y,0.6+z,0.3,0.3,1,0,0,0,gTextureLeaves);
-    cube(x,y,0.3+z,0.3,0.3,1,0,0,0,gTextureLeaves);
-}
-void officeCube(float x, float y, float z){
-    //table 1
-    //legs
-    //cube3(30,-6,1,0.1,0.1,1);
-    //cube3(29,-6,1,0.1,0.1,1);
-    
-    //top
-    cube(29.5+x,-5+y,0.5+z,1.5,3,0.1,255,255,255,gTextureSteel);
-    
-    //table 2
-    //legs
-    cube(30+1.3+x,-6+1.2+y,1+z,0.1,0.1,1,0,0,0,gTexture);
-    cube(30+1.3+x,-5+1.2+y,1+z,0.1,0.1,1,0,0,0,gTexture);
-    cube(29+1+x,-6+1.2+y,1,0.1+z,0.1,1,0,0,0,gTexture);
-    //top
-    cube(29+1.3+x,-5.5+1.2+y,0.5+z,3,1.5,0.1,255,255,255,gTextureSteel);
-    
-    //table 3
-    //legs
-    cube(30+1.3+x,-8.9+1.2+y,1+z,0.1,0.1,1,0,0,0,gTexture);
-    cube(30+1.3+x,-7.9+1.2+y,1+z,0.1,0.1,1,0,0,0,gTexture);
-    cube(29+1+x,-8+1.2+y,1,0.1+z,0.1,1,0,0,0,gTexture);
-    //top
-    cube(29+1.3+x,-8.4+1.2+y,0.5+z,3,1.5,0.1,255,255,255,gTextureSteel);
-    
-    
-    //walls
-    cube(28.8+x,-5.8+y,0.5+z,0.1,4.5,3,0,0,0,gTextureSteel);
-    cube(30.8+x,-3.5+y,0.5+z,4,0.1,3,0,0,0,gTextureSteel);
-    cube(30.8+x,-8+y,0.5+z,4,0.1,3,0,0,0,gTextureSteel);
-    
-    //computer
-    cube(29.1+x,-6+y,0+z,0.1,1,0.7,0,0,0,gTexture);
-    cube(29.5+x,-6+y,0.4+z,0.7,1,0.1,255,255,255,gTextureSteel);
-    
-    cube(29.5+x,-6.8+y,0.4+z,0.3,0.2,0.1,255,255,255,gTextureSteel);
-    
-    //paper
-    cube(29.5+x,-4+y,0.4+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.41+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.42+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.43+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.44+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.45+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.46+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.47+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.48+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.49+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.5+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.51+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.52+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.53+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.54+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    cube(29.5+x,-4+y,0.55+z,0.7,1,0.00001,255,255,255,gTextureSteel);
-    
-    officePlant(32.5+x,-7.5+y,0+z);
-}
 
-void officeFloor(float x, float y, float z){
-    officeCube(-68.3+x-5,-3.5+y-20,0+z);
-    officeCube(-68.3+x-5,1+y-20,0);
-    officeCube(-68.3+x-5,5.5+y-20,0+z);
-    officeCube(-68.3+x-5,10+y-20,0+z);
-    officeCube(-68.3+x-5,14.5+y-20,0+z);
-    
-    officeCube(-68.3+7+x-5,-3.5+y-20,0+z);
-    officeCube(-68.3+7+x-5,1+y-20,0+z);
-    officeCube(-68.3+7+x-5,5.5+y-20,0+z);
-    officeCube(-68.3+7+x-5,10+y-20,0+z);
-    
-    
-    officeCube(-68.3+14+x-5,-3.5+y-20,0+z);
-    officeCube(-68.3+14+x-5,1+y-20,0+z);
-    officeCube(-68.3+14+x-5,5.5+y-20,0+z);
-    officeCube(-68.3+14+x-5,10+y-20,0+z);
-}
 
-void officeB(float x,float y,float z){
-    //office building
-    //walls
-    cube(-20+x,-20+y,0+z,1,25,70,255,255,255,gTextureSteel);
-    cube(-32+x,-32+y,0+z,25,1,70,255,255,255,gTextureSteel);
-    cube(-45+x,-20+y,0+z,1,25,70,255,255,255,gTextureSteel);
-    cube(-32+x,-7+y,0+z,25,1,70,255,255,255,gTextureSteel);
-    //roof
-    cube(-32.5+x,-19.5+y,-30+z,25,25,1,255,255,255,gTextureSteel);
-    cube(-32.5+x,-19.5+y,-5+z,25,25,1,255,255,255,gTextureSteel);
-    //floor
-    cube(-32.5+x,-19.5+y,1.9+z,25,25,1,255,255,255,gTextureSteel);
-    
-    //door
-    cube(-19.49+x,-10+y,1+z,0.2,2,4,255,255,255,gTexture);
-    cube(-19.3+x,-10.7+y,0.1+z,0.2,0.2,0.2,255,255,255,gTextureSteel);
-    
-    cube(-20.53+x,-10+y,1+z,0.2,2,4,255,255,255,gTexture);
-    cube(-20.99+x,-10.7+y,0.1+z,0.2,0.2,0.2,255,255,255,gTextureSteel);
-    
-    
-    
-    tree(-10.8+x-5,12.8+y-20,0+z);
-    tree(-10.8+x-5,-12.8+y-20,0+z);
-    
-    
-    cube(-10+x-5,0+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,2+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-2+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,4+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-4+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,6+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-6+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,8+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-8+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-10+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,-12+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    cube(-10+x-5,12+y-20,1+z,0.5,2,1,255,255,255,gTextureLeaves);
-    
-    cube(-10.8+x-5,-12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    cube(-12.8+x-5,-12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    cube(-14.8+x-5,-12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    
-    cube(-10.8+x-5,12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    cube(-12.8+x-5,12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    cube(-14.8+x-5,12.8+y-20,1+z,2,0.5,1,255,255,255,gTextureLeaves);
-    
-    
-}
 
-void roadH(float x, float y, float z){
-    cube2(0.5+x,222+y,1.49+z,450,6,0.000001,gTextureRoad);
-    cube(0.5+x,222+y,1.48+z,450,0.5,0.000001,255,255,0,gTextureRoadY);
-}
-void roadV(float x, float y, float z){
-    cube2(5+x,1+y,1.49+z,6,450,0.000001,gTextureRoad);
-    cube(5+x,1+y,1.48+z,0.5,450,0.000001,255,255,0,gTextureRoadY);
-}
 
 
 
@@ -1060,7 +550,7 @@ myCube.setTexture(gTextureBall);
 
 cubeD_D myCube2;
 myCube2.setTexture(gTexture);
-myCube2.location_m += point(1, 0, 0);
+myCube2.location_m += point(1, 0, 1);
     
     
 
@@ -1080,10 +570,10 @@ myCube2.location_m += point(1, 0, 0);
     float car4x{0};
     float car6x{0};
     float car1x{0};
-    std::vector<tree_t> tree_vector;
+    /*std::vector<tree_t> tree_vector;
     for (std::size_t i(0); i < 50; ++i) {
         tree_vector.push_back({rand()%440-220.,rand()%440-220.,0});
-    }
+    }*/
     
     //std::vector<cubeD_D> cubeD_vector;
     
@@ -1162,7 +652,7 @@ myCube2.location_m += point(1, 0, 0);
         //cube5(10,10,-5,10,4,4);
         if(MoveForward){
     
-                camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            camY += std::cos(DegreesToRads(camRotateY))*0.1;
             camX += std::sin(DegreesToRads(camRotateY))*0.1;
         }
         if(MoveRight){
@@ -1270,8 +760,7 @@ myCube2.location_m += point(1, 0, 0);
                 //grass
             myCube.draw();
             myCube2.draw();
-            officeB(0,0,0);
-            officeFloor(0, 0, 0);
+            
     
                 if(worldSize==1){
         
