@@ -331,9 +331,7 @@ point& operator-=(point& a, const point& b) {
 
     return a;
 }
-// create out second ODE object - the cube (box).
 
- // above the origin
 struct cubeD_D {
     cubeD_D() = default;
     point location_m;
@@ -363,20 +361,23 @@ void cubeD_D::setTexture(texture_t tex){
     tex5 = tex;
     tex6 = tex;
 }
+
 void cubeD_D::draw() {
     double x = location_m.x_m;
     double y = location_m.y_m;
     double z = location_m.z_m;
+    
     static dBodyID boxBody2 = dBodyCreate (gODEWorld);
     static dGeomID boxGeom2 = dCreateBox (gODESpace, 1, 1, 1);
+    
     dGeomSetBody (boxGeom2, boxBody2);
-    dBodySetPosition (boxBody2, location_m.x_m, location_m.y_m, location_m.z_m);
+    dBodySetPosition (boxBody2, x, y, z);
     
     
     const dReal* pos = dBodyGetPosition(boxBody2);
-    location_m.x_m = pos[0];
-    location_m.y_m = pos[1];
-    location_m.z_m = pos[2];
+    x = pos[0];
+    y = pos[1];
+    z = pos[2];
     
     
     glColor3f(r_m/255, g_m/255, b_m/255);
