@@ -580,7 +580,7 @@ myCube2.location_m += point(1, 0, 1);
     //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
 
     static const float simulation_start_k = glfwGetTime();
-    static const float real_min_per_game_day_k = 0.5; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
+    static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
     static const float real_sec_per_game_day_k = real_min_per_game_day_k * 60;
     static const float real_sec_per_game_hrs_k = real_sec_per_game_day_k / 24;
     static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
