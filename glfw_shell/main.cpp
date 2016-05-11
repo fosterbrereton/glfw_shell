@@ -45,15 +45,16 @@ float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
 // ODE global variables
-static dWorldID gODEWorld;
-static dSpaceID gODESpace;
+static dWorldID      gODEWorld;
+static dSpaceID      gODESpace;
 static dJointGroupID gODEContactGroup;
 
-static void nearCallback (void *data, dGeomID o1, dGeomID o2)
+static void ODEContactCallback (void *data, dGeomID o1, dGeomID o2)
 {
-    dBodyID b1 = dGeomGetBody(o1);
-    dBodyID b2 = dGeomGetBody(o2);
-    dContact contact;  
+    dBodyID  b1 = dGeomGetBody(o1);
+    dBodyID  b2 = dGeomGetBody(o2);
+    dContact contact;
+
     contact.surface.mode = dContactBounce | dContactSoftCFM;
     // friction parameter
     contact.surface.mu = dInfinity;
@@ -63,27 +64,11 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2)
     contact.surface.bounce_vel = 0.1;
     // constraint force mixing parameter
     contact.surface.soft_cfm = 0.001;  
+
     if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
         dJointID c = dJointCreateContact (gODEWorld,gODEContactGroup,&contact);
         dJointAttach (c,b1,b2);
     }
-}
-
-// simulation loop
-static void simLoop (int pause)
-{
-    const dReal *pos;
-    const dReal *R;
-    // find collisions and add contact joints
-    dSpaceCollide (gODESpace,0,&nearCallback);
-    // step the simulation
-    dWorldQuickStep (gODEWorld,0.01);  
-    // remove all contact joints
-    dJointGroupEmpty (gODEContactGroup);
-    // redraw sphere at new location
-    pos = dGeomGetPosition (geom);
-    R = dGeomGetRotation (geom);
-    // dsDrawSphere (pos,R,dGeomSphereGetRadius (geom));
 }
 
 struct texture_t {
@@ -449,24 +434,25 @@ int main(void)
         exit(EXIT_FAILURE); // If initialization fails, we can't continue with the program.
 
     // ODE initialization
-    dInitODE ();
-    gODEWorld = dWorldCreate ();
-    gODESpace = dHashSpaceCreate (0);
-    dWorldSetGravity (gODEWorld,0,0,-0.2);
-    dWorldSetCFM (gODEWorld,1e-5);
-    dCreatePlane (gODESpace,0,0,1,0);
+    dInitODE();
+    gODEWorld = dWorldCreate();
+    gODESpace = dHashSpaceCreate(0);
+    dWorldSetGravity(gODEWorld, 0, 0, -0.2);
+    dWorldSetCFM(gODEWorld, 1e-5);
+    dCreatePlane(gODESpace, 0, 0, 1, 0);
     gODEContactGroup = dJointGroupCreate (0);
 
-    // create object
-    static dBodyID body;    
-    static dGeomID geom;    
-    static dMass m;
-    body = dBodyCreate (gODEWorld);
-    geom = dCreateSphere (gODESpace,0.5);
-    dMassSetSphere (&m,1,0.5);
-    dBodySetMass (body,&m);
-    dGeomSetBody (geom,body);
-    dBodySetPosition (body,0,0,3); // set initial position
+    // create out first ODE object - the plane.
+    //static dBodyID planeBody = dBodyCreate (gODEWorld);
+    static dGeomID planeGeom = dCreatePlane (gODESpace, 0, 0, 1, 0);
+    //dGeomSetBody (planeGeom, planeBody);
+    //dBodySetPosition (planeBody, 0, 0, 0); // place the plane normal vector at the origin
+
+    // create out second ODE object - the cube (box).
+    static dBodyID boxBody = dBodyCreate (gODEWorld);
+    static dGeomID boxGeom = dCreateBox (gODESpace, 1, 1, 1);
+    dGeomSetBody (boxGeom, boxBody);
+    dBodySetPosition (boxBody, 0, 0, 1); // above the origin
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -511,16 +497,12 @@ int main(void)
     gTextureBall.load();
     gTextureClear.load();
     
-cubeD_D myCube;
-myCube.setTexture(gTextureBall);
+    cubeD_D myCube;
+    myCube.setTexture(gTextureBall);
 
-cubeD_D myCube2;
-myCube2.setTexture(gTexture);
-myCube2.location_m += point(1, 0, 1);
-    
-    
-
-
+    cubeD_D myCube2;
+    myCube2.setTexture(gTexture);
+    myCube2.location_m += point(0, 0, 1);
     
     float carSpeed1{100};
     float carSpeed2{100};
@@ -552,9 +534,7 @@ myCube2.location_m += point(1, 0, 1);
     static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
     static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
     static const float min_per_day_k = 24 * 60;
-   
 
-    
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -566,11 +546,27 @@ myCube2.location_m += point(1, 0, 1);
         float sky = 0 * (1-sky_cycle) + 0.9803921569 * sky_cycle;
         int game_hrs_mil = static_cast<int>(elapsed_game_hrs) % 24; // military hours
 
+// Set to #if 1 to enable displaying the time
+#if 0
         std::cout.width(2);
         std::cout.fill('0');
         std::cout << game_hrs_mil << ":";
         std::cout.width(2);
         std::cout << (static_cast<int>(elapsed_game_min)%60) << '\n';
+#endif
+
+        // Simulate the physics engine
+        // find collisions and add contact joints
+        dSpaceCollide (gODESpace, 0, &ODEContactCallback);
+        // step the simulation
+        dWorldQuickStep (gODEWorld, 0.1);  
+        // remove all contact joints
+        dJointGroupEmpty (gODEContactGroup);
+
+        const dReal* pos = dBodyGetPosition(boxBody);
+        myCube.location_m.x_m = pos[0];
+        myCube.location_m.y_m = pos[1];
+        myCube.location_m.z_m = pos[2];
 
         // These are variable spaces.
         float ratio; // this is a floating point number
@@ -612,8 +608,6 @@ myCube2.location_m += point(1, 0, 1);
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
 
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
-
-    
 
         //cube5(10,10,-5,10,4,4);
         if(MoveForward){
