@@ -331,10 +331,13 @@ point& operator-=(point& a, const point& b) {
 
     return a;
 }
+// create out second ODE object - the cube (box).
 
+ // above the origin
 struct cubeD_D {
     cubeD_D() = default;
     point location_m;
+    
     double h_m{1};
     double w_m{1};
     double d_m{1};
@@ -364,6 +367,18 @@ void cubeD_D::draw() {
     double x = location_m.x_m;
     double y = location_m.y_m;
     double z = location_m.z_m;
+    static dBodyID boxBody2 = dBodyCreate (gODEWorld);
+    static dGeomID boxGeom2 = dCreateBox (gODESpace, 1, 1, 1);
+    dGeomSetBody (boxGeom2, boxBody2);
+    dBodySetPosition (boxBody2, location_m.x_m, location_m.y_m, location_m.z_m);
+    
+    
+    const dReal* pos = dBodyGetPosition(boxBody2);
+    location_m.x_m = pos[0];
+    location_m.y_m = pos[1];
+    location_m.z_m = pos[2];
+    
+    
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
@@ -422,6 +437,7 @@ void cubeD_D::draw() {
 
 int main(void)
 {
+    
     chdir(getenv("HOME"));
     std::srand(std::time(NULL));
 
@@ -447,13 +463,12 @@ int main(void)
     static dGeomID planeGeom = dCreatePlane (gODESpace, 0, 0, 1, 0);
     //dGeomSetBody (planeGeom, planeBody);
     //dBodySetPosition (planeBody, 0, 0, 0); // place the plane normal vector at the origin
+    
+    
 
-    // create out second ODE object - the cube (box).
-    static dBodyID boxBody = dBodyCreate (gODEWorld);
-    static dGeomID boxGeom = dCreateBox (gODESpace, 1, 1, 1);
-    dGeomSetBody (boxGeom, boxBody);
-    dBodySetPosition (boxBody, 0, 0, 10); // above the origin
-
+    
+    
+    
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
     // 640x480 is the initial size, and "Simple example" is the name of the window.
@@ -499,6 +514,11 @@ int main(void)
     
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
+    myCube.location_m += point(0, 0, 20);
+    
+    cubeD_D BouncyBlock;
+    BouncyBlock.setTexture(gTextureSteel);
+    BouncyBlock.location_m += point(0, 3, 10);
     
     cubeD_D myCube2;
     myCube2.setTexture(gTexture);
@@ -566,10 +586,11 @@ camRotateX=-90;
         // remove all contact joints
         dJointGroupEmpty (gODEContactGroup);
 
-        const dReal* pos = dBodyGetPosition(boxBody);
-        myCube.location_m.x_m = pos[0];
-        myCube.location_m.y_m = pos[1];
-        myCube.location_m.z_m = pos[2];
+        
+        
+        
+        
+      
         
         
 
@@ -644,12 +665,12 @@ camRotateX=-90;
             camX += std::sin(DegreesToRads(camRotateY))*-0.55;
         }
         if(CarSprint){
-            camY += std::cos(DegreesToRads(camRotateY))*1;
-            camX += std::sin(DegreesToRads(camRotateY))*1;
+            camY -= std::cos(DegreesToRads(camRotateY))*1;
+            camX -= std::sin(DegreesToRads(camRotateY))*1;
         }
         if(AdminSprint){
-            camY += std::cos(DegreesToRads(camRotateY))*2.5;
-            camX += std::sin(DegreesToRads(camRotateY))*2.5;
+            camY -= std::cos(DegreesToRads(camRotateY))*2.5;
+            camX -= std::sin(DegreesToRads(camRotateY))*2.5;
         }
        
         if(camZ<=0){
@@ -725,6 +746,7 @@ camRotateX=-90;
 
                 //grass
             myCube.draw();
+            BouncyBlock.draw();
             myCube2.draw();
             
     
