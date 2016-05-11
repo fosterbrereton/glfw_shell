@@ -20,6 +20,7 @@
 		CE9DC09D1C582ECF0098158B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9DC09C1C582ECF0098158B /* IOKit.framework */; };
 		CE9DC09F1C582EDB0098158B /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9DC09E1C582EDB0098158B /* libobjc.dylib */; };
 		CE9DC0A31C582F0E0098158B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9DC0A21C582F0E0098158B /* AppKit.framework */; };
+		CED3B5621CE39B2C0031F49E /* libode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CED3B5611CE39B2C0031F49E /* libode.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +59,7 @@
 		CE9DC09E1C582EDB0098158B /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		CE9DC0A01C582EE50098158B /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		CE9DC0A21C582F0E0098158B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		CED3B5611CE39B2C0031F49E /* libode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libode.a; path = ode/libode.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				CE9DC0A31C582F0E0098158B /* AppKit.framework in Frameworks */,
 				CE9DC09F1C582EDB0098158B /* libobjc.dylib in Frameworks */,
 				CE9DC09D1C582ECF0098158B /* IOKit.framework in Frameworks */,
+				CED3B5621CE39B2C0031F49E /* libode.a in Frameworks */,
 				CE9DC09B1C582E940098158B /* CoreVideo.framework in Frameworks */,
 				CE9DC0991C582E890098158B /* CoreGraphics.framework in Frameworks */,
 				CE9DC0971C582E780098158B /* CoreServices.framework in Frameworks */,
@@ -100,8 +103,8 @@
 		CE9DC07A1C5829770098158B = {
 			isa = PBXGroup;
 			children = (
-				CE70EDA61C99CDE200051598 /* src */,
 				CE9DC0851C5829780098158B /* sources */,
+				CE70EDA61C99CDE200051598 /* src */,
 				CE9DC0911C582D8D0098158B /* settings */,
 				CE9DC0901C582D850098158B /* libraries */,
 				CE9DC0841C5829780098158B /* products */,
@@ -138,6 +141,7 @@
 				CE9DC0941C582E680098158B /* libSystem.dylib */,
 				CE9DC0921C582E5B0098158B /* OpenGL.framework */,
 				CE9DC08E1C582D700098158B /* libglfw3.a */,
+				CED3B5611CE39B2C0031F49E /* libode.a */,
 			);
 			name = libraries;
 			sourceTree = "<group>";
@@ -292,6 +296,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/glfw/lib",
 					"$(PROJECT_DIR)/soil/lib",
+					"$(PROJECT_DIR)/ode",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -304,6 +309,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/glfw/lib",
 					"$(PROJECT_DIR)/soil/lib",
+					"$(PROJECT_DIR)/ode",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

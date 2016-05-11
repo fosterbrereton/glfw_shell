@@ -33,7 +33,11 @@
 #include <iomanip>
 #include <unistd.h>
 
+// soil
 #include "SOIL.h"
+
+// ODE
+#include "ode/ode.h"
 
 static void error_callback(int error, const char* description)
 {
@@ -62,6 +66,51 @@ float camRotateY{0};
 time_t  timev;
 float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
+
+// ODE global variables
+static dWorldID world;
+static dSpaceID space;
+static dBodyID body;	
+static dGeomID geom;	
+static dMass m;
+static dJointGroupID contactgroup;
+
+static void nearCallback (void *data, dGeomID o1, dGeomID o2)
+{
+    dBodyID b1 = dGeomGetBody(o1);
+    dBodyID b2 = dGeomGetBody(o2);
+    dContact contact;  
+    contact.surface.mode = dContactBounce | dContactSoftCFM;
+    // friction parameter
+    contact.surface.mu = dInfinity;
+    // bounce is the amount of "bouncyness".
+    contact.surface.bounce = 0.9;
+    // bounce_vel is the minimum incoming velocity to cause a bounce
+    contact.surface.bounce_vel = 0.1;
+    // constraint force mixing parameter
+    contact.surface.soft_cfm = 0.001;  
+    if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
+        dJointID c = dJointCreateContact (world,contactgroup,&contact);
+        dJointAttach (c,b1,b2);
+    }
+}
+
+// simulation loop
+static void simLoop (int pause)
+{
+    const dReal *pos;
+    const dReal *R;
+    // find collisions and add contact joints
+    dSpaceCollide (space,0,&nearCallback);
+    // step the simulation
+    dWorldQuickStep (world,0.01);  
+    // remove all contact joints
+    dJointGroupEmpty (contactgroup);
+    // redraw sphere at new location
+    pos = dGeomGetPosition (geom);
+    R = dGeomGetRotation (geom);
+    // dsDrawSphere (pos,R,dGeomSphereGetRadius (geom));
+}
 
 struct texture_t {
     texture_t()=default;
@@ -937,6 +986,7 @@ int main(void)
 {
     chdir(getenv("HOME"));
     std::srand(std::time(NULL));
+
     // In JavaScript, this would be "var window;"
     GLFWwindow* window; // This creates a variable to store the GLFW window
 
@@ -944,6 +994,23 @@ int main(void)
 
     if (!glfwInit()) // Allows GLFW to do some initial setup and initialization.
         exit(EXIT_FAILURE); // If initialization fails, we can't continue with the program.
+
+    // ODE initialization
+    dInitODE ();
+    world = dWorldCreate ();
+    space = dHashSpaceCreate (0);
+    dWorldSetGravity (world,0,0,-0.2);
+    dWorldSetCFM (world,1e-5);
+    dCreatePlane (space,0,0,1,0);
+    contactgroup = dJointGroupCreate (0);
+    // create object
+    body = dBodyCreate (world);
+    geom = dCreateSphere (space,0.5);
+    dMassSetSphere (&m,1,0.5);
+    dBodySetMass (body,&m);
+    dGeomSetBody (geom,body);
+    // set initial position
+    dBodySetPosition (body,0,0,3);
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -1224,6 +1291,12 @@ myCube2.location_m += point(1, 0, 0);
     // At this point the window should be destroyed. This is the opposite routine
     // for glfwCreateWindow.
     glfwDestroyWindow(window);
+
+    // ODE teardown
+    dJointGroupDestroy (contactgroup);
+    dSpaceDestroy (space);
+    dWorldDestroy (world);
+    dCloseODE();
 
     // This is the opposite of glfwInit - do some final cleanup before quitting.
     glfwTerminate();
