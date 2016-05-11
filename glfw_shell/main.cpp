@@ -1,27 +1,4 @@
-//========================================================================
-// Simple GLFW example
-// Copyright (c) Camilla Berglund <elmindreda@elmindreda.org>
-//
-// This software is provided 'as-is', without any express or implied
-// warranty. In no event will the authors be held liable for any damages
-// arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it
-// freely, subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented; you must not
-//    claim that you wrote the original software. If you use this software
-//    in a product, an acknowledgment in the product documentation would
-//    be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such, and must not
-//    be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source
-//    distribution.
-//
-//========================================================================
+// Seth's Simulator!
 
 #include <GLFW/glfw3.h>
 #include <vector>
@@ -68,12 +45,9 @@ float DecreaseClimbRate{0.1};
 float IncreaseFallRate{0.05};
 
 // ODE global variables
-static dWorldID world;
-static dSpaceID space;
-static dBodyID body;	
-static dGeomID geom;	
-static dMass m;
-static dJointGroupID contactgroup;
+static dWorldID gODEWorld;
+static dSpaceID gODESpace;
+static dJointGroupID gODEContactGroup;
 
 static void nearCallback (void *data, dGeomID o1, dGeomID o2)
 {
@@ -90,7 +64,7 @@ static void nearCallback (void *data, dGeomID o1, dGeomID o2)
     // constraint force mixing parameter
     contact.surface.soft_cfm = 0.001;  
     if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
-        dJointID c = dJointCreateContact (world,contactgroup,&contact);
+        dJointID c = dJointCreateContact (gODEWorld,gODEContactGroup,&contact);
         dJointAttach (c,b1,b2);
     }
 }
@@ -101,11 +75,11 @@ static void simLoop (int pause)
     const dReal *pos;
     const dReal *R;
     // find collisions and add contact joints
-    dSpaceCollide (space,0,&nearCallback);
+    dSpaceCollide (gODESpace,0,&nearCallback);
     // step the simulation
-    dWorldQuickStep (world,0.01);  
+    dWorldQuickStep (gODEWorld,0.01);  
     // remove all contact joints
-    dJointGroupEmpty (contactgroup);
+    dJointGroupEmpty (gODEContactGroup);
     // redraw sphere at new location
     pos = dGeomGetPosition (geom);
     R = dGeomGetRotation (geom);
@@ -461,17 +435,6 @@ void cubeD_D::draw() {
     
 }
 
-
-
-
-
-
-
-
-
-
-
-
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -487,20 +450,23 @@ int main(void)
 
     // ODE initialization
     dInitODE ();
-    world = dWorldCreate ();
-    space = dHashSpaceCreate (0);
-    dWorldSetGravity (world,0,0,-0.2);
-    dWorldSetCFM (world,1e-5);
-    dCreatePlane (space,0,0,1,0);
-    contactgroup = dJointGroupCreate (0);
+    gODEWorld = dWorldCreate ();
+    gODESpace = dHashSpaceCreate (0);
+    dWorldSetGravity (gODEWorld,0,0,-0.2);
+    dWorldSetCFM (gODEWorld,1e-5);
+    dCreatePlane (gODESpace,0,0,1,0);
+    gODEContactGroup = dJointGroupCreate (0);
+
     // create object
-    body = dBodyCreate (world);
-    geom = dCreateSphere (space,0.5);
+    static dBodyID body;    
+    static dGeomID geom;    
+    static dMass m;
+    body = dBodyCreate (gODEWorld);
+    geom = dCreateSphere (gODESpace,0.5);
     dMassSetSphere (&m,1,0.5);
     dBodySetMass (body,&m);
     dGeomSetBody (geom,body);
-    // set initial position
-    dBodySetPosition (body,0,0,3);
+    dBodySetPosition (body,0,0,3); // set initial position
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -523,7 +489,7 @@ int main(void)
     glfwSetCursorPosCallback(window, cursor_pos_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
-    // Set some OpenGL world options.
+    // Set some OpenGL gODEWorld options.
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
@@ -782,9 +748,9 @@ myCube2.location_m += point(1, 0, 1);
     glfwDestroyWindow(window);
 
     // ODE teardown
-    dJointGroupDestroy (contactgroup);
-    dSpaceDestroy (space);
-    dWorldDestroy (world);
+    dJointGroupDestroy (gODEContactGroup);
+    dSpaceDestroy (gODESpace);
+    dWorldDestroy (gODEWorld);
     dCloseODE();
 
     // This is the opposite of glfwInit - do some final cleanup before quitting.
