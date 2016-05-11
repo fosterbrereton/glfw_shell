@@ -122,7 +122,7 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
     double deltaY{ypos-oldy};
     
     // std::cout << deltaX << "," << deltaY << "\n";
-    camRotateY-=deltaX;
+    camRotateY+=deltaX;
     camRotateX+=deltaY;
     oldx = xpos;
     oldy = ypos;
@@ -452,7 +452,7 @@ int main(void)
     static dBodyID boxBody = dBodyCreate (gODEWorld);
     static dGeomID boxGeom = dCreateBox (gODESpace, 1, 1, 1);
     dGeomSetBody (boxGeom, boxBody);
-    dBodySetPosition (boxBody, 0, 0, 1); // above the origin
+    dBodySetPosition (boxBody, 0, 0, 10); // above the origin
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -499,10 +499,12 @@ int main(void)
     
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
-
+    
     cubeD_D myCube2;
     myCube2.setTexture(gTexture);
-    myCube2.location_m += point(0, 0, 1);
+    myCube2.location_m += point(0, 0, -0.5);
+    myCube2.w_m = 450;
+    myCube2.h_m = 450;
     
     float carSpeed1{100};
     float carSpeed2{100};
@@ -534,7 +536,8 @@ int main(void)
     static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
     static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
     static const float min_per_day_k = 24 * 60;
-
+    //look position
+camRotateX=-90;
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -567,6 +570,8 @@ int main(void)
         myCube.location_m.x_m = pos[0];
         myCube.location_m.y_m = pos[1];
         myCube.location_m.z_m = pos[2];
+        
+        
 
         // These are variable spaces.
         float ratio; // this is a floating point number
@@ -612,8 +617,8 @@ int main(void)
         //cube5(10,10,-5,10,4,4);
         if(MoveForward){
     
-            camY += std::cos(DegreesToRads(camRotateY))*0.1;
-            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+            camY -= std::cos(DegreesToRads(camRotateY))*0.1;
+            camX -= std::sin(DegreesToRads(camRotateY))*0.1;
         }
         if(MoveRight){
             camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
@@ -624,8 +629,8 @@ int main(void)
             camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
         }
         if(MoveBackward){
-            camY -= std::cos(DegreesToRads(camRotateY))*0.1;
-            camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+            camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            camX += std::sin(DegreesToRads(camRotateY))*0.1;
         }
 
 
@@ -669,17 +674,18 @@ int main(void)
             glfwSetCursorPosCallback(window, cursor_pos_callback);
         }
 
-        glTranslatef(camX+2,camY-2.5,camZ);
-
+        glTranslatef(camX+2,camY-2.5,-camZ-2);
+        
         gTexture.activate();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
 
-        glTexCoord2f(0, 450); glVertex3f(-450, 450, 1.5);
-        glTexCoord2f(450, 450); glVertex3f(450, 450, 1.5);
-        glTexCoord2f(450, 0); glVertex3f(450, -450, 1.5);
-        glTexCoord2f(0, 0); glVertex3f(-450, -450, 1.5);
+        glTexCoord2f(0, 450); glVertex3f(-450, 450, -450);
+        glTexCoord2f(450, 450); glVertex3f(450, 450, -450);
+        glTexCoord2f(450, 0); glVertex3f(450, -450, -450);
+        glTexCoord2f(0, 0); glVertex3f(-450, -450, -450);
 
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
