@@ -555,6 +555,9 @@ int main(void)
     BouncyBlock.setTexture(gTextureSteel);
     BouncyBlock.location_m += point(0, 3, 10);
     BouncyBlock.SetLocation(0, 3, 10);
+    BouncyBlock.r_m=255;
+    BouncyBlock.g_m=0;
+    BouncyBlock.b_m=0;
     
     
     cubeD_D myCube2;
