@@ -336,7 +336,7 @@ struct cubeD_D {
     cubeD_D(){
         SetboxBandG();
         dGeomSetBody (boxGeom_m, boxBody_m);
-        dBodySetPosition (boxBody_m, location_m.x_m, location_m.y_m, location_m.z_m);
+        
 
     }
     point location_m;
@@ -364,10 +364,16 @@ struct cubeD_D {
     void draw();
     void setTexture(texture_t);
     void SetboxBandG();
+    void SetLocation(float x,float y,float z);
     
-    
+  //myCube.location_m += point(0, 0, 20);
     
 };
+
+void cubeD_D::SetLocation(float x,float y,float z){
+    location_m += point(x,y,z);
+    dBodySetPosition (boxBody_m, x,y,z);
+}
 
 void cubeD_D::SetboxBandG(){
     boxBody_m = dBodyCreate (gODEWorld);
@@ -541,16 +547,19 @@ int main(void)
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
     myCube.location_m += point(0, 0, 20);
+    myCube.SetLocation(0, 0, 20);
+
     
     
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
     BouncyBlock.location_m += point(0, 3, 10);
+    BouncyBlock.SetLocation(0, 3, 10);
     
     
     cubeD_D myCube2;
     myCube2.setTexture(gTexture);
-    myCube2.location_m += point(0, 0, -0.5);
+    myCube2.SetLocation(0, 0, -0.5);
     myCube2.w_m = 450;
     myCube2.h_m = 450;
     
