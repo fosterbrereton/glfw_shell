@@ -333,9 +333,15 @@ point& operator-=(point& a, const point& b) {
 }
 
 struct cubeD_D {
-    cubeD_D() = default;
+    cubeD_D(){
+        SetboxBandG();
+        dGeomSetBody (boxGeom_m, boxBody_m);
+        dBodySetPosition (boxBody_m, location_m.x_m, location_m.y_m, location_m.z_m);
+
+    }
     point location_m;
-    
+    dBodyID boxBody_m;
+    dGeomID boxGeom_m;
     double h_m{1};
     double w_m{1};
     double d_m{1};
@@ -349,17 +355,26 @@ struct cubeD_D {
     texture_t tex4;
     texture_t tex5;
     texture_t tex6;
-    dBodyID boxBody_m = dBodyCreate (gODEWorld);
-    dGeomID boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
+    //boxBody_m = dBodyCreate (gODEWorld);
+    //boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
     
-    void GeomSetBody (dGeomID boxGeom_m, dBodyID boxBody_m);
-    void dBodySetPosition (dBodyID boxBody_m, point x_m, point y_m, point z_m);
+   
     
     
     void draw();
     void setTexture(texture_t);
+    void SetboxBandG();
+    
+    
     
 };
+
+void cubeD_D::SetboxBandG(){
+    boxBody_m = dBodyCreate (gODEWorld);
+    boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
+    
+    
+}
 
 void cubeD_D::setTexture(texture_t tex){
     tex1 = tex;
@@ -373,19 +388,19 @@ void cubeD_D::setTexture(texture_t tex){
 
 
 void cubeD_D::draw() {
-    double x = location_m.x_m;
-    double y = location_m.y_m;
-    double z = location_m.z_m;
-    
-    
-    
+    //double x = location_m.x_m;
+    //double y = location_m.y_m;
+    //double z = location_m.z_m;
     
     
     
     const dReal* pos = dBodyGetPosition(boxBody_m);
-    x = pos[0];
-    y = pos[1];
-    z = pos[2];
+    double x = pos[0];
+    double y = pos[1];
+    double z = pos[2];
+    
+    
+    
     
     
     glColor3f(r_m/255, g_m/255, b_m/255);
@@ -440,6 +455,8 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0); p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    
 
     
 }
@@ -525,9 +542,11 @@ int main(void)
     myCube.setTexture(gTextureBall);
     myCube.location_m += point(0, 0, 20);
     
+    
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
     BouncyBlock.location_m += point(0, 3, 10);
+    
     
     cubeD_D myCube2;
     myCube2.setTexture(gTexture);
@@ -535,7 +554,8 @@ int main(void)
     myCube2.w_m = 450;
     myCube2.h_m = 450;
     
-    float carSpeed1{100};
+    
+    /*float carSpeed1{100};
     float carSpeed2{100};
     float carSpeed3{100};
     float carSpeed4{100};
@@ -548,7 +568,7 @@ int main(void)
     
     float car4x{0};
     float car6x{0};
-    float car1x{0};
+    float car1x{0};*/
     /*std::vector<tree_t> tree_vector;
     for (std::size_t i(0); i < 50; ++i) {
         tree_vector.push_back({rand()%440-220.,rand()%440-220.,0});
