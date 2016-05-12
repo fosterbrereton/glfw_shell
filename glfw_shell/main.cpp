@@ -349,10 +349,18 @@ struct cubeD_D {
     texture_t tex4;
     texture_t tex5;
     texture_t tex6;
+    dBodyID boxBody_m = dBodyCreate (gODEWorld);
+    dGeomID boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
+    
+    void GeomSetBody (dGeomID boxGeom_m, dBodyID boxBody_m);
+    void dBodySetPosition (dBodyID boxBody_m, point x_m, point y_m, point z_m);
+    
     
     void draw();
     void setTexture(texture_t);
+    
 };
+
 void cubeD_D::setTexture(texture_t tex){
     tex1 = tex;
     tex2 = tex;
@@ -362,19 +370,19 @@ void cubeD_D::setTexture(texture_t tex){
     tex6 = tex;
 }
 
+
+
 void cubeD_D::draw() {
     double x = location_m.x_m;
     double y = location_m.y_m;
     double z = location_m.z_m;
     
-    static dBodyID boxBody2 = dBodyCreate (gODEWorld);
-    static dGeomID boxGeom2 = dCreateBox (gODESpace, 1, 1, 1);
-    
-    dGeomSetBody (boxGeom2, boxBody2);
-    dBodySetPosition (boxBody2, x, y, z);
     
     
-    const dReal* pos = dBodyGetPosition(boxBody2);
+    
+    
+    
+    const dReal* pos = dBodyGetPosition(boxBody_m);
     x = pos[0];
     y = pos[1];
     z = pos[2];
@@ -461,7 +469,7 @@ int main(void)
 
     // create out first ODE object - the plane.
     //static dBodyID planeBody = dBodyCreate (gODEWorld);
-    static dGeomID planeGeom = dCreatePlane (gODESpace, 0, 0, 1, 0);
+    //static dGeomID planeGeom = dCreatePlane (gODESpace, 0, 0, 1, 0);
     //dGeomSetBody (planeGeom, planeBody);
     //dBodySetPosition (planeBody, 0, 0, 0); // place the plane normal vector at the origin
     
@@ -708,6 +716,8 @@ camRotateX=-90;
         glTexCoord2f(450, 450); glVertex3f(450, 450, -450);
         glTexCoord2f(450, 0); glVertex3f(450, -450, -450);
         glTexCoord2f(0, 0); glVertex3f(-450, -450, -450);
+        
+       
 
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
