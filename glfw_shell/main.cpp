@@ -195,7 +195,6 @@ void p4(float x, float y,float z, float h, float w, float d,float r, float g, fl
     glColor3f(r/255,g/255,b/255);
     glVertex3f(h/2+x, -w/2+y, -d/2+z);
 }
-
 void p5(float x, float y,float z, float h, float w, float d,float r, float g, float b)
 {
     glColor3f(r/255,g/255,b/255);
@@ -336,10 +335,8 @@ struct cubeD_D {
     cubeD_D(){
         SetboxBandG();
         dGeomSetBody (boxGeom_m, boxBody_m);
-        
-
     }
-    point location_m;
+
     dBodyID boxBody_m;
     dGeomID boxGeom_m;
     double h_m{1};
@@ -355,31 +352,20 @@ struct cubeD_D {
     texture_t tex4;
     texture_t tex5;
     texture_t tex6;
-    //boxBody_m = dBodyCreate (gODEWorld);
-    //boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
-    
-   
-    
-    
+
     void draw();
     void setTexture(texture_t);
     void SetboxBandG();
     void SetLocation(float x,float y,float z);
-    
-  //myCube.location_m += point(0, 0, 20);
-    
 };
 
-void cubeD_D::SetLocation(float x,float y,float z){
-    location_m += point(x,y,z);
+void cubeD_D::SetLocation(float x,float y,float z) {
     dBodySetPosition (boxBody_m, x,y,z);
 }
 
-void cubeD_D::SetboxBandG(){
+void cubeD_D::SetboxBandG() {
     boxBody_m = dBodyCreate (gODEWorld);
-    boxGeom_m = dCreateBox (gODESpace, location_m.x_m, location_m.y_m, location_m.z_m);
-    
-    
+    boxGeom_m = dCreateBox (gODESpace, 1, 1, 1);
 }
 
 void cubeD_D::setTexture(texture_t tex){
@@ -391,24 +377,16 @@ void cubeD_D::setTexture(texture_t tex){
     tex6 = tex;
 }
 
-
-
 void cubeD_D::draw() {
-    //double x = location_m.x_m;
-    //double y = location_m.y_m;
-    //double z = location_m.z_m;
-    
-    
-    
     const dReal* pos = dBodyGetPosition(boxBody_m);
+
     double x = pos[0];
     double y = pos[1];
     double z = pos[2];
-    
-    
-    
-    
-    
+
+    // TODO:
+    // Use dGeomGetRotation to get the rotation and then feed it to OpenGL.
+
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
     // THIS IS WHERE THE DRAWING HAPPENS!
@@ -461,15 +439,10 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0); p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-    
-    
-
-    
 }
 
 int main(void)
 {
-    
     chdir(getenv("HOME"));
     std::srand(std::time(NULL));
 
@@ -487,20 +460,9 @@ int main(void)
     gODESpace = dHashSpaceCreate(0);
     dWorldSetGravity(gODEWorld, 0, 0, -0.2);
     dWorldSetCFM(gODEWorld, 1e-5);
-    dCreatePlane(gODESpace, 0, 0, 1, 0);
+    dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
 
-    // create out first ODE object - the plane.
-    //static dBodyID planeBody = dBodyCreate (gODEWorld);
-    //static dGeomID planeGeom = dCreatePlane (gODESpace, 0, 0, 1, 0);
-    //dGeomSetBody (planeGeom, planeBody);
-    //dBodySetPosition (planeBody, 0, 0, 0); // place the plane normal vector at the origin
-    
-    
-
-    
-    
-    
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
     // 640x480 is the initial size, and "Simple example" is the name of the window.
@@ -527,12 +489,10 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-         //comment this out to go to normal colors
-    
-        glEnable(GL_TEXTURE_2D);
-        //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
-    
-    
+    //comment this out to go to normal colors
+    glEnable(GL_TEXTURE_2D);
+    //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
+
     gTextureSteel.load();
     gTexture.load();
     gTextureWood.load();
@@ -540,55 +500,19 @@ int main(void)
     gTextureRoad.load();
     gTextureRoadY.load();
     gTextureWhite.load();
-    
     gTextureBall.load();
     gTextureClear.load();
     
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
-    myCube.location_m += point(0, 0, 20);
     myCube.SetLocation(0, 0, 20);
 
-    
-    
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.location_m += point(0, 3, 10);
     BouncyBlock.SetLocation(0, 3, 10);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
-    
-    
-    cubeD_D myCube2;
-    myCube2.setTexture(gTexture);
-    myCube2.SetLocation(0, 0, -0.5);
-    myCube2.w_m = 450;
-    myCube2.h_m = 450;
-    
-    
-    /*float carSpeed1{100};
-    float carSpeed2{100};
-    float carSpeed3{100};
-    float carSpeed4{100};
-    
-    float carSpeed6{-100};
-    
-    float carStop{1};
-    float carStop2{1.12};
-    float carStop3{0.6};
-    
-    float car4x{0};
-    float car6x{0};
-    float car1x{0};*/
-    /*std::vector<tree_t> tree_vector;
-    for (std::size_t i(0); i < 50; ++i) {
-        tree_vector.push_back({rand()%440-220.,rand()%440-220.,0});
-    }*/
-    
-    //std::vector<cubeD_D> cubeD_vector;
-    
-    //tree_t tree1{rand()%100+0.,rand()%100+0.,0};
 
     static const float simulation_start_k = glfwGetTime();
     static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
@@ -597,8 +521,10 @@ int main(void)
     static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
     static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
     static const float min_per_day_k = 24 * 60;
+
     //look position
-camRotateX=-90;
+    camRotateX=-90;
+
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
@@ -608,7 +534,7 @@ camRotateX=-90;
         float percent_of_day = (static_cast<int>(elapsed_game_min) % static_cast<int>(min_per_day_k)) / min_per_day_k;
         float sky_cycle = std::sin(percent_of_day * M_PI);
         float sky = 0 * (1-sky_cycle) + 0.9803921569 * sky_cycle;
-        int game_hrs_mil = static_cast<int>(elapsed_game_hrs) % 24; // military hours
+        // int game_hrs_mil = static_cast<int>(elapsed_game_hrs) % 24; // military hours
 
 // Set to #if 1 to enable displaying the time
 #if 0
@@ -627,20 +553,11 @@ camRotateX=-90;
         // remove all contact joints
         dJointGroupEmpty (gODEContactGroup);
 
-        
-        
-        
-        
-      
-        
-        
-
-        // These are variable spaces.
-        float ratio; // this is a floating point number
+        // These are variable declarations.
         int width, height; // these variables store the dimensions of the window
 
         glfwGetFramebufferSize(window, &width, &height); // Get the height and width of the window from GLFW.
-        ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
+        float ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
 
         glViewport(0, 0, width, height); // This tells OpenGL how big the window is,
         glClearColor(0.5294117648+sky-0.9803921569, 0.8078431373+sky-0.9803921569, sky, 0);                              // and OpenGL goes off and creates a space
@@ -654,31 +571,16 @@ camRotateX=-90;
             These operations tell OpenGL how to convert the 3D world we are about
             to create into a 2D image that can be displayed on the computer screen.
         */
-
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluPerspective(60, ratio, 1, 1000);
-        //glOrtho(-ratio, ratio, -1.f, 1.f, 50.f, -50.f);
         glMatrixMode(GL_MODELVIEW);
-       
-
-        /*
-            These operations tell OpenGL that we want to rotate the 3D world that
-            we are drawing. The call to glfwGetTime is constantly changing as time
-            marches on, and the * 50 determines how fast the rotation should be.
-        */
         glLoadIdentity();
-        //glRotatef((float) glfwGetTime() * 8.f, 0.f, 0.f, 1.f);
-        //glRotatef((float) glfwGetTime() * 4.f, 0.f, 1.f, 0.f);
-        //glRotatef((float) glfwGetTime() * 5.f, 1.f, 0.f, 0.f);
 
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
-
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
 
-        //cube5(10,10,-5,10,4,4);
         if(MoveForward){
-    
             camY -= std::cos(DegreesToRads(camRotateY))*0.1;
             camX -= std::sin(DegreesToRads(camRotateY))*0.1;
         }
@@ -694,13 +596,10 @@ camRotateX=-90;
             camY += std::cos(DegreesToRads(camRotateY))*0.1;
             camX += std::sin(DegreesToRads(camRotateY))*0.1;
         }
-
-
         if(MoveUp && fall==false){
             camZ += DecreaseClimbRate;
             DecreaseClimbRate-=0.0077;
-    
-            }
+        }
         if(Sprint && CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*-0.55;
             camX += std::sin(DegreesToRads(camRotateY))*-0.55;
@@ -713,24 +612,20 @@ camRotateX=-90;
             camY -= std::cos(DegreesToRads(camRotateY))*2.5;
             camX -= std::sin(DegreesToRads(camRotateY))*2.5;
         }
-       
         if(camZ<=0){
             camZ += 0.1;
             fall=false;
             DecreaseClimbRate=0.2;
             MoveUp=false;
-    
-            }
+        }
         if(MouseOut==true){
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
         if(MouseOut==false){
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    
-            }
+        }
         if(MouseOut==true){
-        glfwSetCursorPosCallback(window, 0);
-
+            glfwSetCursorPosCallback(window, 0);
         }
         if(MouseOut==false){
             glfwSetCursorPosCallback(window, cursor_pos_callback);
@@ -744,59 +639,19 @@ camRotateX=-90;
         
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
 
-        glTexCoord2f(0, 450); glVertex3f(-450, 450, -450);
-        glTexCoord2f(450, 450); glVertex3f(450, 450, -450);
-        glTexCoord2f(450, 0); glVertex3f(450, -450, -450);
-        glTexCoord2f(0, 0); glVertex3f(-450, -450, -450);
-        
-       
+            glTexCoord2f(0, 450); glVertex3f(-450, 450, 0);
+            glTexCoord2f(450, 450); glVertex3f(450, 450, 0);
+            glTexCoord2f(450, 0); glVertex3f(450, -450 ,0);
+            glTexCoord2f(0, 0); glVertex3f(-450, -450, 0);
 
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        bool customMap{true};
-        if(customMap){
-            //change this float to change the size of your world!
-            float worldSize{1};
-            //put all your code in here!
-            //there are several built in structures
-            //1 is officeB which places an offic building
-            //2 is roadH and roadV which are vertical and horizontal roads
-            //officePlant a small splant
-            //officeFloor a floor of office cubicals
-            //officeCube one office cubical
-            //the other shapes include
-            //sphere
-            //cube1, cube2, cube3, cube4,vcube5,vand cube6
-    
-                //to use non-shape built in function put the name first and then x y z
-            //for example
-            //        x  y  z
-            //officeB(10,28,3);
-    
-                //to use the cube you have to do x y z and height, width, and depth
-            //for example
-            //      x  y  z  h  w d
-            //cube1(38,39,10,1,30,1);
-            //for spheres there is x y z and size
-            //for example
-            //       x  y  z  size
-            //sphere(13,34,4,  5 );
-            // now go program your world!
-    
 
-                //grass
-            myCube.draw();
-            BouncyBlock.draw();
-            myCube2.draw();
-            
-    
-                if(worldSize==1){
-        
-                    }
-        }
+        myCube.draw();
+        BouncyBlock.draw();
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
