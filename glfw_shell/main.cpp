@@ -439,6 +439,7 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0); p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
+
 }
 
 int main(void)
