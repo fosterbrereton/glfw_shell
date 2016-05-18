@@ -386,23 +386,15 @@ void cubeD_D::draw() {
     float z = pos[2];
 
     glPushMatrix();
-    glLoadIdentity();
-#if 1
-    GLfloat matrix[16] = {
-        rot[0], rot[4], rot[8], 0,
-        rot[1], rot[5], rot[9], 0,
-        rot[2], rot[6], rot[10], 0,
-        0, 0, 0, 1
-    };
-#else
+
     GLfloat matrix[16] = {
         rot[0], rot[1], rot[2], 0,
         rot[4], rot[5], rot[6], 0,
         rot[8], rot[9], rot[10], 0,
         0, 0, 0, 1
     };
-#endif
 
+    glTranslatef(x, y, z);
     glMultMatrixf(matrix);
 
     glColor3f(r_m/255, g_m/255, b_m/255);
@@ -410,55 +402,55 @@ void cubeD_D::draw() {
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p5(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p8(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p7(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p6(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Right face
     tex2.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p8(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p7(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1);p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     // Left face
     tex3.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p5(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p6(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p2(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p1(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1);p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Top face
     tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p6(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p7(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p2(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1);p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Bottom face
     tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p8(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p5(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p1(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Back face
     tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p1(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p2(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     glPopMatrix();
