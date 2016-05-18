@@ -492,7 +492,6 @@ int main(void)
 
     //comment this out to go to normal colors
     glEnable(GL_TEXTURE_2D);
-    //glBindTexture(GL_TEXTURE_2D, gTextureRoadY);
 
     gTextureSteel.load();
     gTexture.load();
@@ -632,19 +631,18 @@ int main(void)
             glfwSetCursorPosCallback(window, cursor_pos_callback);
         }
 
-        glTranslatef(camX+2,camY-2.5,-camZ-2);
-        
+        glTranslatef(camX+2, camY-2.5, -camZ-2);
+
         gTexture.activate();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-
-            glTexCoord2f(0, 450); glVertex3f(-450, 450, 0);
-            glTexCoord2f(450, 450); glVertex3f(450, 450, 0);
-            glTexCoord2f(450, 0); glVertex3f(450, -450 ,0);
+            glColor3f(1, 1, 1);
             glTexCoord2f(0, 0); glVertex3f(-450, -450, 0);
-
+            glTexCoord2f(450, 0); glVertex3f(450, -450 ,0);
+            glTexCoord2f(450, 450); glVertex3f(450, 450, 0);
+            glTexCoord2f(0, 450); glVertex3f(-450, 450, 0);
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
         //If you would like to make a custom make change this to true v
