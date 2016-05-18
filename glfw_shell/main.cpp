@@ -381,11 +381,29 @@ void cubeD_D::draw() {
     const dReal* pos = dBodyGetPosition(boxBody_m);
     const dReal* rot = dBodyGetRotation(boxBody_m);
 
-    double x = pos[0];
-    double y = pos[1];
-    double z = pos[2];
+    float x = pos[0];
+    float y = pos[1];
+    float z = pos[2];
 
     glPushMatrix();
+    glLoadIdentity();
+#if 1
+    GLfloat matrix[16] = {
+        rot[0], rot[4], rot[8], 0,
+        rot[1], rot[5], rot[9], 0,
+        rot[2], rot[6], rot[10], 0,
+        0, 0, 0, 1
+    };
+#else
+    GLfloat matrix[16] = {
+        rot[0], rot[1], rot[2], 0,
+        rot[4], rot[5], rot[6], 0,
+        rot[8], rot[9], rot[10], 0,
+        0, 0, 0, 1
+    };
+#endif
+
+    glMultMatrixf(matrix);
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
