@@ -379,13 +379,13 @@ void cubeD_D::setTexture(texture_t tex){
 
 void cubeD_D::draw() {
     const dReal* pos = dBodyGetPosition(boxBody_m);
+    const dReal* rot = dBodyGetRotation(boxBody_m);
 
     double x = pos[0];
     double y = pos[1];
     double z = pos[2];
 
-    // TODO:
-    // Use dGeomGetRotation to get the rotation and then feed it to OpenGL.
+    glPushMatrix();
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
@@ -415,6 +415,7 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0);p2(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0);p1(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
+
     // Top face
     tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -423,6 +424,7 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0);p3(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0);p2(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
+
     // Bottom face
     tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -431,6 +433,7 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0); p5(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0); p1(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
+
     // Back face
     tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
@@ -440,6 +443,7 @@ void cubeD_D::draw() {
     glTexCoord2f(0, 0); p4(x,y,z,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
+    glPopMatrix();
 }
 
 int main(void)
