@@ -344,6 +344,11 @@ struct cubeD_D {
     double w_m{1};
     double d_m{1};
     
+    float density{1};
+    float m1{1};
+    float m2{1};
+    float m3{1};
+    
     double r_m{255};
     double g_m{255};
     double b_m{255};
@@ -386,6 +391,7 @@ void cubeD_D::draw() {
     float x = pos[0];
     float y = pos[1];
     float z = pos[2];
+    
 
     glPushMatrix();
 
@@ -396,8 +402,14 @@ void cubeD_D::draw() {
         0, 0, 0, 1
     };
 
+    
     glTranslatef(x, y, z);
     glMultMatrixf(matrix);
+    
+    dMass* mass;
+    mass = new dMass;
+    dMassSetBox(mass, density, m1, m2, m3);
+    dBodySetMass(boxBody_m, mass);
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
@@ -489,10 +501,10 @@ int main(void)
     float playerZ{camZ};
     
     
-    dReal* mass;
-    mass = new dReal;
-    *mass = 10;
-    dBodySetMass(playBody, mass);
+    dMass* mass2;
+    mass2 = new dMass;
+    dMassSetBox(mass2, 1, 1, 1, 1);
+    dBodySetMass(playBody, mass2);
     
     
     
@@ -541,24 +553,36 @@ int main(void)
     myCube.SetLocation(0, 0, 20);
     
     cubeD_D myCube1;
-    myCube1.setTexture(gTextureBall);
+    myCube1.setTexture(gTextureWhite);
     myCube1.SetLocation(5, 1, 49);
+    myCube1.density=6;
+    myCube1.m1=2;
+    myCube1.m2=2;
+    myCube1.m3=2;
     
     cubeD_D myCube2;
-    myCube2.setTexture(gTextureBall);
+    myCube2.setTexture(gTextureRoad);
     myCube2.SetLocation(4, 5, 12);
     
     cubeD_D myCube3;
-    myCube3.setTexture(gTextureBall);
+    myCube3.setTexture(gTextureRoadY);
     myCube3.SetLocation(4, 0, 89);
+    myCube3.density=2;
+    myCube3.m1=4;
+    myCube3.m2=4;
+    myCube3.m3=4;
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 3, 100);
+    BouncyBlock.SetLocation(0, 3, 20);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
-    dBodyAddForce(BouncyBlock.boxBody_m, 4, 4, 0);
+    dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
+    BouncyBlock.m1=3;
+    BouncyBlock.m2=3;
+    BouncyBlock.m3=3;
+    
     
 
     static const float simulation_start_k = glfwGetTime();
@@ -721,6 +745,7 @@ int main(void)
         camZ=pos[2]-1;
         
         dBodyAddForce(playBody, playerX, playerY, playerZ);
+        
         
 
         // SwapBuffers causes the background drawing to get slapped onto the
