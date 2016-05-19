@@ -332,14 +332,19 @@ point& operator-=(point& a, const point& b) {
 }
 
 struct cubeD_D {
+    
     cubeD_D(){
+        
         SetboxBandG();
         dGeomSetBody (boxGeom_m, boxBody_m);
         
     }
 
+    
+    
     dBodyID boxBody_m;
     dGeomID boxGeom_m;
+    
     double h_m{1};
     double w_m{1};
     double d_m{1};
@@ -371,8 +376,11 @@ void cubeD_D::SetLocation(float x,float y,float z) {
 }
 
 void cubeD_D::SetboxBandG() {
+    
     boxBody_m = dBodyCreate (gODEWorld);
-    boxGeom_m = dCreateBox (gODESpace, 1, 1, 1);
+    
+    boxGeom_m = dCreateBox (gODESpace, 1,1,1);
+    
 }
 
 void cubeD_D::setTexture(texture_t tex){
@@ -387,6 +395,8 @@ void cubeD_D::setTexture(texture_t tex){
 void cubeD_D::draw() {
     const dReal* pos = dBodyGetPosition(boxBody_m);
     const dReal* rot = dBodyGetRotation(boxBody_m);
+    
+    
 
     float x = pos[0];
     float y = pos[1];
@@ -395,7 +405,7 @@ void cubeD_D::draw() {
 
     glPushMatrix();
 
-    GLfloat matrix[16] = {
+GLfloat matrix[16] = {
         rot[0], rot[1], rot[2], 0,
         rot[4], rot[5], rot[6], 0,
         rot[8], rot[9], rot[10], 0,
@@ -410,6 +420,7 @@ void cubeD_D::draw() {
     mass = new dMass;
     dMassSetBox(mass, density, m1, m2, m3);
     dBodySetMass(boxBody_m, mass);
+    dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
@@ -560,9 +571,19 @@ int main(void)
     myCube1.m2=2;
     myCube1.m3=2;
     
+    
+    
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
     myCube2.SetLocation(4, 5, 12);
+    
+    myCube2.h_m=7;
+    myCube2.w_m=9;
+    myCube2.d_m=12;
+    
+    myCube2.m1=7;
+    myCube2.m2=9;
+    myCube2.m3=12;
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
@@ -571,16 +592,25 @@ int main(void)
     myCube3.m1=4;
     myCube3.m2=4;
     myCube3.m3=4;
+    
+    
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 3, 20);
+    BouncyBlock.SetLocation(0, 3, 40);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
     dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    BouncyBlock.m1=3;
-    BouncyBlock.m2=3;
+    
+    BouncyBlock.h_m=2;
+    BouncyBlock.w_m=7;
+    BouncyBlock.d_m=3;
+    
+    
+    
+    BouncyBlock.m1=2;
+    BouncyBlock.m2=7;
     BouncyBlock.m3=3;
     
     
@@ -740,9 +770,17 @@ int main(void)
         //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
         
         
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
-        camZ=pos[2]-1;
+        //camX=-pos[0]-2;
+       //camY=-pos[1]+2.5;
+        //camZ=pos[2]-1;
+        
+        
+        
+        std::cout << "X=" << camX << '\n';
+        std::cout << "Y=" << camY << '\n';
+        std::cout << "Z=" << camZ << '\n';
+        
+        
         
         dBodyAddForce(playBody, playerX, playerY, playerZ);
         
