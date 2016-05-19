@@ -335,6 +335,7 @@ struct cubeD_D {
     cubeD_D(){
         SetboxBandG();
         dGeomSetBody (boxGeom_m, boxBody_m);
+        
     }
 
     dBodyID boxBody_m;
@@ -361,6 +362,7 @@ struct cubeD_D {
 
 void cubeD_D::SetLocation(float x,float y,float z) {
     dBodySetPosition (boxBody_m, x,y,z);
+   
 }
 
 void cubeD_D::SetboxBandG() {
@@ -477,6 +479,23 @@ int main(void)
     dWorldSetCFM(gODEWorld, 1e-5);
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
+    
+    static dBodyID playBody = dBodyCreate (gODEWorld);
+    static dGeomID playGeom = dCreateBox (gODESpace, 3, 2, 2);
+    dGeomSetBody (playGeom, playBody);
+    dBodySetPosition (playBody, camX-2,camY+2.5,camZ+1);
+    float playerX{camX};
+    float playerY{camY};
+    float playerZ{camZ};
+    
+    
+    dReal* mass;
+    mass = new dReal;
+    *mass = 10;
+    dBodySetMass(playBody, mass);
+    
+    
+    
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -520,13 +539,27 @@ int main(void)
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
     myCube.SetLocation(0, 0, 20);
+    
+    cubeD_D myCube1;
+    myCube1.setTexture(gTextureBall);
+    myCube1.SetLocation(5, 1, 49);
+    
+    cubeD_D myCube2;
+    myCube2.setTexture(gTextureBall);
+    myCube2.SetLocation(4, 5, 12);
+    
+    cubeD_D myCube3;
+    myCube3.setTexture(gTextureBall);
+    myCube3.SetLocation(4, 0, 89);
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 3, 10);
+    BouncyBlock.SetLocation(0, 3, 100);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
+    dBodyAddForce(BouncyBlock.boxBody_m, 4, 4, 0);
+    
 
     static const float simulation_start_k = glfwGetTime();
     static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
@@ -542,6 +575,7 @@ int main(void)
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
+        
         float elapsed_real_sec = glfwGetTime() - simulation_start_k;
         float elapsed_game_min = game_min_per_real_sec_k * elapsed_real_sec;
         float elapsed_game_hrs = elapsed_game_min / 60;
@@ -593,10 +627,14 @@ int main(void)
 
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
+        const dReal* pos = dBodyGetPosition(playBody);
 
         if(MoveForward){
+            //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
             camY -= std::cos(DegreesToRads(camRotateY))*0.1;
             camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+            
+            
         }
         if(MoveRight){
             camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
@@ -664,7 +702,26 @@ int main(void)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         myCube.draw();
+        myCube1.draw();
+        myCube2.draw();
+        myCube3.draw();
         BouncyBlock.draw();
+        
+        
+        
+        /*const dReal* pos = dBodyGetPosition(BouncyBlock.boxBody_m);
+        camX=-pos[0]-2;
+        camY=-pos[1]+2.5;
+        camZ=pos[2];*/
+        //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
+        
+        
+        camX=-pos[0]-2;
+        camY=-pos[1]+2.5;
+        camZ=pos[2]-1;
+        
+        dBodyAddForce(playBody, playerX, playerY, playerZ);
+        
 
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
