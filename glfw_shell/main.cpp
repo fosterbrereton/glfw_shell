@@ -59,11 +59,11 @@ static void ODEContactCallback (void *data, dGeomID o1, dGeomID o2)
     // friction parameter
     contact.surface.mu = dInfinity;
     // bounce is the amount of "bouncyness".
-    contact.surface.bounce = 0.9;
+    contact.surface.bounce = 0.1;
     // bounce_vel is the minimum incoming velocity to cause a bounce
     contact.surface.bounce_vel = 0.1;
     // constraint force mixing parameter
-    contact.surface.soft_cfm = 0.001;  
+    contact.surface.soft_cfm = 0.0001;
 
     if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
         dJointID c = dJointCreateContact (gODEWorld,gODEContactGroup,&contact);
@@ -507,15 +507,32 @@ int main(void)
     static dGeomID playGeom = dCreateBox (gODESpace, 3, 2, 2);
     dGeomSetBody (playGeom, playBody);
     dBodySetPosition (playBody, camX-2,camY+2.5,camZ+1);
-    float playerX{camX};
-    float playerY{camY};
-    float playerZ{camZ};
+    
+    
+    
+    //float playerX{camX};
+    //float playerY{camY};
+    //float playerZ{camZ};
     
     
     dMass* mass2;
     mass2 = new dMass;
     dMassSetBox(mass2, 1, 1, 1, 1);
     dBodySetMass(playBody, mass2);
+    
+    
+    
+    
+    static dBodyID sphereBody = dBodyCreate (gODEWorld);
+    static dGeomID sphereGeom  = dCreateSphere(gODESpace, 1);
+    dGeomSetBody (sphereGeom, sphereBody);
+    
+    dMass* mass3;
+    mass3 = new dMass;
+    dMassSetSphere(mass3, 2 ,1);
+    dBodySetMass(sphereBody, mass3);
+    
+    
     
     
     
@@ -613,6 +630,8 @@ int main(void)
     BouncyBlock.m2=7;
     BouncyBlock.m3=3;
     
+    dBodySetPosition(sphereBody,0,0,50);
+    
     
 
     static const float simulation_start_k = glfwGetTime();
@@ -684,24 +703,32 @@ int main(void)
         const dReal* pos = dBodyGetPosition(playBody);
 
         if(MoveForward){
+            
             //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
-            camY -= std::cos(DegreesToRads(camRotateY))*0.1;
-            camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+            //camX -= std::cos(DegreesToRads(camRotateY))*0.1;
+            //camY -= std::sin(DegreesToRads(camRotateY))*0.1;
+            dBodySetForce(playBody, std::sin(DegreesToRads(camRotateY))*1, std::cos(DegreesToRads(camRotateY))*1, 0);
+            
             
             
         }
         if(MoveRight){
-            camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
-            camX += std::sin(DegreesToRads(camRotateY-90))*0.1;
+            //camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
+            //camX += std::sin(DegreesToRads(camRotateY-90))*0.1;
+            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY-90))*1, -std::cos(DegreesToRads(camRotateY-90))*1, 0);
         }
         if(MoveLeft){
-            camY += std::cos(DegreesToRads(camRotateY+90))*0.1;
-            camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
+            //camY += std::cos(DegreesToRads(camRotateY+90))*0.1;
+            //camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
+            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY+90))*1, -std::cos(DegreesToRads(camRotateY+90))*1, 0);
         }
         if(MoveBackward){
-            camY += std::cos(DegreesToRads(camRotateY))*0.1;
-            camX += std::sin(DegreesToRads(camRotateY))*0.1;
+            //camY += std::cos(DegreesToRads(camRotateY))*0.1;
+            //camX += std::sin(DegreesToRads(camRotateY))*0.1;
+            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY))*1, -std::cos(DegreesToRads(camRotateY))*1, 0);
         }
+        
+        
         if(MoveUp && fall==false){
             camZ += DecreaseClimbRate;
             DecreaseClimbRate-=0.0077;
@@ -718,6 +745,9 @@ int main(void)
             camY -= std::cos(DegreesToRads(camRotateY))*2.5;
             camX -= std::sin(DegreesToRads(camRotateY))*2.5;
         }
+        
+            
+        
         if(camZ<=0){
             camZ += 0.1;
             fall=false;
@@ -763,6 +793,7 @@ int main(void)
         
         
         
+        
         /*const dReal* pos = dBodyGetPosition(BouncyBlock.boxBody_m);
         camX=-pos[0]-2;
         camY=-pos[1]+2.5;
@@ -770,22 +801,36 @@ int main(void)
         //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
         
         
-        //camX=-pos[0]-2;
-       //camY=-pos[1]+2.5;
+        camX=-pos[0]-2;
+       camY=-pos[1]+2.5;
         //camZ=pos[2]-1;
         
-        
+        dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
         
         std::cout << "X=" << camX << '\n';
         std::cout << "Y=" << camY << '\n';
         std::cout << "Z=" << camZ << '\n';
         
         
+        const dReal* pos2 = dBodyGetPosition(sphereBody);
         
-        dBodyAddForce(playBody, playerX, playerY, playerZ);
+        //glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        //glLoadIdentity();
+        glTranslatef(-pos2[0], -pos2[1], pos2[2]);
         
-        
+        GLUquadricObj*quad=gluNewQuadric();
+        gluQuadricTexture( quad, GL_TRUE);
+        gluSphere(quad, 1, 15, 15);
+        gluDeleteQuadric(quad);
+        glPopMatrix();
 
+        
+        
+        
+        
+        
+        //dBodySetForce(playBody, 0, 0, 0);
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
         glfwSwapBuffers(window);
