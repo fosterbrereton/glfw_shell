@@ -795,11 +795,26 @@ int main(void)
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
+        const dReal* pos2 = dBodyGetPosition(sphereBody);
+        
+        //glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        //glLoadIdentity();
+        glTranslatef(-pos2[0], -pos2[1], pos2[2]);
+        gTextureBall.activate();
+        GLUquadricObj*quad=gluNewQuadric();
+        gluQuadricTexture( quad, GL_TRUE);
+        gluSphere(quad, 1, 15, 15);
+        gluDeleteQuadric(quad);
+        glPopMatrix();
+
 
         myCube.draw();
         myCube1.draw();
         myCube2.draw();
         dBodyDisable(myCube2.boxBody_m);
+        
         myCube3.draw();
         BouncyBlock.draw();
         
@@ -824,19 +839,7 @@ int main(void)
         std::cout << "Z=" << camZ << '\n';
         
         
-        const dReal* pos2 = dBodyGetPosition(sphereBody);
         
-        //glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        //glLoadIdentity();
-        glTranslatef(-pos2[0], -pos2[1], pos2[2]);
-        
-        GLUquadricObj*quad=gluNewQuadric();
-        gluQuadricTexture( quad, GL_TRUE);
-        gluSphere(quad, 1, 15, 15);
-        gluDeleteQuadric(quad);
-        glPopMatrix();
-
         
         
         //dMatrix3* R;
