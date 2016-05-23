@@ -156,7 +156,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     }
     else if (key == GLFW_KEY_SPACE)
     {
-        MoveUp=true;
+        MoveUp=action == GLFW_PRESS || action == GLFW_REPEAT;
     }
     else if (key == GLFW_MOUSE_BUTTON_1)
     {
@@ -504,7 +504,7 @@ int main(void)
     gODEContactGroup = dJointGroupCreate (0);
     
     static dBodyID playBody = dBodyCreate (gODEWorld);
-    static dGeomID playGeom = dCreateBox (gODESpace, 3, 2, 2);
+    static dGeomID playGeom = dCreateBox (gODESpace, 2, 2, 2);
     dGeomSetBody (playGeom, playBody);
     dBodySetPosition (playBody, camX-2,camY+2.5,camZ+1);
     
@@ -592,15 +592,17 @@ int main(void)
     
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
-    myCube2.SetLocation(4, 5, 12);
+    myCube2.SetLocation(4, 5, 3);
     
-    myCube2.h_m=7;
-    myCube2.w_m=9;
-    myCube2.d_m=12;
+    myCube2.h_m=1;
+    myCube2.w_m=10;
+    myCube2.d_m=6;
     
     myCube2.m1=7;
     myCube2.m2=9;
     myCube2.m3=12;
+    
+    
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
@@ -729,9 +731,11 @@ int main(void)
         }
         
         
-        if(MoveUp && fall==false){
-            camZ += DecreaseClimbRate;
-            DecreaseClimbRate-=0.0077;
+        if(MoveUp){
+            //camZ += DecreaseClimbRate;
+            //DecreaseClimbRate-=0.0077;
+            camZ=pos[2]-1;
+            dBodySetForce(playBody, 0,0,2);
         }
         if(Sprint && CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*-0.55;
@@ -746,14 +750,21 @@ int main(void)
             camX -= std::sin(DegreesToRads(camRotateY))*2.5;
         }
         
+        if(MoveUp==false && camZ>=0.5){
+            camZ=pos[2]-1;
             
+        }
         
         if(camZ<=0){
             camZ += 0.1;
-            fall=false;
+            
             DecreaseClimbRate=0.2;
             MoveUp=false;
         }
+        if(camX>=1){
+            fall=true;
+        }
+        else{fall=false;}
         if(MouseOut==true){
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
@@ -788,6 +799,7 @@ int main(void)
         myCube.draw();
         myCube1.draw();
         myCube2.draw();
+        dBodyDisable(myCube2.boxBody_m);
         myCube3.draw();
         BouncyBlock.draw();
         
@@ -802,8 +814,8 @@ int main(void)
         
         
         camX=-pos[0]-2;
-       camY=-pos[1]+2.5;
-        //camZ=pos[2]-1;
+        camY=-pos[1]+2.5;
+        
         
         dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
         
@@ -827,9 +839,11 @@ int main(void)
 
         
         
+        //dMatrix3* R;
         
         
-        
+
+        //dBodySetRotation(playBody, *R);
         //dBodySetForce(playBody, 0, 0, 0);
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
