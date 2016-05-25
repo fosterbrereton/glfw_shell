@@ -350,9 +350,6 @@ struct cubeD_D {
     double d_m{1};
     
     float density{1};
-    float m1{1};
-    float m2{1};
-    float m3{1};
     
     double r_m{255};
     double g_m{255};
@@ -368,11 +365,24 @@ struct cubeD_D {
     void setTexture(texture_t);
     void SetboxBandG();
     void SetLocation(float x,float y,float z);
+    void SetSize(float x, float y, float z);
 };
 
 void cubeD_D::SetLocation(float x,float y,float z) {
     dBodySetPosition (boxBody_m, x,y,z);
    
+}
+
+void cubeD_D::SetSize(float x, float y, float z) {
+    h_m = x;
+    w_m = y;
+    d_m = z;
+
+    dMass mass;
+
+    dMassSetBox(&mass, density, h_m, w_m, d_m);
+    dBodySetMass(boxBody_m, &mass);
+    dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
 }
 
 void cubeD_D::SetboxBandG() {
@@ -392,35 +402,25 @@ void cubeD_D::setTexture(texture_t tex){
     tex6 = tex;
 }
 
-void cubeD_D::draw() {
-    const dReal* pos = dBodyGetPosition(boxBody_m);
-    const dReal* rot = dBodyGetRotation(boxBody_m);
-    
-    
+void orient_body_in_opengl(dBodyID body) {
+    const dReal* pos = dBodyGetPosition(body);
+    const dReal* rot = dBodyGetRotation(body);
 
-    float x = pos[0];
-    float y = pos[1];
-    float z = pos[2];
-    
-
-    glPushMatrix();
-
-GLfloat matrix[16] = {
+    GLfloat matrix[16] = {
         rot[0], rot[1], rot[2], 0,
         rot[4], rot[5], rot[6], 0,
         rot[8], rot[9], rot[10], 0,
         0, 0, 0, 1
     };
 
-    
-    glTranslatef(x, y, z);
+    glTranslatef(pos[0], pos[1], pos[2]);
     glMultMatrixf(matrix);
-    
-    dMass* mass;
-    mass = new dMass;
-    dMassSetBox(mass, density, m1, m2, m3);
-    dBodySetMass(boxBody_m, mass);
-    dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
+}
+
+void cubeD_D::draw() {
+    glPushMatrix();
+
+    orient_body_in_opengl(boxBody_m);
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
@@ -506,36 +506,19 @@ int main(void)
     static dBodyID playBody = dBodyCreate (gODEWorld);
     static dGeomID playGeom = dCreateBox (gODESpace, 2, 2, 2);
     dGeomSetBody (playGeom, playBody);
-    dBodySetPosition (playBody, camX-2,camY+2.5,camZ+1);
-    
-    
-    
-    //float playerX{camX};
-    //float playerY{camY};
-    //float playerZ{camZ};
-    
-    
+
     dMass* mass2;
     mass2 = new dMass;
     dMassSetBox(mass2, 1, 1, 1, 1);
     dBodySetMass(playBody, mass2);
-    
-    
-    
-    
+
     static dBodyID sphereBody = dBodyCreate (gODEWorld);
     static dGeomID sphereGeom  = dCreateSphere(gODESpace, 1);
     dGeomSetBody (sphereGeom, sphereBody);
-    
-    dMass* mass3;
-    mass3 = new dMass;
-    dMassSetSphere(mass3, 2 ,1);
-    dBodySetMass(sphereBody, mass3);
-    
-    
-    
-    
-    
+
+    dMass mass3;
+    dMassSetSphere(&mass3, 2, 1);
+    dBodySetMass(sphereBody, &mass3);
 
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -584,35 +567,18 @@ int main(void)
     myCube1.setTexture(gTextureWhite);
     myCube1.SetLocation(5, 1, 49);
     myCube1.density=6;
-    myCube1.m1=2;
-    myCube1.m2=2;
-    myCube1.m3=2;
-    
-    
+    myCube1.SetSize(2, 2, 2);    
     
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
     myCube2.SetLocation(4, 5, 3);
-    
-    myCube2.h_m=1;
-    myCube2.w_m=10;
-    myCube2.d_m=6;
-    
-    myCube2.m1=7;
-    myCube2.m2=9;
-    myCube2.m3=12;
-    
-    
+    myCube2.SetSize(1, 10, 6);    
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
     myCube3.SetLocation(4, 0, 89);
     myCube3.density=2;
-    myCube3.m1=4;
-    myCube3.m2=4;
-    myCube3.m3=4;
-    
-    
+    myCube1.SetSize(4, 4, 4);
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
@@ -621,20 +587,9 @@ int main(void)
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
     dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    
-    BouncyBlock.h_m=2;
-    BouncyBlock.w_m=7;
-    BouncyBlock.d_m=3;
-    
-    
-    
-    BouncyBlock.m1=2;
-    BouncyBlock.m2=7;
-    BouncyBlock.m3=3;
-    
+    myCube1.SetSize(2, 7, 3);    
+
     dBodySetPosition(sphereBody,0,0,50);
-    
-    
 
     static const float simulation_start_k = glfwGetTime();
     static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
@@ -795,26 +750,22 @@ int main(void)
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        
-        const dReal* pos2 = dBodyGetPosition(sphereBody);
-        
-        //glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        //glLoadIdentity();
-        glTranslatef(-pos2[0], -pos2[1], pos2[2]);
-        gTextureBall.activate();
-        GLUquadricObj*quad=gluNewQuadric();
-        gluQuadricTexture( quad, GL_TRUE);
-        gluSphere(quad, 1, 15, 15);
-        gluDeleteQuadric(quad);
-        glPopMatrix();
 
+        // Position and draw the sphere
+        glPushMatrix();
+            orient_body_in_opengl(sphereBody);
+            gTextureBall.activate();
+            GLUquadricObj*quad=gluNewQuadric();
+            gluQuadricTexture( quad, GL_TRUE);
+            gluSphere(quad, 1, 15, 15);
+            gluDeleteQuadric(quad);
+        glPopMatrix();
 
         myCube.draw();
         myCube1.draw();
         myCube2.draw();
         dBodyDisable(myCube2.boxBody_m);
-        
+
         myCube3.draw();
         BouncyBlock.draw();
         
