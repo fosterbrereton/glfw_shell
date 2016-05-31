@@ -30,8 +30,9 @@ bool MoveBackward{false};
 bool MoveLeft{false};
 bool MoveRight{false};
 bool MoveUp{false};
+bool MoveDown{false};
 bool Sprint{false};
-bool AdminSprint{false};
+bool Zoom{false};
 bool CarSprint{false};
 bool placeCube{false};
 bool fall{false};
@@ -122,6 +123,10 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
     double deltaY{ypos-oldy};
     
     // std::cout << deltaX << "," << deltaY << "\n";
+    if(Zoom){
+        deltaX=deltaX/10;
+        deltaY=deltaY/10;
+    }
     camRotateY+=deltaX;
     camRotateX+=deltaY;
     oldx = xpos;
@@ -158,21 +163,25 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     {
         MoveUp=action == GLFW_PRESS || action == GLFW_REPEAT;
     }
+    else if (key == GLFW_KEY_LEFT_SHIFT)
+    {
+        MoveDown=action == GLFW_PRESS || action == GLFW_REPEAT;
+    }
     else if (key == GLFW_MOUSE_BUTTON_1)
     {
         placeCube=true;
     }
-    else if (key == GLFW_KEY_LEFT_SHIFT)
+    /*else if (key == GLFW_KEY_LEFT_SHIFT)
     {
         Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
+    }*/
     else if (key == GLFW_KEY_E)
     {
         CarSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
     }
     else if (key == GLFW_KEY_Q)
     {
-        AdminSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
+        Zoom=action == GLFW_PRESS || action == GLFW_REPEAT;
     }
 }
 void p1(float x, float y,float z, float h, float w, float d, float r, float g, float b)
@@ -407,13 +416,13 @@ void orient_body_in_opengl(dBodyID body) {
     const dReal* rot = dBodyGetRotation(body);
 
     GLfloat matrix[16] = {
-        rot[0], rot[1], rot[2], 0,
-        rot[4], rot[5], rot[6], 0,
+        rot[0], rot[1], rot[2],  0,
+        rot[4], rot[5], rot[6],  0,
         rot[8], rot[9], rot[10], 0,
-        0, 0, 0, 1
+            0,      0,       0,  1
     };
 
-    glTranslatef(pos[0], pos[1], pos[2]);
+    glTranslatef(pos[0]/1, pos[1]/1, pos[2]/1);
     glMultMatrixf(matrix);
 }
 
@@ -477,7 +486,7 @@ void cubeD_D::draw() {
     glTexCoord2f(1, 0); p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glTexCoord2f(0, 0); p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-
+    
     glPopMatrix();
 }
 
@@ -504,8 +513,10 @@ int main(void)
     gODEContactGroup = dJointGroupCreate (0);
     
     static dBodyID playBody = dBodyCreate (gODEWorld);
-    static dGeomID playGeom = dCreateBox (gODESpace, 2, 2, 2);
+    static dGeomID playGeom = dCreateSphere (gODESpace, 2);
     dGeomSetBody (playGeom, playBody);
+    
+    
 
     dMass* mass2;
     mass2 = new dMass;
@@ -572,7 +583,7 @@ int main(void)
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
     myCube2.SetLocation(4, 5, 3);
-    myCube2.SetSize(1, 10, 6);    
+    myCube2.SetSize(10, 10, 10);
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
@@ -587,7 +598,7 @@ int main(void)
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
     dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    myCube1.SetSize(2, 7, 3);    
+    myCube1.SetSize(7, 7, 7);
 
     dBodySetPosition(sphereBody,0,0,50);
 
@@ -662,8 +673,8 @@ int main(void)
         if(MoveForward){
             
             //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
-            //camX -= std::cos(DegreesToRads(camRotateY))*0.1;
-            //camY -= std::sin(DegreesToRads(camRotateY))*0.1;
+            //camX -= std::sin(DegreesToRads(camRotateY))*0.1;
+            //camY -= std::cos(DegreesToRads(camRotateY))*0.1;
             dBodySetForce(playBody, std::sin(DegreesToRads(camRotateY))*1, std::cos(DegreesToRads(camRotateY))*1, 0);
             
             
@@ -692,6 +703,12 @@ int main(void)
             camZ=pos[2]-1;
             dBodySetForce(playBody, 0,0,2);
         }
+        if(MoveDown){
+            //camZ += DecreaseClimbRate;
+            //DecreaseClimbRate-=0.0077;
+            camZ=pos[2]-1;
+            dBodySetForce(playBody, 0,0,-2);
+        }
         if(Sprint && CarSprint){
             camY += std::cos(DegreesToRads(camRotateY))*-0.55;
             camX += std::sin(DegreesToRads(camRotateY))*-0.55;
@@ -700,15 +717,78 @@ int main(void)
             camY -= std::cos(DegreesToRads(camRotateY))*1;
             camX -= std::sin(DegreesToRads(camRotateY))*1;
         }
-        if(AdminSprint){
-            camY -= std::cos(DegreesToRads(camRotateY))*2.5;
-            camX -= std::sin(DegreesToRads(camRotateY))*2.5;
+        if(Zoom){
+            camY -= std::cos(DegreesToRads(camRotateY))*50.5;
+            camX -= std::sin(DegreesToRads(camRotateY))*50.5;
         }
         
-        if(MoveUp==false && camZ>=0.5){
+        if(MoveUp==true){
             camZ=pos[2]-1;
             
+            
         }
+        
+        if(MoveUp==false && MoveDown==false){
+            camZ=pos[2]-1;
+            
+            
+            
+            
+        }
+        const dReal* speedSAVE = dBodyGetLinearVel(playBody);
+        //std::cout << "X=" << speedSAVE[1] << '\n';
+        
+        
+        
+        
+        
+        if(MoveForward==false && MoveBackward==false && MoveLeft==false && MoveRight==false){
+            //dBodyGetLinearVel(cubeD_D().boxBody_m);
+            
+            
+           
+            
+            //speedy = -std::cos(DegreesToRads(camRotateY))*1
+            if(speedSAVE[0]>0.2){
+                dBodySetForce(playBody, -2.5, 0, 0);
+            }
+            if(speedSAVE[0]<-0.2){
+                dBodySetForce(playBody, 2.5 , 0, 0);
+            }
+            
+            if(speedSAVE[1]>0.2){
+                dBodySetForce(playBody, 0, -2.5, 0);
+            }
+            if(speedSAVE[1]<-0.2){
+                dBodySetForce(playBody, 0, 2.5, 0);
+            }
+           
+            
+            
+            //dBodySetPosition (playBody, camX,camY,camZ);
+            
+        }
+        
+        /*if(MoveLeft==false){
+            //dBodyGetLinearVel(cubeD_D().boxBody_m);
+            
+            
+            
+            
+            //speedy = -std::cos(DegreesToRads(camRotateY))*4
+            if(speedSAVE[1]<0.2){
+                dBodySetForce(playBody, 0, -std::cos(DegreesToRads(camRotateY))*4, 0);
+            }
+            if(speedSAVE[1]>-0.2){
+                dBodySetForce(playBody, 0, -std::cos(DegreesToRads(camRotateY))*4, 0);
+            }
+            
+            
+            
+           
+            
+        }*/
+        //dBodySetPosition (playBody, -camX-2,-camY+2.5,camZ+1);
         
         if(camZ<=0){
             camZ += 0.1;
@@ -750,6 +830,17 @@ int main(void)
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        camX=-pos[0]-2;
+        camY=-pos[1]+2.5;
+        
+        /*glPushMatrix();
+        orient_body_in_opengl(playBody);
+        gTextureBall.activate();
+        GLUquadricObj*quad2=gluNewQuadric();
+        gluQuadricTexture( quad2, GL_TRUE);
+        gluSphere(quad2, 0.5, 15, 15);
+        gluDeleteQuadric(quad2);
+        glPopMatrix();*/
 
         // Position and draw the sphere
         glPushMatrix();
@@ -757,17 +848,18 @@ int main(void)
             gTextureBall.activate();
             GLUquadricObj*quad=gluNewQuadric();
             gluQuadricTexture( quad, GL_TRUE);
-            gluSphere(quad, 1, 15, 15);
+            gluSphere(quad, 0.5, 15, 15);
             gluDeleteQuadric(quad);
         glPopMatrix();
 
         myCube.draw();
         myCube1.draw();
         myCube2.draw();
-        dBodyDisable(myCube2.boxBody_m);
+        //dBodyDisable(myCube2.boxBody_m);
 
         myCube3.draw();
         BouncyBlock.draw();
+        
         
         
         
@@ -785,9 +877,9 @@ int main(void)
         
         dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
         
-        std::cout << "X=" << camX << '\n';
-        std::cout << "Y=" << camY << '\n';
-        std::cout << "Z=" << camZ << '\n';
+        //std::cout << "X=" << camX << '\n';
+        //std::cout << "Y=" << camY << '\n';
+        //std::cout << "Z=" << camZ << '\n';
         
         
         
