@@ -1,17 +1,22 @@
 // Seth's Simulator!
 
-#include <GLFW/glfw3.h>
-#include <vector>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <OpenGL/glu.h>
+// stdc+++
 #include <cmath>
 #include <iomanip>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <vector>
+
+// OpenGL
+#include <OpenGL/glu.h>
 
 // soil
-#include "SOIL.h"
+// #include "SOIL.h"
+
+// GLFW
+#include <GLFW/glfw3.h>
 
 // ODE
 #include "ode/ode.h"
@@ -21,29 +26,8 @@ static void error_callback(int error, const char* description)
     fputs(description, stderr);
 }
 
-float camX{0};
-float camY{0};
-float camZ{0};
-
-bool MoveForward{false};
-bool MoveBackward{false};
-bool MoveLeft{false};
-bool MoveRight{false};
-bool MoveUp{false};
-bool MoveDown{false};
-bool Sprint{false};
-bool Zoom{false};
-bool CarSprint{false};
-bool placeCube{false};
-bool fall{false};
-
-bool MouseOut{false};
-
-float camRotateX{-260};
-float camRotateY{0};
-time_t  timev;
-float DecreaseClimbRate{0.1};
-float IncreaseFallRate{0.05};
+float gCamRotX{-70};
+float gCamRotY{140};
 
 // ODE global variables
 static dWorldID      gODEWorld;
@@ -70,47 +54,8 @@ static void ODEContactCallback (void *data, dGeomID o1, dGeomID o2)
     }
 }
 
-struct texture_t {
-    texture_t() = default;
-
-    explicit texture_t(const std::string& name) : name_m(name)
-    { }
-    
-    void load() {
-        id_m = SOIL_load_OGL_texture(("textures/" + name_m + ".tga").c_str(),
-                                     SOIL_LOAD_AUTO,
-                                     SOIL_CREATE_NEW_ID,
-                                     SOIL_FLAG_POWER_OF_TWO |
-                                     SOIL_FLAG_MIPMAPS |
-                                     SOIL_FLAG_DDS_LOAD_DIRECT);
-
-        if (id_m == 0) {
-            std::cout << "error loading texture " + name_m + "\n";
-        }
-    }
-
-    void activate() {
-        glBindTexture(GL_TEXTURE_2D, id_m);
-    }
-
-private:
-    std::string name_m;
-    GLuint      id_m{0};
-};
-
-texture_t gTextureSteel{"steel_floor"};
-texture_t gTexture{"grasstex"};
-texture_t gTextureRoad{"road"};
-texture_t gTextureRoadY{"yellowline"};
-
-texture_t gTextureBall{"soccerball"};
-texture_t gTextureWhite{"white"};
-texture_t gTextureWood{"wood"};
-texture_t gTextureLeaves{"leaves"};
-texture_t gTextureClear{"clear"};
-
 inline float DegreesToRads(float degrees){
-    return degrees/180*3.14159;
+    return degrees / 180 * M_PI;
 }
 
 static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
@@ -121,13 +66,9 @@ static void cursor_pos_callback(GLFWwindow* window, double xpos, double ypos)
     double deltaX{xpos-oldx};
     double deltaY{ypos-oldy};
     
-    // std::cout << deltaX << "," << deltaY << "\n";
-    if(Zoom){
-        deltaX=deltaX/10;
-        deltaY=deltaY/10;
-    }
-    camRotateY+=deltaX;
-    camRotateX+=deltaY;
+    gCamRotY += deltaX;
+    gCamRotX += deltaY;
+
     oldx = xpos;
     oldy = ypos;
 }
@@ -138,305 +79,46 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
     {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
-    else if (key == GLFW_KEY_P && action == GLFW_PRESS)
-    {
-        MouseOut^=true;
-    }
-    else if (key == GLFW_KEY_D)
-    {
-        MoveRight = action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_A)
-    {
-        MoveLeft = action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_S)
-    {
-        MoveBackward = action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_W)
-    {
-        MoveForward=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_SPACE)
-    {
-        MoveUp=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_LEFT_SHIFT)
-    {
-        MoveDown=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_MOUSE_BUTTON_1)
-    {
-        placeCube=true;
-    }
-    /*else if (key == GLFW_KEY_LEFT_SHIFT)
-    {
-        Sprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }*/
-    else if (key == GLFW_KEY_E)
-    {
-        CarSprint=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-    else if (key == GLFW_KEY_Q)
-    {
-        Zoom=action == GLFW_PRESS || action == GLFW_REPEAT;
-    }
-}
-void p1(float x, float y,float z, float h, float w, float d, float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(-h/2+x, -w/2+y, -d/2+z);
-}
-void p2(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(-h/2+x, w/2+y, -d/2+z);
-}
-void p3(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(h/2+x, w/2+y, -d/2+z);
-}
-void p4(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(h/2+x, -w/2+y, -d/2+z);
-}
-void p5(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(-h/2+x, -w/2+y, d/2+z);
-}
-void p6(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(-h/2+x, w/2+y, d/2+z);
-}
-void p7(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(h/2+x, w/2+y, d/2+z);
-}
-void p8(float x, float y,float z, float h, float w, float d,float r, float g, float b)
-{
-    glColor3f(r/255,g/255,b/255);
-    glVertex3f(h/2+x, -w/2+y, d/2+z);
 }
 
-
-void c1(float halfx, float halfy, float halfz)
+inline void c1(float halfx, float halfy, float halfz)
 {
     glVertex3f(-halfx, -halfy, -halfz);
 }
 
-void c2(float halfx, float halfy, float halfz)
+inline void c2(float halfx, float halfy, float halfz)
 {
     glVertex3f(-halfx, halfy, -halfz);
 }
 
-void c3(float halfx, float halfy, float halfz)
+inline void c3(float halfx, float halfy, float halfz)
 {
     glVertex3f(halfx, halfy, -halfz);
 }
 
-void c4(float halfx, float halfy, float halfz)
+inline void c4(float halfx, float halfy, float halfz)
 {
     glVertex3f(halfx, -halfy, -halfz);
 }
 
-void c5(float halfx, float halfy, float halfz)
+inline void c5(float halfx, float halfy, float halfz)
 {
     glVertex3f(-halfx, -halfy, halfz);
 }
 
-void c6(float halfx, float halfy, float halfz)
+inline void c6(float halfx, float halfy, float halfz)
 {
     glVertex3f(-halfx, halfy, halfz);
 }
 
-void c7(float halfx, float halfy, float halfz)
+inline void c7(float halfx, float halfy, float halfz)
 {
     glVertex3f(halfx, halfy, halfz);
 }
 
-void c8(float halfx, float halfy, float halfz)
+inline void c8(float halfx, float halfy, float halfz)
 {
     glVertex3f(halfx, -halfy, halfz);
-}
-
-
-
-
-
-
-
-/*
-
-void sphere(float x,float y,float z,float size){
-    //glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    //glLoadIdentity();
-    glTranslatef(-x, -y, -z);
-    
-    GLUquadricObj*quad=gluNewQuadric();
-    gluQuadricTexture( quad, GL_TRUE);
-    gluSphere(quad, size, 15, 15);
-    gluDeleteQuadric(quad);
-    glPopMatrix();
-
-}
-void clyinder(float x,float y,float z,float size, float base, float top, float height){
-    //glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    //glLoadIdentity();
-    glTranslatef(-x, -y, -z);
-    
-    GLUquadricObj*quad=gluNewQuadric();
-    gluQuadricTexture( quad, GL_TRUE);
-    gluCylinder(quad, base, top , height , 15, 15);
-    gluDeleteQuadric(quad);
-    glPopMatrix();
-    
-}
-void tree(float x, float y, float z){
-    glColor3f(1, 1, 1);
-    gTextureWood.activate();
-    clyinder(-x,-y,z+5,5, 0.8, 0.8, 20);
-    cube(x,y,z+-4,4,0.000001,4,0,128,0,gTextureLeaves);
-    cube(x,y,z+-4,4,4,0.000001,0,128,0,gTextureLeaves);
-    cube(x,y,z+-4,0.000001,4,4,0,128,0,gTextureLeaves);
-    cube(x,y,z+-5,4,4,0.000001,0,128,0,gTextureLeaves);
-    cube(x,y,z+-4,3.8,3.8,3.8,0,128,0,gTextureLeaves);
-    
-}
-struct tree_t {
-    double x_m; // This is a member variable of the class.
-    double y_m; // we say "_m" to be able to see the member variables more easily.
-    double z_m;
-    
-    void draw();
-};
-
-
-// This is a member function of the class.
-void tree_t::draw() {
-    gTextureWood.activate();
-    clyinder(-x_m,-y_m,z_m+5,5, 0.8, 0.8, 20);
-    cube(x_m,y_m,z_m+-4,4,0.000001,4,0,0,0,gTextureLeaves);
-    cube(x_m,y_m,z_m+-4,4,4,0.000001,0,0,0,gTextureLeaves);
-    cube(x_m,y_m,z_m+-4,0.000001,4,4,0,0,0,gTextureLeaves);
-    cube(x_m,y_m,z_m+-5,4,4,0.000001,0,0,0,gTextureLeaves);
-    cube(x_m,y_m,z_m+-4,3.8,3.8,3.8,0,0,0,gTextureLeaves);
-}*/
-
-struct point {
-    explicit point(float x = 0, float y = 0, float z = 0) :
-        x_m(x),
-        y_m(y),
-        z_m(z)
-    { }
-
-    double x_m;
-    double y_m;
-    double z_m;
-};
-
-point operator+(const point& a, const point& b) {
-    point result;
-
-    result.x_m = a.x_m + b.x_m;
-    result.y_m = a.y_m + b.y_m;
-    result.z_m = a.z_m + b.z_m;
-
-    return result;
-}
-
-point& operator+=(point& a, const point& b) {
-    a.x_m += b.x_m;
-    a.y_m += b.y_m;
-    a.z_m += b.z_m;
-
-    return a;
-}
-
-point operator-(const point& a, const point& b) {
-    point result;
-
-    result.x_m = a.x_m - b.x_m;
-    result.y_m = a.y_m - b.y_m;
-    result.z_m = a.z_m - b.z_m;
-
-    return result;
-}
-
-point& operator-=(point& a, const point& b) {
-    a.x_m -= b.x_m;
-    a.y_m -= b.y_m;
-    a.z_m -= b.z_m;
-
-    return a;
-}
-
-struct cubeD_D {
-    
-    cubeD_D(){
-        boxBody_m = dBodyCreate (gODEWorld);
-        boxGeom_m = dCreateBox (gODESpace, 1,1,1);
-        dGeomSetBody (boxGeom_m, boxBody_m);
-    }
-
-    dBodyID boxBody_m;
-    dGeomID boxGeom_m;
-    
-    double h_m{1};
-    double w_m{1};
-    double d_m{1};
-    
-    float density{1};
-    
-    double r_m{255};
-    double g_m{255};
-    double b_m{255};
-    texture_t tex1;
-    texture_t tex2;
-    texture_t tex3;
-    texture_t tex4;
-    texture_t tex5;
-    texture_t tex6;
-
-    void draw();
-    void setTexture(texture_t);
-    void SetboxBandG();
-    void SetLocation(float x,float y,float z);
-    void SetSize(float x, float y, float z);
-};
-
-void cubeD_D::SetLocation(float x,float y,float z) {
-    dBodySetPosition (boxBody_m, x, y, z);
-}
-
-void cubeD_D::SetSize(float x, float y, float z) {
-    h_m = x;
-    w_m = y;
-    d_m = z;
-
-#if 0
-    dMass mass;
-
-    dMassSetBox(&mass, density, h_m, w_m, d_m);
-    dBodySetMass(boxBody_m, &mass);
-#endif
-    dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
-}
-
-void cubeD_D::setTexture(texture_t tex){
-    tex1 = tex;
-    tex2 = tex;
-    tex3 = tex;
-    tex4 = tex;
-    tex5 = tex;
-    tex6 = tex;
 }
 
 void draw_axis(float x, float y, float z) {
@@ -475,72 +157,66 @@ void orient_body_in_opengl(dBodyID body) {
     glMultMatrixf(matrix);
 }
 
-void cubeD_D::draw() {
+void cube_draw() {
     glPushMatrix();
 
-    orient_body_in_opengl(boxBody_m);
+    //orient_body_in_opengl(boxBody_m);
 
-    glColor3f(r_m/255, g_m/255, b_m/255);
-    tex1.activate();
+    glColor3f(1, 0, 0);
 
-    float halfx = w_m/2;
-    float halfy = h_m/2;
-    float halfz = d_m/2;
+    float halfx = 0.5;
+    float halfy = 0.5;
+    float halfz = 0.5;
 
-    draw_axis(w_m, h_m, d_m);
+    draw_axis(1, 1, 1);
 
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c5(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c8(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c7(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c6(halfx, halfy, halfz);
+    c5(halfx, halfy, halfz);
+    c8(halfx, halfy, halfz);
+    c7(halfx, halfy, halfz);
+    c6(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Right face
-    tex2.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c8(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c4(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c7(halfx, halfy, halfz);
+    c8(halfx, halfy, halfz);
+    c4(halfx, halfy, halfz);
+    c3(halfx, halfy, halfz);
+    c7(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Left face
-    tex3.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c5(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c6(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c2(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c1(halfx, halfy, halfz);
+    c5(halfx, halfy, halfz);
+    c6(halfx, halfy, halfz);
+    c2(halfx, halfy, halfz);
+    c1(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Top face
-    tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c6(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c7(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c2(halfx, halfy, halfz);
+    c6(halfx, halfy, halfz);
+    c7(halfx, halfy, halfz);
+    c3(halfx, halfy, halfz);
+    c2(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Bottom face
-    tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c4(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c8(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c5(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c1(halfx, halfy, halfz);
+    c4(halfx, halfy, halfz);
+    c8(halfx, halfy, halfz);
+    c5(halfx, halfy, halfz);
+    c1(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Back face
-    tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); c1(halfx, halfy, halfz);
-    glTexCoord2f(1, 1); c2(halfx, halfy, halfz);
-    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
-    glTexCoord2f(0, 0); c4(halfx, halfy, halfz);
+    c1(halfx, halfy, halfz);
+    c2(halfx, halfy, halfz);
+    c3(halfx, halfy, halfz);
+    c4(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     glPopMatrix();
@@ -568,26 +244,6 @@ int main(void)
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
 
-#if 1
-    static dBodyID playBody = dBodyCreate (gODEWorld);
-    static dGeomID playGeom = dCreateSphere (gODESpace, 2);
-    dGeomSetBody (playGeom, playBody);
-    
-    
-
-    //dMass* mass2;
-    //mass2 = new dMass;
-    //dMassSetBox(mass2, 1, 1, 1, 1);
-    //dBodySetMass(playBody, mass2);
-
-    static dBodyID sphereBody = dBodyCreate (gODEWorld);
-    static dGeomID sphereGeom  = dCreateSphere(gODESpace, 1);
-    dGeomSetBody (sphereGeom, sphereBody);
-
-    //dMass mass3;
-    //dMassSetSphere(&mass3, 2, 1);
-    //dBodySetMass(sphereBody, &mass3);
-#endif
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
     // 640x480 is the initial size, and "Simple example" is the name of the window.
@@ -614,88 +270,9 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
 
-    //comment this out to go to normal colors
-    glEnable(GL_TEXTURE_2D);
-
-    gTextureSteel.load();
-    gTexture.load();
-    gTextureWood.load();
-    gTextureLeaves.load();
-    gTextureRoad.load();
-    gTextureRoadY.load();
-    gTextureWhite.load();
-    gTextureBall.load();
-    gTextureClear.load();
-
-#if 1
-    cubeD_D myCube;
-    myCube.setTexture(gTextureBall);
-    myCube.SetLocation(0, 0, 20);
-    //myCube.SetSize(2, 2, 2);
-#endif
-
-    cubeD_D myCube1;
-    myCube1.setTexture(gTextureWhite);
-    myCube1.SetLocation(0, 0, 10);
-    //myCube1.density=6;
-    //myCube1.SetSize(2, 2, 2);
-
-#if 1
-    cubeD_D myCube2;
-    myCube2.setTexture(gTextureRoad);
-    myCube2.SetLocation(4, 10, 60);
-    //myCube2.SetSize(10, 10, 10);
-    
-    cubeD_D myCube3;
-    myCube3.setTexture(gTextureRoadY);
-    myCube3.SetLocation(40, 0, 10);
-//    myCube3.density=2;
-    //myCube3.SetSize(4, 4, 4);
-
-    cubeD_D BouncyBlock;
-    BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 30, 10);
-    BouncyBlock.r_m=255;
-    BouncyBlock.g_m=0;
-    BouncyBlock.b_m=0;
-    //dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    //BouncyBlock.SetSize(7, 7, 7);
-
-    //dBodySetPosition(sphereBody,0,0,50);
-#endif
-
-    static const float simulation_start_k = glfwGetTime();
-    static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
-    static const float real_sec_per_game_day_k = real_min_per_game_day_k * 60;
-    static const float real_sec_per_game_hrs_k = real_sec_per_game_day_k / 24;
-    static const float real_sec_per_game_min_k = real_sec_per_game_hrs_k / 60;
-    static const float game_min_per_real_sec_k = 1 / real_sec_per_game_min_k;
-    static const float min_per_day_k = 24 * 60;
-
-    //look position
-    camRotateX=-90;
-
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
     {
-        
-        float elapsed_real_sec = glfwGetTime() - simulation_start_k;
-        float elapsed_game_min = game_min_per_real_sec_k * elapsed_real_sec;
-        float elapsed_game_hrs = elapsed_game_min / 60;
-        float percent_of_day = (static_cast<int>(elapsed_game_min) % static_cast<int>(min_per_day_k)) / min_per_day_k;
-        float sky_cycle = std::sin(percent_of_day * M_PI);
-        float sky = 0 * (1-sky_cycle) + 0.9803921569 * sky_cycle;
-        // int game_hrs_mil = static_cast<int>(elapsed_game_hrs) % 24; // military hours
-
-// Set to #if 1 to enable displaying the time
-#if 0
-        std::cout.width(2);
-        std::cout.fill('0');
-        std::cout << game_hrs_mil << ":";
-        std::cout.width(2);
-        std::cout << (static_cast<int>(elapsed_game_min)%60) << '\n';
-#endif
-
         // Simulate the physics engine
         // find collisions and add contact joints
         dSpaceCollide (gODESpace, 0, &ODEContactCallback);
@@ -711,8 +288,7 @@ int main(void)
         float ratio = width / (float) height; // compute the aspect ratio of the window, which we need below.
 
         glViewport(0, 0, width, height); // This tells OpenGL how big the window is,
-        glClearColor(0.5294117648+sky-0.9803921569, 0.8078431373+sky-0.9803921569, sky, 0);                              // and OpenGL goes off and creates a space
-                                         // for drawing.
+        glClearColor(0, 1, 0, 0); // and OpenGL goes off and creates a space for drawing.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // This asks OpenGL to wipe clean the drawing space.
                                       // The default color is black. If you want it to be
                                       // another color, you have to call glClearColor with
@@ -725,244 +301,27 @@ int main(void)
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluPerspective(60, ratio, 1, 1000);
+
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
-        glRotatef(camRotateX, 1.f, 0.f, 0.f);
-        glRotatef(camRotateY, 0.f, 0.f, 1.f);
+        glRotatef(gCamRotX, 1.f, 0.f, 0.f);
+        glRotatef(gCamRotY, 0.f, 0.f, 1.f);
 
-#if 1
-        const dReal* pos = dBodyGetPosition(playBody);
-
-        if(MoveForward){
-            
-            //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
-            //camX -= std::sin(DegreesToRads(camRotateY))*0.1;
-            //camY -= std::cos(DegreesToRads(camRotateY))*0.1;
-            dBodySetForce(playBody, std::sin(DegreesToRads(camRotateY))*1, std::cos(DegreesToRads(camRotateY))*1, 0);
-            
-            
-            
-        }
-        if(MoveRight){
-            //camY += std::cos(DegreesToRads(camRotateY-90))*0.1;
-            //camX += std::sin(DegreesToRads(camRotateY-90))*0.1;
-            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY-90))*1, -std::cos(DegreesToRads(camRotateY-90))*1, 0);
-        }
-        if(MoveLeft){
-            //camY += std::cos(DegreesToRads(camRotateY+90))*0.1;
-            //camX += std::sin(DegreesToRads(camRotateY+90))*0.1;
-            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY+90))*1, -std::cos(DegreesToRads(camRotateY+90))*1, 0);
-        }
-        if(MoveBackward){
-            //camY += std::cos(DegreesToRads(camRotateY))*0.1;
-            //camX += std::sin(DegreesToRads(camRotateY))*0.1;
-            dBodySetForce(playBody, -std::sin(DegreesToRads(camRotateY))*1, -std::cos(DegreesToRads(camRotateY))*1, 0);
-        }
-        
-        
-        if(MoveUp){
-            //camZ += DecreaseClimbRate;
-            //DecreaseClimbRate-=0.0077;
-            camZ=pos[2]-1;
-            dBodySetForce(playBody, 0,0,2);
-        }
-        if(MoveDown){
-            //camZ += DecreaseClimbRate;
-            //DecreaseClimbRate-=0.0077;
-            camZ=pos[2]-1;
-            dBodySetForce(playBody, 0,0,-2);
-        }
-        if(Sprint && CarSprint){
-            camY += std::cos(DegreesToRads(camRotateY))*-0.55;
-            camX += std::sin(DegreesToRads(camRotateY))*-0.55;
-        }
-        if(CarSprint){
-            camY -= std::cos(DegreesToRads(camRotateY))*1;
-            camX -= std::sin(DegreesToRads(camRotateY))*1;
-        }
-        if(Zoom){
-            camY -= std::cos(DegreesToRads(camRotateY))*50.5;
-            camX -= std::sin(DegreesToRads(camRotateY))*50.5;
-        }
-        
-        if(MoveUp==true){
-            camZ=pos[2]-1;
-            
-            
-        }
-        
-        if(MoveUp==false && MoveDown==false){
-            camZ=pos[2]-1;
-            
-            
-            
-            
-        }
-        const dReal* speedSAVE = dBodyGetLinearVel(playBody);
-        //std::cout << "X=" << speedSAVE[1] << '\n';
-        
-        
-        
-        
-        
-        if(MoveForward==false && MoveBackward==false && MoveLeft==false && MoveRight==false){
-            //dBodyGetLinearVel(cubeD_D().boxBody_m);
-            
-            
-           
-            
-            //speedy = -std::cos(DegreesToRads(camRotateY))*1
-            if(speedSAVE[0]>0.2){
-                dBodySetForce(playBody, -2.5, 0, 0);
-            }
-            if(speedSAVE[0]<-0.2){
-                dBodySetForce(playBody, 2.5 , 0, 0);
-            }
-            
-            if(speedSAVE[1]>0.2){
-                dBodySetForce(playBody, 0, -2.5, 0);
-            }
-            if(speedSAVE[1]<-0.2){
-                dBodySetForce(playBody, 0, 2.5, 0);
-            }
-           
-            
-            
-            //dBodySetPosition (playBody, camX,camY,camZ);
-            
-        }
-        
-        /*if(MoveLeft==false){
-            //dBodyGetLinearVel(cubeD_D().boxBody_m);
-            
-            
-            
-            
-            //speedy = -std::cos(DegreesToRads(camRotateY))*4
-            if(speedSAVE[1]<0.2){
-                dBodySetForce(playBody, 0, -std::cos(DegreesToRads(camRotateY))*4, 0);
-            }
-            if(speedSAVE[1]>-0.2){
-                dBodySetForce(playBody, 0, -std::cos(DegreesToRads(camRotateY))*4, 0);
-            }
-            
-            
-            
-           
-            
-        }*/
-        //dBodySetPosition (playBody, -camX-2,-camY+2.5,camZ+1);
-        
-        if(camZ<=0){
-            camZ += 0.1;
-            
-            DecreaseClimbRate=0.2;
-            MoveUp=false;
-        }
-        if(camX>=1){
-            fall=true;
-        }
-        else{fall=false;}
-        if(MouseOut==true){
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-        }
-        if(MouseOut==false){
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        }
-        if(MouseOut==true){
-            glfwSetCursorPosCallback(window, 0);
-        }
-        if(MouseOut==false){
-            glfwSetCursorPosCallback(window, cursor_pos_callback);
-        }
-
-        glTranslatef(camX+2, camY-2.5, -camZ-2);
-#else
         glTranslatef(2, -2.5, -2);
-#endif
-
-        gTexture.activate();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
             glColor3f(1, 1, 1);
-            glTexCoord2f(0, 0); glVertex3f(-450, -450, 0);
-            glTexCoord2f(450, 0); glVertex3f(450, -450 ,0);
-            glTexCoord2f(450, 450); glVertex3f(450, 450, 0);
-            glTexCoord2f(0, 450); glVertex3f(-450, 450, 0);
+            glVertex3f(-450, -450, 0);
+            glVertex3f(450, -450 ,0);
+            glVertex3f(450, 450, 0);
+            glVertex3f(-450, 450, 0);
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
         draw_axis(2);
 
-        //If you would like to make a custom make change this to true v
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-#if 1
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
-#endif
-        /*glPushMatrix();
-        orient_body_in_opengl(playBody);
-        gTextureBall.activate();
-        GLUquadricObj*quad2=gluNewQuadric();
-        gluQuadricTexture( quad2, GL_TRUE);
-        gluSphere(quad2, 0.5, 15, 15);
-        gluDeleteQuadric(quad2);
-        glPopMatrix();*/
-
-#if 0
-        // Position and draw the sphere
-        glPushMatrix();
-            orient_body_in_opengl(sphereBody);
-            gTextureBall.activate();
-            GLUquadricObj*quad=gluNewQuadric();
-            gluQuadricTexture( quad, GL_TRUE);
-            gluSphere(quad, 0.5, 15, 15);
-            gluDeleteQuadric(quad);
-        glPopMatrix();
-#endif
-
-        myCube.draw();
-        myCube1.draw();
-        myCube2.draw();
-        //dBodyDisable(myCube2.boxBody_m);
-
-        myCube3.draw();
-        BouncyBlock.draw();
+        cube_draw();
         
-        
-        
-        
-        
-        /*const dReal* pos = dBodyGetPosition(BouncyBlock.boxBody_m);
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
-        camZ=pos[2];*/
-        //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
-        
-#if 1        
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
-#endif
-        
-//        dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
-
-        //std::cout << "X=" << camX << '\n';
-        //std::cout << "Y=" << camY << '\n';
-        //std::cout << "Z=" << camZ << '\n';
-        
-        
-        
-        
-        
-        //dMatrix3* R;
-        
-        
-
-        //dBodySetRotation(playBody, *R);
-        //dBodySetForce(playBody, 0, 0, 0);
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
         glfwSwapBuffers(window);
