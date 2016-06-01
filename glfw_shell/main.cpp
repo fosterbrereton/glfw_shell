@@ -52,30 +52,29 @@ static dJointGroupID gODEContactGroup;
 
 static void ODEContactCallback (void *data, dGeomID o1, dGeomID o2)
 {
-    dBodyID  b1 = dGeomGetBody(o1);
-    dBodyID  b2 = dGeomGetBody(o2);
-    dContact contact;
+    dContact contact[32];
 
-    contact.surface.mode = dContactBounce | dContactSoftCFM;
-    // friction parameter
-    contact.surface.mu = dInfinity;
-    // bounce is the amount of "bouncyness".
-    contact.surface.bounce = 0.1;
-    // bounce_vel is the minimum incoming velocity to cause a bounce
-    contact.surface.bounce_vel = 0.1;
-    // constraint force mixing parameter
-    contact.surface.soft_cfm = 0.0001;
+    int numc = dCollide(o1, o2, 32, &(contact[0].geom), sizeof(dContact));
 
-    if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
-        dJointID c = dJointCreateContact (gODEWorld,gODEContactGroup,&contact);
-        dJointAttach (c,b1,b2);
+    for (int i(0); i < numc; ++i) {
+        contact[i].surface.slip1 = 0.7;
+        contact[i].surface.slip2 = 0.7;
+        contact[i].surface.mode = dContactSoftERP | dContactSoftCFM | dContactApprox1 | dContactSlip1 | dContactSlip2;
+        contact[i].surface.mu = 50.0; // was: dInfinity
+        contact[i].surface.soft_erp = 0.96;
+        contact[i].surface.soft_cfm = 0.04;
+
+        dJointID c = dJointCreateContact (gODEWorld, gODEContactGroup, &contact[i]);
+
+        dJointAttach(c, dGeomGetBody(contact[i].geom.g1), dGeomGetBody(contact[i].geom.g2));
     }
 }
 
 struct texture_t {
-    texture_t()=default;
-    explicit texture_t(const std::string& name) : name_m(name) {
-    }
+    texture_t() = default;
+
+    explicit texture_t(const std::string& name) : name_m(name)
+    { }
     
     void load() {
         id_m = SOIL_load_OGL_texture(("textures/" + name_m + ".tga").c_str(),
@@ -226,6 +225,45 @@ void p8(float x, float y,float z, float h, float w, float d,float r, float g, fl
 }
 
 
+void c1(float halfx, float halfy, float halfz)
+{
+    glVertex3f(-halfx, -halfy, -halfz);
+}
+
+void c2(float halfx, float halfy, float halfz)
+{
+    glVertex3f(-halfx, halfy, -halfz);
+}
+
+void c3(float halfx, float halfy, float halfz)
+{
+    glVertex3f(halfx, halfy, -halfz);
+}
+
+void c4(float halfx, float halfy, float halfz)
+{
+    glVertex3f(halfx, -halfy, -halfz);
+}
+
+void c5(float halfx, float halfy, float halfz)
+{
+    glVertex3f(-halfx, -halfy, halfz);
+}
+
+void c6(float halfx, float halfy, float halfz)
+{
+    glVertex3f(-halfx, halfy, halfz);
+}
+
+void c7(float halfx, float halfy, float halfz)
+{
+    glVertex3f(halfx, halfy, halfz);
+}
+
+void c8(float halfx, float halfy, float halfz)
+{
+    glVertex3f(halfx, -halfy, halfz);
+}
 
 
 
@@ -343,14 +381,11 @@ point& operator-=(point& a, const point& b) {
 struct cubeD_D {
     
     cubeD_D(){
-        
-        SetboxBandG();
+        boxBody_m = dBodyCreate (gODEWorld);
+        boxGeom_m = dCreateBox (gODESpace, 1,1,1);
         dGeomSetBody (boxGeom_m, boxBody_m);
-        
     }
 
-    
-    
     dBodyID boxBody_m;
     dGeomID boxGeom_m;
     
@@ -378,8 +413,7 @@ struct cubeD_D {
 };
 
 void cubeD_D::SetLocation(float x,float y,float z) {
-    dBodySetPosition (boxBody_m, x,y,z);
-   
+    dBodySetPosition (boxBody_m, x, y, z);
 }
 
 void cubeD_D::SetSize(float x, float y, float z) {
@@ -387,19 +421,13 @@ void cubeD_D::SetSize(float x, float y, float z) {
     w_m = y;
     d_m = z;
 
+#if 0
     dMass mass;
 
     dMassSetBox(&mass, density, h_m, w_m, d_m);
     dBodySetMass(boxBody_m, &mass);
+#endif
     dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
-}
-
-void cubeD_D::SetboxBandG() {
-    
-    boxBody_m = dBodyCreate (gODEWorld);
-    
-    boxGeom_m = dCreateBox (gODESpace, 1,1,1);
-    
 }
 
 void cubeD_D::setTexture(texture_t tex){
@@ -411,6 +439,28 @@ void cubeD_D::setTexture(texture_t tex){
     tex6 = tex;
 }
 
+void draw_axis(float x, float y, float z) {
+    glDisable(GL_TEXTURE_2D);
+    glBegin(GL_LINES);
+        glColor3f(1, 0, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(x, 0, 0);
+
+        glColor3f(0, 1, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, y, 0);
+
+        glColor3f(0, 0, 1);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 0, z);
+    glEnd(); // GL_LINES
+    glEnable(GL_TEXTURE_2D);
+}
+
+inline void draw_axis(float size) {
+    draw_axis(size, size, size);
+}
+
 void orient_body_in_opengl(dBodyID body) {
     const dReal* pos = dBodyGetPosition(body);
     const dReal* rot = dBodyGetRotation(body);
@@ -419,10 +469,9 @@ void orient_body_in_opengl(dBodyID body) {
         rot[0], rot[1], rot[2],  0,
         rot[4], rot[5], rot[6],  0,
         rot[8], rot[9], rot[10], 0,
-            0,      0,       0,  1
+        pos[0], pos[1], pos[2],  1
     };
 
-    glTranslatef(pos[0]/1, pos[1]/1, pos[2]/1);
     glMultMatrixf(matrix);
 }
 
@@ -433,58 +482,65 @@ void cubeD_D::draw() {
 
     glColor3f(r_m/255, g_m/255, b_m/255);
     tex1.activate();
+
+    float halfx = w_m/2;
+    float halfy = h_m/2;
+    float halfz = d_m/2;
+
+    draw_axis(w_m, h_m, d_m);
+
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c5(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c8(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c7(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c6(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-    
+
     // Right face
     tex2.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c8(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c4(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c7(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
-    
+
     // Left face
     tex3.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c5(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c6(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c2(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c1(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Top face
     tex4.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1);p6(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1);p7(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0);p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0);p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c6(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c7(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c2(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Bottom face
     tex5.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p8(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p5(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c4(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c8(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c5(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c1(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
 
     // Back face
     tex6.activate();
     glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
-    glTexCoord2f(0, 1); p1(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 1); p2(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(1, 0); p3(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
-    glTexCoord2f(0, 0); p4(0,0,0,h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 1); c1(halfx, halfy, halfz);
+    glTexCoord2f(1, 1); c2(halfx, halfy, halfz);
+    glTexCoord2f(1, 0); c3(halfx, halfy, halfz);
+    glTexCoord2f(0, 0); c4(halfx, halfy, halfz);
     glEnd(); // All OpenGL drawing ends with a glEnd.
     
     glPopMatrix();
@@ -511,7 +567,8 @@ int main(void)
     dWorldSetCFM(gODEWorld, 1e-5);
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
-    
+
+#if 0    
     static dBodyID playBody = dBodyCreate (gODEWorld);
     static dGeomID playGeom = dCreateSphere (gODESpace, 2);
     dGeomSetBody (playGeom, playBody);
@@ -530,7 +587,7 @@ int main(void)
     dMass mass3;
     dMassSetSphere(&mass3, 2, 1);
     dBodySetMass(sphereBody, &mass3);
-
+#endif
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
     // 640x480 is the initial size, and "Simple example" is the name of the window.
@@ -569,17 +626,21 @@ int main(void)
     gTextureWhite.load();
     gTextureBall.load();
     gTextureClear.load();
-    
+
+#if 1
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
     myCube.SetLocation(0, 0, 20);
-    
+    myCube.SetSize(2, 2, 2);
+#endif
+
     cubeD_D myCube1;
     myCube1.setTexture(gTextureWhite);
-    myCube1.SetLocation(5, 1, 49);
-    myCube1.density=6;
-    myCube1.SetSize(2, 2, 2);    
-    
+    myCube1.SetLocation(0, 0, 10);
+    //myCube1.density=6;
+    myCube1.SetSize(2, 2, 2);
+
+#if 1
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
     myCube2.SetLocation(4, 5, 3);
@@ -587,20 +648,21 @@ int main(void)
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
-    myCube3.SetLocation(4, 0, 89);
-    myCube3.density=2;
-    myCube1.SetSize(4, 4, 4);
+    myCube3.SetLocation(4, 0, 10);
+//    myCube3.density=2;
+    myCube3.SetSize(4, 4, 4);
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 3, 40);
+    BouncyBlock.SetLocation(0, 3, 10);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
-    dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    myCube1.SetSize(7, 7, 7);
+    //dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
+    BouncyBlock.SetSize(7, 7, 7);
 
-    dBodySetPosition(sphereBody,0,0,50);
+    //dBodySetPosition(sphereBody,0,0,50);
+#endif
 
     static const float simulation_start_k = glfwGetTime();
     static const float real_min_per_game_day_k = 24; // CHANGE ONLY HERE TO AFFECT DAY/NIGHT SPEED
@@ -668,6 +730,8 @@ int main(void)
 
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
+
+#if 0
         const dReal* pos = dBodyGetPosition(playBody);
 
         if(MoveForward){
@@ -814,6 +878,9 @@ int main(void)
         }
 
         glTranslatef(camX+2, camY-2.5, -camZ-2);
+#else
+        glTranslatef(2, -2.5, -2);
+#endif
 
         gTexture.activate();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -827,12 +894,14 @@ int main(void)
             glTexCoord2f(0, 450); glVertex3f(-450, 450, 0);
         glEnd(); // All OpenGL drawing ends with a glEnd.
 
+        draw_axis(2);
+
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
-        
+//        camX=-pos[0]-2;
+//        camY=-pos[1]+2.5;
+
         /*glPushMatrix();
         orient_body_in_opengl(playBody);
         gTextureBall.activate();
@@ -842,6 +911,7 @@ int main(void)
         gluDeleteQuadric(quad2);
         glPopMatrix();*/
 
+#if 0
         // Position and draw the sphere
         glPushMatrix();
             orient_body_in_opengl(sphereBody);
@@ -851,6 +921,7 @@ int main(void)
             gluSphere(quad, 0.5, 15, 15);
             gluDeleteQuadric(quad);
         glPopMatrix();
+#endif
 
         myCube.draw();
         myCube1.draw();
@@ -871,12 +942,12 @@ int main(void)
         //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
         
         
-        camX=-pos[0]-2;
-        camY=-pos[1]+2.5;
+//        camX=-pos[0]-2;
+//        camY=-pos[1]+2.5;
+
         
-        
-        dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
-        
+//        dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
+
         //std::cout << "X=" << camX << '\n';
         //std::cout << "Y=" << camY << '\n';
         //std::cout << "Z=" << camZ << '\n';
