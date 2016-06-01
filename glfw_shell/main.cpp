@@ -568,25 +568,25 @@ int main(void)
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
 
-#if 0    
+#if 1
     static dBodyID playBody = dBodyCreate (gODEWorld);
     static dGeomID playGeom = dCreateSphere (gODESpace, 2);
     dGeomSetBody (playGeom, playBody);
     
     
 
-    dMass* mass2;
-    mass2 = new dMass;
-    dMassSetBox(mass2, 1, 1, 1, 1);
-    dBodySetMass(playBody, mass2);
+    //dMass* mass2;
+    //mass2 = new dMass;
+    //dMassSetBox(mass2, 1, 1, 1, 1);
+    //dBodySetMass(playBody, mass2);
 
     static dBodyID sphereBody = dBodyCreate (gODEWorld);
     static dGeomID sphereGeom  = dCreateSphere(gODESpace, 1);
     dGeomSetBody (sphereGeom, sphereBody);
 
-    dMass mass3;
-    dMassSetSphere(&mass3, 2, 1);
-    dBodySetMass(sphereBody, &mass3);
+    //dMass mass3;
+    //dMassSetSphere(&mass3, 2, 1);
+    //dBodySetMass(sphereBody, &mass3);
 #endif
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
@@ -631,35 +631,35 @@ int main(void)
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
     myCube.SetLocation(0, 0, 20);
-    myCube.SetSize(2, 2, 2);
+    //myCube.SetSize(2, 2, 2);
 #endif
 
     cubeD_D myCube1;
     myCube1.setTexture(gTextureWhite);
     myCube1.SetLocation(0, 0, 10);
     //myCube1.density=6;
-    myCube1.SetSize(2, 2, 2);
+    //myCube1.SetSize(2, 2, 2);
 
 #if 1
     cubeD_D myCube2;
     myCube2.setTexture(gTextureRoad);
-    myCube2.SetLocation(4, 5, 3);
-    myCube2.SetSize(10, 10, 10);
+    myCube2.SetLocation(4, 10, 60);
+    //myCube2.SetSize(10, 10, 10);
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
-    myCube3.SetLocation(4, 0, 10);
+    myCube3.SetLocation(40, 0, 10);
 //    myCube3.density=2;
-    myCube3.SetSize(4, 4, 4);
+    //myCube3.SetSize(4, 4, 4);
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
-    BouncyBlock.SetLocation(0, 3, 10);
+    BouncyBlock.SetLocation(0, 30, 10);
     BouncyBlock.r_m=255;
     BouncyBlock.g_m=0;
     BouncyBlock.b_m=0;
     //dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
-    BouncyBlock.SetSize(7, 7, 7);
+    //BouncyBlock.SetSize(7, 7, 7);
 
     //dBodySetPosition(sphereBody,0,0,50);
 #endif
@@ -731,7 +731,7 @@ int main(void)
         glRotatef(camRotateX, 1.f, 0.f, 0.f);
         glRotatef(camRotateY, 0.f, 0.f, 1.f);
 
-#if 0
+#if 1
         const dReal* pos = dBodyGetPosition(playBody);
 
         if(MoveForward){
@@ -899,9 +899,10 @@ int main(void)
         //If you would like to make a custom make change this to true v
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//        camX=-pos[0]-2;
-//        camY=-pos[1]+2.5;
-
+#if 1
+        camX=-pos[0]-2;
+        camY=-pos[1]+2.5;
+#endif
         /*glPushMatrix();
         orient_body_in_opengl(playBody);
         gTextureBall.activate();
@@ -941,10 +942,10 @@ int main(void)
         camZ=pos[2];*/
         //dBodySetPosition (playBody, camX-2,camY+2.5,camZ);
         
-        
-//        camX=-pos[0]-2;
-//        camY=-pos[1]+2.5;
-
+#if 1        
+        camX=-pos[0]-2;
+        camY=-pos[1]+2.5;
+#endif
         
 //        dBodySetPosition (playBody, pos[0],pos[1],camZ+1);
 
