@@ -157,18 +157,47 @@ void orient_body_in_opengl(dBodyID body) {
     glMultMatrixf(matrix);
 }
 
-void cube_draw() {
+struct cube_t {
+    explicit cube_t(float x, float y, float z) {
+        body_m = dBodyCreate(gODEWorld);
+
+        dBodySetPosition(body_m, x, y, z);
+
+        dMatrix3 R;
+
+        dRFromAxisAndAngle(R, dRandReal() * 2.0 - 1.0,
+                              dRandReal() * 2.0 - 1.0,
+                              dRandReal() * 2.0 - 1.0,
+                              dRandReal() * 10.0 - 5.0);
+
+        dBodySetRotation(body_m, R);
+
+        geom_m = dCreateBox(gODESpace, 1, 1, 1);
+
+        dGeomSetBody(geom_m, body_m);
+    }
+
+    void draw();
+
+    float   red_m{0};
+    float   green_m{0};
+    float   blue_m{1};
+    dBodyID body_m;
+    dGeomID geom_m;
+};
+
+void cube_t::draw() {
     glPushMatrix();
 
-    //orient_body_in_opengl(boxBody_m);
-
-    glColor3f(1, 0, 0);
+    orient_body_in_opengl(body_m);
 
     float halfx = 0.5;
     float halfy = 0.5;
     float halfz = 0.5;
 
     draw_axis(1, 1, 1);
+
+    glColor3f(red_m, green_m, blue_m);
 
     // THIS IS WHERE THE DRAWING HAPPENS!
     // The front face :)
@@ -240,6 +269,7 @@ int main(void)
     gODEWorld = dWorldCreate();
     gODESpace = dHashSpaceCreate(0);
     dWorldSetGravity(gODEWorld, 0, 0, -0.2);
+    dWorldSetERP(gODEWorld, 0.2);
     dWorldSetCFM(gODEWorld, 1e-5);
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
@@ -247,7 +277,7 @@ int main(void)
     // Builds a new GLFW window and saves the result in the variable above.
     // If there's an error here, window will be set to 0.
     // 640x480 is the initial size, and "Simple example" is the name of the window.
-    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "Simple example", NULL, NULL);
 
     // If window == 0, this will be true, and we've hit an error.
     if (!window /*same as saying `window == 0`*/)
@@ -269,6 +299,17 @@ int main(void)
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glCullFace(GL_BACK);
+
+    // Set up a basic ODE object
+    cube_t cube1(0, 0, 3);
+
+    cube_t cube2(0, 0, 5);
+    cube2.red_m = 1;
+    cube2.blue_m = 0;
+
+    cube_t cube3(0, 0, 7);
+    cube3.green_m = 1;
+    cube3.blue_m = 0;
 
     // This is the main processing loop that draws the spinning rectangle.
     while (!glfwWindowShouldClose(window)) // this will loop until the window should close.
@@ -309,7 +350,7 @@ int main(void)
         glRotatef(gCamRotY, 0.f, 0.f, 1.f);
 
         glTranslatef(2, -2.5, -2);
-        
+
         glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
             glColor3f(1, 1, 1);
             glVertex3f(-450, -450, 0);
@@ -320,7 +361,9 @@ int main(void)
 
         draw_axis(2);
 
-        cube_draw();
+        cube1.draw();
+        cube2.draw();
+        cube3.draw();
         
         // SwapBuffers causes the background drawing to get slapped onto the
         // display for the user to see.
