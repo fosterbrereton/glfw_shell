@@ -416,13 +416,12 @@ void orient_body_in_opengl(dBodyID body) {
     const dReal* rot = dBodyGetRotation(body);
 
     GLfloat matrix[16] = {
-        rot[0], rot[1], rot[2],  0,
-        rot[4], rot[5], rot[6],  0,
-        rot[8], rot[9], rot[10], 0,
-            0,      0,       0,  1
+        rot[0], rot[4], rot[8],  0,
+        rot[1], rot[5], rot[9],  0,
+        rot[2], rot[6], rot[10], 0,
+        pos[0], pos[1], pos[2],  1
     };
 
-    glTranslatef(pos[0]/1, pos[1]/1, pos[2]/1);
     glMultMatrixf(matrix);
 }
 
