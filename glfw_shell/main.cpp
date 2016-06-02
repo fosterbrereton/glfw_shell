@@ -425,6 +425,76 @@ void orient_body_in_opengl(dBodyID body) {
     glMultMatrixf(matrix);
 }
 
+struct BGcubeD_D {
+    
+    BGcubeD_D(){
+        
+        BGSetboxBandG();
+        
+        
+    }
+    
+    
+    
+    
+    dGeomID boxGeom_m;
+    
+    double h_m{1};
+    double w_m{1};
+    double d_m{1};
+    
+    float density{1};
+    
+    double r_m{255};
+    double g_m{255};
+    double b_m{255};
+    texture_t tex1;
+    texture_t tex2;
+    texture_t tex3;
+    texture_t tex4;
+    texture_t tex5;
+    texture_t tex6;
+    
+    void BGdraw();
+    void BGsetTexture(texture_t);
+    void BGSetboxBandG();
+    void BGSetLocation(float x,float y,float z);
+    void BGSetSize(float x, float y, float z);
+};
+
+void BGcubeD_D::BGSetLocation(float x,float y,float z) {
+    dGeomSetPosition (boxGeom_m, x,y,z);
+    
+}
+
+void BGcubeD_D::BGSetSize(float x, float y, float z) {
+    h_m = x;
+    w_m = y;
+    d_m = z;
+    
+    dGeomBoxSetLengths(boxGeom_m, h_m, w_m, d_m);
+}
+
+void BGcubeD_D::BGSetboxBandG() {
+    
+    
+    
+    boxGeom_m = dCreateBox (gODESpace, 1,1,1);
+    
+}
+
+void BGcubeD_D::BGsetTexture(texture_t tex){
+    tex1 = tex;
+    tex2 = tex;
+    tex3 = tex;
+    tex4 = tex;
+    tex5 = tex;
+    tex6 = tex;
+}
+
+
+
+
 void cubeD_D::draw() {
     glPushMatrix();
 
@@ -489,6 +559,77 @@ void cubeD_D::draw() {
     glPopMatrix();
 }
 
+void BGcubeD_D::BGdraw() {
+    glPushMatrix();
+    
+    const dReal* pos = dGeomGetPosition(boxGeom_m);
+    glColor3f(r_m/255, g_m/255, b_m/255);
+    
+    tex1.activate();
+   
+    
+    // THIS IS WHERE THE DRAWING HAPPENS!
+    // The front face :)
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p5(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p7(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p6(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Right face
+    tex2.activate();
+    
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1);p8(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p4(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p7(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Left face
+    tex3.activate();
+    
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1);p5(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p6(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p2(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p1(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Top face
+    tex4.activate();
+    
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1);p6(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1);p7(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0);p3(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0);p2(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Bottom face
+    tex5.activate();
+    
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p4(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p8(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p5(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p1(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    // Back face
+    tex6.activate();
+    
+    glBegin(GL_QUADS); // All OpenGL drawing begins with a glBegin.
+    glTexCoord2f(0, 1); p1(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 1); p2(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(1, 0); p3(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glTexCoord2f(0, 0); p4(pos[0],pos[1],pos[2],h_m,w_m,d_m,r_m,g_m,b_m);
+    glEnd(); // All OpenGL drawing ends with a glEnd.
+    
+    glPopMatrix();
+}
+
 int main(void)
 {
     chdir(getenv("HOME"));
@@ -506,7 +647,7 @@ int main(void)
     dInitODE();
     gODEWorld = dWorldCreate();
     gODESpace = dHashSpaceCreate(0);
-    dWorldSetGravity(gODEWorld, 0, 0, -0.2);
+    dWorldSetGravity(gODEWorld, 0, 0, -0.98);
     dWorldSetCFM(gODEWorld, 1e-5);
     dCreatePlane(gODESpace, 0, 0, 1, 0); // create the base plane
     gODEContactGroup = dJointGroupCreate (0);
@@ -571,7 +712,9 @@ int main(void)
     
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
-    myCube.SetLocation(0, 0, 20);
+    myCube.SetLocation(-10, 0, 20);
+    myCube.density=0.5;
+    myCube.SetSize(0.5, 0.5, 0.5);
     
     cubeD_D myCube1;
     myCube1.setTexture(gTextureWhite);
@@ -579,16 +722,38 @@ int main(void)
     myCube1.density=6;
     myCube1.SetSize(2, 2, 2);    
     
-    cubeD_D myCube2;
-    myCube2.setTexture(gTextureRoad);
-    myCube2.SetLocation(4, 5, 3);
-    myCube2.SetSize(10, 10, 10);
+    BGcubeD_D BGCube1;
+    BGCube1.BGsetTexture(gTextureRoad);
+    BGCube1.BGSetLocation(4, 5, 7);
+    BGCube1.BGSetSize(20, 1, 14);
+    
+    BGcubeD_D BGCube2;
+    BGCube2.BGsetTexture(gTextureRoad);
+    BGCube2.BGSetLocation(14.5, 14.5, 7);
+    BGCube2.BGSetSize(1, 20, 14);
+    
+    BGcubeD_D BGCube3;
+    BGCube3.BGsetTexture(gTextureRoad);
+    BGCube3.BGSetLocation(-6.5, 14.5, 7);
+    BGCube3.BGSetSize(1, 20, 14);
+    
+    BGcubeD_D BGCube4;
+    BGCube4.BGsetTexture(gTextureRoad);
+    BGCube4.BGSetLocation(4, 24, 7);
+    BGCube4.BGSetSize(20, 1, 14);
+    
+    BGcubeD_D Road1;
+    Road1.BGsetTexture(gTextureRoad);
+    Road1.BGSetLocation(0, 0, 0.1);
+    Road1.BGSetSize(1000, 8, 0.5);
     
     cubeD_D myCube3;
     myCube3.setTexture(gTextureRoadY);
     myCube3.SetLocation(4, 0, 89);
     myCube3.density=2;
     myCube1.SetSize(4, 4, 4);
+    
+    
 
     cubeD_D BouncyBlock;
     BouncyBlock.setTexture(gTextureSteel);
@@ -853,11 +1018,18 @@ int main(void)
 
         myCube.draw();
         myCube1.draw();
-        myCube2.draw();
+        
+        BGCube1.BGdraw();
+        BGCube2.BGdraw();
+        BGCube3.BGdraw();
+        BGCube4.BGdraw();
+        
         //dBodyDisable(myCube2.boxBody_m);
 
         myCube3.draw();
         BouncyBlock.draw();
+        
+        Road1.BGdraw();
         
         
         
