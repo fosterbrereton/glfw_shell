@@ -62,9 +62,9 @@ static void ODEContactCallback (void *data, dGeomID o1, dGeomID o2)
     // bounce is the amount of "bouncyness".
     contact.surface.bounce = 0.1;
     // bounce_vel is the minimum incoming velocity to cause a bounce
-    contact.surface.bounce_vel = 0.1;
+    contact.surface.bounce_vel = 0.2;
     // constraint force mixing parameter
-    contact.surface.soft_cfm = 0.0001;
+    contact.surface.soft_cfm = 0.00001;
 
     if (int numc = dCollide (o1,o2,1,&contact.geom,sizeof(dContact))) {
         dJointID c = dJointCreateContact (gODEWorld,gODEContactGroup,&contact);
@@ -109,6 +109,9 @@ texture_t gTextureWhite{"white"};
 texture_t gTextureWood{"wood"};
 texture_t gTextureLeaves{"leaves"};
 texture_t gTextureClear{"clear"};
+texture_t gTextureCerealbox{"cerealbox"};
+texture_t gTextureCerealboxBlank{"yellowPaper"};
+texture_t gTextureCerealboxNutFacts{"cerealboxNutFacts"};
 
 inline float DegreesToRads(float degrees){
     return degrees/180*3.14159;
@@ -653,7 +656,7 @@ int main(void)
     gODEContactGroup = dJointGroupCreate (0);
     
     static dBodyID playBody = dBodyCreate (gODEWorld);
-    static dGeomID playGeom = dCreateSphere (gODESpace, 2);
+    static dGeomID playGeom = dCreateSphere (gODESpace, 4);
     dGeomSetBody (playGeom, playBody);
     
     
@@ -665,6 +668,7 @@ int main(void)
 
     static dBodyID sphereBody = dBodyCreate (gODEWorld);
     static dGeomID sphereGeom  = dCreateSphere(gODESpace, 1);
+    
     dGeomSetBody (sphereGeom, sphereBody);
 
     dMass mass3;
@@ -709,6 +713,9 @@ int main(void)
     gTextureWhite.load();
     gTextureBall.load();
     gTextureClear.load();
+    gTextureCerealbox.load();
+    gTextureCerealboxNutFacts.load();
+    gTextureCerealboxBlank.load();
     
     cubeD_D myCube;
     myCube.setTexture(gTextureBall);
@@ -763,6 +770,23 @@ int main(void)
     BouncyBlock.b_m=0;
     dBodyAddForce(BouncyBlock.boxBody_m, 5, 5, 0);
     myCube1.SetSize(7, 7, 7);
+    
+    cubeD_D cerealbox;
+    cerealbox.tex4=gTextureCerealbox;
+    cerealbox.tex3=gTextureCerealboxNutFacts;
+    cerealbox.tex2=gTextureCerealboxNutFacts;
+    cerealbox.tex1=gTextureCerealboxBlank;
+    cerealbox.tex5=gTextureCerealboxBlank;
+    cerealbox.tex6=gTextureCerealboxBlank;
+    cerealbox.SetLocation(4, -20, 1);
+    cerealbox.density=1;
+    cerealbox.SetSize(2, 1, 2.5);
+    
+    cubeD_D freezerBack;
+    freezerBack.setTexture(gTextureWhite);
+    freezerBack.SetLocation(20, 30, 2.5);
+    freezerBack.SetSize(10,1,5);
+    
 
     dBodySetPosition(sphereBody,0,0,50);
 
@@ -1030,6 +1054,9 @@ int main(void)
         BouncyBlock.draw();
         
         Road1.BGdraw();
+        cerealbox.draw();
+        
+        freezerBack.draw();
         
         
         
